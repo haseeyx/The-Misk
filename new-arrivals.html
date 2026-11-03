@@ -25,37 +25,65 @@
 
 <nav class="nav">
   <button class="hamburger" id="navToggle" aria-label="Menu">☰</button>
+
   <div class="nav-left">
     <a href="index.html" class="nav-link">Home</a>
-    <div class="dropdown">
-      <button class="nav-link">Collections ▾</button>
-      <ul class="dropdown-menu">
-        <li><a href="new-arrivals.html">🌟 New Arrivals</a></li>
-        <li><a href="collection.html?c=best-sellers">🔥 Best Sellers</a></li>
-        <li><a href="collection.html?c=solids">🎨 Solids</a></li>
-        <li><a href="collection.html?c=basics">🤍 Basics</a></li>
-        <li class="dropdown-sub">
-          <button>🎀 Embroidered &amp; Formals ▸</button>
-          <ul class="dropdown-menu sub-menu">
-            <li><a href="collection.html?c=embroidered">🌸 Embroidered</a></li>
-            <li><a href="collection.html?c=formals">👑 Formals</a></li>
-          </ul>
-        </li>
-      </ul>
+
+    <div style="position:relative; display:inline-block;"
+         onmouseenter="this.querySelector('.collection-dropdown').style.display='block'"
+         onmouseleave="this.querySelector('.collection-dropdown').style.display='none'">
+
+      <button class="nav-link" type="button"
+        style="background:none; border:none; cursor:pointer;">
+        Collections ▾
+      </button>
+
+      <div class="collection-dropdown"
+        style="display:none; position:absolute; top:100%; left:0;
+        min-width:190px; background:#fff; padding:8px 0;
+        border-radius:8px; box-shadow:0 8px 25px rgba(0,0,0,.12);
+        z-index:1000;">
+
+        <a href="new-arrivals.html"
+          style="display:block; padding:11px 15px; color:#2B4664; text-decoration:none;">🌟 New Arrivals</a>
+
+        <a href="best.html"
+          style="display:block; padding:11px 15px; color:#2B4664; text-decoration:none;">🔥 Best Sellers</a>
+
+        <a href="basic.html"
+          style="display:block; padding:11px 15px; color:#2B4664; text-decoration:none;">🤍 Basics</a>
+
+        <a href="solid.html"
+          style="display:block; padding:11px 15px; color:#2B4664; text-decoration:none;">🎨 Solids</a>
+
+        <a href="embro.html"
+          style="display:block; padding:11px 15px; color:#2B4664; text-decoration:none;">🌸 Embroidered</a>
+
+        <a href="formal.html"
+          style="display:block; padding:11px 15px; color:#2B4664; text-decoration:none;">👑 Formals</a>
+      </div>
     </div>
   </div>
-  <a href="index.html" class="logo"><img src="log.png" alt="Misk"></a>
+
+  <a href="index.html" class="logo">
+    <img src="log.png" alt="Misk">
+  </a>
+
   <div class="nav-right">
     <a href="cart.html" class="icon-btn" aria-label="Cart">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M6 8h12l-1 12H7L6 8z"/>
+        <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+      </svg>
       <span class="badge" id="cartCount">0</span>
     </a>
   </div>
 </nav>
 
+
 <header class="page-head">
   <p class="crumb"><a href="index.html">Home</a> / <span>New Arrivals</span></p>
-  <h1>New Arrivals <span class="sparkle">✨</span></h1>
+  <h1>New Arrivals <span class="sparkle"></span></h1>
   <p class="lead">Fresh drops from five of our most-loved brands — picked for the season.</p>
 </header>
 
