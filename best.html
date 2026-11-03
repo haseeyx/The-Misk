@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best Sellers — Misk</title>
+<link rel="icon" type="image/png" href="log.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#2B4664; --silver:#BCC1C5; --greige:#E8E1D8; --ink:#5f6b78;
+  --danger:#c0392b; --success:#2e7d5b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;width:100%}
+body{font-family:'Poppins',sans-serif;color:var(--navy);background:#fdfcfa;line-height:1.6;font-size:15px}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.15;color:var(--navy)}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{font-family:inherit}
+
+/* Announcement */
+.announce{background:var(--navy);color:var(--greige);height:36px;overflow:hidden;display:flex;align-items:center}
+.announce-track{display:flex;gap:3.5rem;width:max-content;white-space:nowrap;font-size:.8rem;letter-spacing:.4px;animation:scroll 26s linear infinite}
+.announce-track span{white-space:nowrap}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Navbar */
+.nav{position:sticky;top:0;z-index:80;height:64px;display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;padding:0 1.2rem;background:#fff;border-bottom:1px solid var(--greige)}
+.nav-l{display:flex;gap:1.4rem;align-items:center}
+.nav a.link{font-size:.9rem;font-weight:500}
+.nav a.link:hover{color:#5a7ba3}
+.logo img{height:40px;width:auto}
+.nav-r{display:flex;justify-content:flex-end;gap:1rem;align-items:center}
+.cart-btn{position:relative;color:var(--navy);padding:.3rem}
+.cart-btn svg{width:22px;height:22px}
+.badge{position:absolute;top:-2px;right:-6px;background:var(--navy);color:#fff;font-size:.62rem;
+  min-width:16px;height:16px;border-radius:50%;display:grid;place-items:center}
+
+/* Breadcrumb */
+.crumb{max-width:1200px;margin:1.4rem auto 0;padding:0 1.4rem;font-size:.8rem;color:#7a8694;letter-spacing:.5px}
+.crumb a{color:var(--navy);opacity:.85;font-weight:500}
+.crumb a:hover{opacity:1;text-decoration:underline}
+
+/* Page head */
+.page-head{text-align:center;padding:2rem 1.4rem 1rem;max-width:1200px;margin:auto}
+.page-head h1{font-size:clamp(2rem,5vw,3rem);margin:.4rem 0 .6rem;letter-spacing:-.5px}
+.page-head .sparkle{display:inline-block;animation:sparkle 2.4s ease-in-out infinite}
+@keyframes sparkle{0%,100%{transform:scale(1) rotate(0);opacity:1}50%{transform:scale(1.25) rotate(12deg);opacity:.75}}
+.page-head .lead{max-width:640px;margin:0 auto;color:#5f6b78;font-weight:400;font-size:.95rem}
+
+/* Filters */
+.filters{max-width:1200px;margin:1.5rem auto 0;padding:0 1.4rem}
+.filters-inner{background:linear-gradient(135deg,#fdfcfa 0%,var(--greige) 100%);
+  border:1px solid var(--greige);border-radius:20px;padding:1.5rem 1.8rem;
+  box-shadow:0 8px 30px rgba(43,70,100,.06);animation:fadeUp .6s ease both}
+.filter-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
+  gap:.6rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid rgba(43,70,100,.08)}
+.filter-title{font-size:1.25rem;font-weight:600;margin:0;color:var(--navy);
+  font-family:'Cormorant Garamond',serif}
+.results-count{font-size:.78rem;color:var(--navy);background:rgba(43,70,100,.1);
+  padding:.35rem .85rem;border-radius:999px;letter-spacing:.5px;font-weight:600}
+.filter-dropdowns{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.filter-field{display:flex;flex-direction:column;gap:.45rem}
+.filter-field label{font-size:.72rem;letter-spacing:1.3px;text-transform:uppercase;
+  color:#4a5560;font-weight:600}
+.select-wrap{position:relative}
+.select-wrap::after{content:"▾";position:absolute;right:1rem;top:50%;transform:translateY(-50%);
+  color:var(--navy);font-size:.8rem;pointer-events:none;transition:transform .25s}
+.select-wrap:focus-within::after{transform:translateY(-50%) rotate(180deg)}
+.select-wrap select{width:100%;appearance:none;-webkit-appearance:none;background:#fff;
+  border:1px solid var(--greige);color:var(--navy);font:inherit;font-size:.9rem;
+  padding:.9rem 2.4rem .9rem 1rem;border-radius:12px;cursor:pointer;
+  transition:border-color .2s, box-shadow .2s;font-weight:500}
+.select-wrap select:hover{border-color:var(--silver)}
+.select-wrap select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 4px rgba(43,70,100,.12)}
+
+/* Products section */
+.products-section{max-width:1200px;margin:2.5rem auto 4rem;padding:0 1.4rem}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.6rem}
+
+/* Product card */
+.product-tile{
+  display:flex;flex-direction:column;background:#fff;border:1px solid var(--greige);
+  border-radius:18px;overflow:hidden;color:var(--navy);
+  transition:transform .35s, box-shadow .35s;
+  animation:tileIn .6s cubic-bezier(.2,.7,.3,1) both
+}
+.product-tile:hover{
+  transform:translateY(-8px);
+  box-shadow:0 22px 50px rgba(43,70,100,.15)
+}
+@keyframes tileIn{
+  from{opacity:0;transform:translateY(24px) scale(.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* Tile image */
+.tile-media{
+  position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--greige)
+}
+.tile-media img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .7s ease
+}
+.product-tile:hover .tile-media img{transform:scale(1.06)}
+
+/* Sold out */
+.product-tile.sold .tile-media img{
+  filter:grayscale(.4) brightness(.92)
+}
+.product-tile.sold:hover .tile-media img{transform:none}
+.sold-badge{
+  position:absolute;top:12px;right:12px;z-index:3;
+  background:rgba(43,70,100,.96);color:#fff;
+  font-size:.66rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  padding:.4rem .8rem;border-radius:999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.25)
+}
+
+/* Tile body */
+.tile-body{padding:1rem 1.1rem 1.3rem;text-align:center}
+.brand-tag{
+  display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:1.3px;
+  text-transform:uppercase;color:var(--navy);
+  background:linear-gradient(135deg,rgba(232,225,216,.95),rgba(188,193,197,.35));
+  border:1px solid rgba(43,70,100,.15);
+  padding:.35rem .75rem;border-radius:999px;margin-bottom:.6rem
+}
+.tile-body h3{
+  font-size:1.15rem;margin:0 0 .35rem;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.price{font-size:.95rem;font-weight:600;color:var(--navy);margin:0}
+.price.sold-price{color:#8a95a1}
+
+/* Empty state */
+.empty-state{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:#7a8694}
+.empty-state span{font-size:2.4rem;display:block;margin-bottom:.6rem}
+.empty-state p{font-size:.95rem}
+
+/* Footer */
+.footer{background:var(--navy);color:var(--greige);padding:2.2rem 1.4rem 1.5rem;text-align:center;font-size:.85rem}
+.footer .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem 1.6rem;
+  padding-bottom:1.2rem;border-bottom:1px solid rgba(232,225,216,.2);margin-bottom:1.2rem}
+.footer .copy{font-size:.78rem;opacity:.6;margin:0}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* Mobile */
+@media(max-width:700px){
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:1rem}
+  .tile-body{padding:.8rem .85rem 1rem}
+  .tile-body h3{font-size:1rem}
+  .brand-tag{font-size:.6rem;padding:.28rem .6rem}
+  .price{font-size:.88rem}
+  .filter-dropdowns{grid-template-columns:1fr}
+}
+@media(max-width:400px){
+  .product-grid{grid-template-columns:1fr}
+}
+/* ============================================================
+   CIRCULAR ANIMATED LOGO — Navbar (all pages)
+   ============================================================ */
+.nav .logo{
+  position: relative;
+  display: grid !important;
+  place-items: center;
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
+  overflow: visible !important;
+  transition: transform .35s;
+  animation: navLogoPulse 4s ease-in-out infinite;
+}
+
+.nav .logo img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* Spinning silver ring around the circle */
+.nav .logo::after{
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--silver);
+  border-right-color: rgba(188,193,197,.5);
+  animation: logoSpin 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes logoSpin{
+  to { transform: rotate(360deg); }
+}
+
+/* Gentle pulse */
+@keyframes navLogoPulse{
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px var(--silver), 0 10px 24px rgba(43,70,100,.28);
+  }
+}
+
+/* Hover — stop pulse, scale + tilt */
+.nav .logo:hover{
+  animation: none;
+  transform: scale(1.1) rotate(6deg);
+}
+
+/* Smaller circle on mobile */
+@media (max-width: 900px){
+  .nav .logo{
+    width: 46px !important;
+    height: 46px !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="announce">
+  <div class="announce-track">
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-l">
+    <a href="index.html" class="link">Home</a>
+    <a href="new-arrivals.html" class="link">New Arrivals</a>
+  </div>
+  <a href="index.html" class="logo"><img src="log.png" alt="Misk"></a>
+  <div class="nav-r">
+    <a href="cart.html" class="cart-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="badge" id="cartCount">0</span>
+    </a>
+  </div>
+</nav>
+
+<p class="crumb"><a href="index.html">Home</a> / <span>Best Sellers</span></p>
+
+<header class="page-head">
+  <h1>Best Sellers <span class="sparkle">🔥</span></h1>
+  <p class="lead">Loved by thousands — the pieces our community can't get enough of.</p>
+</header>
+
+<section class="filters">
+  <div class="filters-inner">
+    <div class="filter-head">
+      <h2 class="filter-title">🎛️ Refine Your Selection</h2>
+      <span class="results-count" id="resultsCount">0 products found</span>
+    </div>
+    <div class="filter-dropdowns">
+      <div class="filter-field">
+        <label for="brandSelect">🏷️ Brand</label>
+        <div class="select-wrap">
+          <select id="brandSelect">
+            <option value="all">All Brands</option>
+            <option value="Zar-e-Siyaah">Zar-e-Siyaah</option>
+            <option value="Naaz">Naaz</option>
+            <option value="Khaki">Khaki</option>
+            <option value="Noor">Noor</option>
+            <option value="Boxy">Boxy</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-field">
+        <label for="priceSelect">💰 Price</label>
+        <div class="select-wrap">
+          <select id="priceSelect">
+            <option value="all">All Prices</option>
+            <option value="price-asc">📈 Price: Low to High</option>
+            <option value="price-desc">📉 Price: High to Low</option>
+            <option value="under-5000">Under Rs. 5,000</option>
+            <option value="5000-8000">Rs. 5,000 – 8,000</option>
+            <option value="above-8000">Above Rs. 8,000</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="product-grid" id="grid"></div>
+</section>
+
+<footer class="footer">
+  <div class="badges">
+    <span>🚚 COD Available All Over Pakistan</span>
+    <span>💳 5% Off on Advance Payment</span>
+    <span>🎁 Free Delivery on Shopping up to Rs. 10,000</span>
+  </div>
+  <p class="copy">© 2025 Misk Official. All rights reserved.</p>
+</footer>
+
+<script src="products.js"></script>
+<script>
+/* ============================================================
+   Fallback (in case products.js didn't load)
+   ============================================================ */
+if (typeof window.PRODUCTS === 'undefined') {
+  console.warn('⚠️ products.js missing — using inline fallback');
+  window.PRODUCTS = [
+    { id:'farshi-white', brand:'Naaz', name:'Farshi Shalwar — White', price:4800,
+      img:'new arrivals/naaz/n2.PNG', link:'new arrivals/naaz/naaz.html',
+      collections:['new-arrivals','best-sellers'] },
+    { id:'midnight-black', brand:'Zar-e-Siyaah', name:'Midnight Black 3pc', price:7500,
+      img:'new arrivals/zar/Z11.JPEG', link:'new arrivals/zar/zar.html',
+      collections:['new-arrivals','best-sellers'] },
+    { id:'khaki-printed', brand:'Khaki', name:'Printed Lawn 2pc', price:6200,
+      img:'best/khaki/K1.PNG', link:'best/khaki/khaki.html',
+      soldOut:true, collections:['best-sellers'] },
+    { id:'noor-maroon', brand:'Noor', name:'Maroon Cutwork Shirt 2pc', price:14500,
+      img:'best/noor/N11.jpeg', link:'best/noor/noor.html',
+      soldOut:true, collections:['best-sellers'] },
+    { id:'boxy-white', brand:'Boxy', name:'Long Embroidered Shirt — White', price:7500,
+      img:'best/boxy/w5.jpeg', link:'best/boxy/boxy.html?id=white',
+      soldOut:true, collections:['best-sellers'] },
+   
+  ];
+  window.getCart = () => JSON.parse(localStorage.getItem('cart') || '[]');
+  window.updateCartBadge = () => {
+    const c = getCart();
+    document.querySelectorAll('#cartCount, .cart-badge').forEach(el =>
+      el.textContent = c.reduce((s,i)=>s+i.qty, 0));
+  };
+}
+updateCartBadge();
+
+/* ============================================================
+   Filter state
+   ============================================================ */
+const state = { brand:'all', price:'all' };
+const BEST = PRODUCTS.filter(p => (p.collections||[]).includes('best-sellers'));
+
+function applyFilters(){
+  let list = BEST.slice();
+
+  if (state.brand !== 'all') list = list.filter(p => p.brand === state.brand);
+
+  if (state.price === 'under-5000')      list = list.filter(p => p.price < 5000);
+  else if (state.price === '5000-8000')  list = list.filter(p => p.price >= 5000 && p.price <= 8000);
+  else if (state.price === 'above-8000') list = list.filter(p => p.price > 8000);
+  else if (state.price === 'price-asc')  list.sort((a,b) => a.price - b.price);
+  else if (state.price === 'price-desc') list.sort((a,b) => b.price - a.price);
+
+  render(list);
+}
+
+function render(list){
+  const grid = document.getElementById('grid');
+  document.getElementById('resultsCount').textContent =
+    `${list.length} product${list.length !== 1 ? 's' : ''} found`;
+
+  if (!list.length){
+    grid.innerHTML = `
+      <div class="empty-state">
+        <span>🔍</span>
+        <p>No products match your filters.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map((p, i) => `
+    <a class="product-tile${p.soldOut ? ' sold' : ''}"
+       href="${p.link || 'product.html?id=' + p.id}"
+       style="animation-delay:${(i * 0.08).toFixed(2)}s">
+      <div class="tile-media">
+        ${p.soldOut ? '<span class="sold-badge">Sold Out</span>' : ''}
+        <img src="${p.img}" alt="${p.name}" loading="lazy"
+             onerror="this.style.opacity=.3">
+      </div>
+      <div class="tile-body">
+        <span class="brand-tag">🏷️ ${p.brand}</span>
+        <h3>${p.name}</h3>
+        <p class="price${p.soldOut ? ' sold-price' : ''}">Rs. ${p.price.toLocaleString()}</p>
+      </div>
+    </a>
+  `).join('');
+}
+
+document.getElementById('brandSelect').addEventListener('change', e => {
+  state.brand = e.target.value; applyFilters();
+});
+document.getElementById('priceSelect').addEventListener('change', e => {
+  state.price = e.target.value; applyFilters();
+});
+
+applyFilters();
+</script>
+</body>
+</html>

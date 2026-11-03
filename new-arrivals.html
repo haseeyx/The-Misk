@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Arrivals — Misk</title>
+<link rel="icon" type="image/png" href="log.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="announce">
+  <div class="announce-track">
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="hamburger" id="navToggle" aria-label="Menu">☰</button>
+  <div class="nav-left">
+    <a href="index.html" class="nav-link">Home</a>
+    <div class="dropdown">
+      <button class="nav-link">Collections ▾</button>
+      <ul class="dropdown-menu">
+        <li><a href="new-arrivals.html">🌟 New Arrivals</a></li>
+        <li><a href="collection.html?c=best-sellers">🔥 Best Sellers</a></li>
+        <li><a href="collection.html?c=solids">🎨 Solids</a></li>
+        <li><a href="collection.html?c=basics">🤍 Basics</a></li>
+        <li class="dropdown-sub">
+          <button>🎀 Embroidered &amp; Formals ▸</button>
+          <ul class="dropdown-menu sub-menu">
+            <li><a href="collection.html?c=embroidered">🌸 Embroidered</a></li>
+            <li><a href="collection.html?c=formals">👑 Formals</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <a href="index.html" class="logo"><img src="log.png" alt="Misk"></a>
+  <div class="nav-right">
+    <a href="cart.html" class="icon-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="badge" id="cartCount">0</span>
+    </a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <p class="crumb"><a href="index.html">Home</a> / <span>New Arrivals</span></p>
+  <h1>New Arrivals <span class="sparkle">✨</span></h1>
+  <p class="lead">Fresh drops from five of our most-loved brands — picked for the season.</p>
+</header>
+
+<section class="filters">
+  <div class="filters-inner">
+    <div class="filter-head">
+      <h2 class="filter-title">🎛️ Refine Your Selection</h2>
+      <span class="results-count" id="resultsCount">5 products found</span>
+    </div>
+    <div class="filter-dropdowns">
+      <div class="filter-field">
+        <label for="brandSelect">🏷️ Brand</label>
+        <div class="select-wrap">
+          <select id="brandSelect">
+            <option value="all">All Brands</option>
+            <option value="Scarlet Ruby">Scarlet Ruby</option>
+            <option value="Aura">Aura</option>
+            <option value="Mirana">Mirana</option>
+            <option value="Naaz">Naaz</option>
+            <option value="Zar-e-Siyaah">Zar-e-Siyaah</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-field">
+        <label for="priceSelect">💰 Price</label>
+        <div class="select-wrap">
+          <select id="priceSelect">
+            <option value="all">All Prices</option>
+            <option value="price-asc">📈 Price: Low to High</option>
+            <option value="price-desc">📉 Price: High to Low</option>
+            <option value="under-5000">Under Rs. 5,000</option>
+            <option value="5000-7000">Rs. 5,000 – 7,000</option>
+            <option value="above-7000">Above Rs. 7,000</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section products-section">
+  <div class="product-grid" id="grid"></div>
+</section>
+
+<footer class="footer">
+  <div class="badges">
+    <span>🚚 COD Available All Over Pakistan</span>
+    <span>💳 5% Off on Advance Payment</span>
+    <span>🎁 Free Delivery on Shopping up to Rs. 10,000</span>
+  </div>
+  <p class="copy">© 2025 Misk Official. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+<script src="products.js"></script>
+
+<script>
+const PRODUCTS = [
+  {
+    id:'festive-ruby', brand:'Scarlet Ruby', name:'Festive Ruby 3pc', price:7800,
+    img:'new arrivals/scarlet/R1.PNG',
+       link:'new arrivals/scarlet/ruby.html',
+    desc:'Bold festive red short shirt with off-white embroidery, hand-made gota shalwar and laced dupatta.',
+    details:{ 'Fabric':'Embroidered lawn shirt · Gota shalwar · Net dupatta','Pieces':'3 Piece — Shirt, Shalwar, Dupatta','Work':'Off-white embroidery · Hand-made gota','Care':'Dry clean recommended','Delivery':'3–5 working days · COD available' },
+    sizes:['S','M','L'], tags:['Festive','Embroidered']
+  },
+  {
+    id:'emerald-mandarin', brand:'Aura', name:'Emerald Mandarin Collar 2pc', price:4500,
+    img:'new arrivals/aura/1.png',
+           link:'new arrivals/aura/aura.html',
+
+    desc:'Beautifully tailored emerald green outfit with a graceful mandarin collar and delicate front pintuck detailing.',
+    details:{ 'Fabric':'Premium cotton-silk blend','Pieces':'2 Piece — Shirt, Trouser','Work':'Pintuck detailing · Mandarin collar','Care':'Hand wash cold','Delivery':'3–5 working days · COD available' },
+    sizes:['S','M','L'], tags:['Daily','Minimal']
+  },
+  {
+    id:'emerald-floral', brand:'Mirana', name:'Emerald Floral Embroidered 2pc', price:7200,
+    img:'new arrivals/mirana/1.png',
+               link:'new arrivals/mirana/mirana.html',
+
+    desc:'Graceful emerald outfit with intricate black floral and paisley embroidery across neckline, panels, sleeves and hemline.',
+    details:{ 'Fabric':'Embroidered lawn','Pieces':'2 Piece — Shirt, Trouser','Work':'Black floral & paisley embroidery','Care':'Dry clean recommended','Delivery':'3–5 working days · COD available' },
+    sizes:['S','M','L'], tags:['Embroidered','Festive']
+  },
+  {
+    id:'farshi-white', brand:'Naaz', name:'Farshi Shalwar — White', price:4800,
+    img:'new arrivals/naaz/n2.PNG',
+                   link:'new arrivals/naaz/naaz.html',
+
+    desc:'Understated luxury — handcrafted farshi shalwar with intricate gota and cutdana work.',
+    details:{ 'Fabric':'Chiffon shirt · Farshi shalwar','Pieces':'2 Piece — Shirt, Farshi Shalwar','Work':'Handcrafted gota & cutdana','Care':'Dry clean only','Delivery':'3–5 working days · COD available' },
+    sizes:['S','M','L'], tags:['Farshi','Gota']
+  },
+  {
+    id:'midnight-black', brand:'Zar-e-Siyaah', name:'Midnight Black 3pc', price:7500,
+    img:'new arrivals/zar/Z12.JPEG',
+                       link:'new arrivals/zar/zar.html',
+
+    desc:'Timeless black ensemble with rose gold gota work, straight pants and bindhi-sprayed chiffon dupatta.',
+    details:{ 'Fabric':'Embroidered shirt · Straight pants · Chiffon dupatta','Pieces':'3 Piece — Shirt, Pants, Dupatta','Work':'Rose gold gota · Bindhi-sprayed dupatta','Care':'Dry clean recommended','Delivery':'3–5 working days · COD available' },
+    sizes:['S','M','L'], tags:['Formal','Festive']
+  }
+];
+
+const state = { brand:'all', price:'all' };
+
+function applyFilters(){
+  let list = PRODUCTS.slice();
+
+  if (state.brand !== 'all') list = list.filter(p => p.brand === state.brand);
+
+  if (state.price === 'under-5000')      list = list.filter(p => p.price < 5000);
+  else if (state.price === '5000-7000')  list = list.filter(p => p.price >= 5000 && p.price <= 7000);
+  else if (state.price === 'above-7000') list = list.filter(p => p.price > 7000);
+  else if (state.price === 'price-asc')  list.sort((a,b) => a.price - b.price);
+  else if (state.price === 'price-desc') list.sort((a,b) => b.price - a.price);
+
+  render(list);
+}
+
+function render(list){
+  const grid = document.getElementById('grid');
+  document.getElementById('resultsCount').textContent =
+    `${list.length} product${list.length !== 1 ? 's' : ''} found`;
+
+  if (!list.length){
+    grid.innerHTML = `<div class="empty-state"><span>🔍</span><p>No products match your filters.</p></div>`;
+    return;
+  }
+
+ grid.innerHTML = list.map((p, i) => `
+  <a class="product-tile" href="${p.link || 'product.html?id=' + p.id}" style="animation-delay:${(i * 0.08).toFixed(2)}s">
+    <div class="tile-media">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+    </div>
+    <div class="tile-body">
+      <span class="brand-tag">🏷️ ${p.brand}</span>
+      <h3>${p.name}</h3>
+      <p class="price">Rs. ${p.price.toLocaleString()}</p>
+    </div>
+  </a>
+`).join('');
+}
+
+document.getElementById('brandSelect').addEventListener('change', e => {
+  state.brand = e.target.value;
+  applyFilters();
+});
+document.getElementById('priceSelect').addEventListener('change', e => {
+  state.price = e.target.value;
+  applyFilters();
+});
+
+applyFilters();
+</script>
+</body>
+</html>

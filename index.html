@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Misk — Premium Women's Wear | Karachi, Pakistan</title>
+<link rel="icon" type="image/png" href="log.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   HERO — TEXT LEFT · MEDIA RIGHT (no borders)
+   ============================================================ */
+.hero{position:relative;height:70dvh;min-height:420px;max-height:640px;overflow:hidden;background:#0a121c;}
+.hero-media{position:absolute;inset:0;overflow:hidden;background:#0a121c;}
+.hero-side{display:none;}
+
+.track{display:flex;height:100%;width:100%;transition: transform 1s cubic-bezier(.65,0,.35,1);will-change: transform;}
+.slide{min-width:100%;height:100%;position:relative;overflow:hidden;background:#0a121c;}
+
+/* Every image/video fills 100% — no borders ever */
+.slide img,
+.slide video{
+  position:absolute;
+  inset:0;
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:cover !important;
+  object-position:center center;
+  display:block;
+  border:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+.slide-bg{display:none !important;}
+
+/* Ken Burns on mobile */
+.slide.active.slide-image img{animation:heroZoom 10s ease-out forwards;}
+@keyframes heroZoom{from{transform:scale(1.02);}to{transform:scale(1.12);}}
+
+/* Caption (mobile) */
+.slide-caption{
+  position:absolute;left:6%;bottom:22%;right:auto;z-index:3;color:#fff;
+  max-width:min(560px,80%);
+  opacity:0;transform:translateY(24px);
+  transition: opacity .9s .35s cubic-bezier(.2,.7,.3,1), transform .9s .35s cubic-bezier(.2,.7,.3,1);
+}
+.slide.active .slide-caption{opacity:1;transform:translateY(0);}
+.slide-caption h2{font-size:clamp(1.6rem,5vw,2.4rem);letter-spacing:.4px;line-height:1.15;margin-bottom:.4rem;text-shadow:0 4px 30px rgba(0,0,0,.5);}
+.slide-caption p{font-size:clamp(.85rem,2.5vw,1rem);letter-spacing:.6px;font-weight:300;text-shadow:0 2px 16px rgba(0,0,0,.5);}
+
+/* Arrows + dots */
+.arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;border-radius:50%;border:0;
+  background:rgba(255,255,255,.9);color:var(--navy);
+  font-size:1.4rem;line-height:1;cursor:pointer;z-index:5;
+  display:grid;place-items:center;
+  transition:background .25s, transform .25s;
+}
+.arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08);}
+.prev{left:14px}.next{right:14px}
+.dots{position:absolute;bottom:24px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:5;}
+.dot{width:9px;height:9px;border-radius:50%;border:0;background:rgba(255,255,255,.55);cursor:pointer;transition:.3s;}
+.dot.active{background:#fff;width:26px;border-radius:5px;}
+
+/* Wave */
+.hero-wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:55px;z-index:4;pointer-events:none;line-height:0;}
+.hero-wave svg{width:100%;height:100%;display:block;overflow:visible;}
+
+/* ============================================================
+   LAPTOP: TEXT LEFT · MEDIA RIGHT — media fills entire column
+   ============================================================ */
+@media (min-width: 901px) {
+  .hero{
+    display:grid;
+    grid-template-columns: 0.72fr 1.28fr;
+    height: 90vh;
+    min-height: 640px;
+    max-height: 880px;
+    overflow:hidden;
+    background: var(--navy);
+  }
+
+  /* ---------- TEXT SIDE ---------- */
+  .hero-side{
+    order: 1;
+    display:flex;align-items:center;justify-content:flex-start;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(90,123,163,.18) 0%, transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(188,193,197,.06) 0%, transparent 50%),
+      linear-gradient(135deg, #1f3a56 0%, var(--navy) 55%, #1a2f45 100%);
+    color: var(--greige);
+    padding: 3rem 3rem 3rem 4rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-side::before{
+    content:"";position:absolute;top:-30%;right:-20%;
+    width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle, rgba(232,225,216,.10), transparent 70%);
+    pointer-events:none;
+    animation: orbPulse 8s ease-in-out infinite;
+  }
+  .hero-side::after{
+    content:"";position:absolute;bottom:-30%;left:-20%;
+    width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle, rgba(232,225,216,.06), transparent 70%);
+    pointer-events:none;
+    animation: orbPulse 10s ease-in-out infinite 2s;
+  }
+  @keyframes orbPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.15);opacity:.6;}}
+
+  .hero-side-inner{position:relative;z-index:2;width:100%;max-width:460px;}
+
+  .hero-side .eyebrow{
+    font-size:.68rem;letter-spacing:3.5px;text-transform:uppercase;color:var(--silver);
+    margin-bottom:1rem;font-weight:600;display:inline-flex;align-items:center;gap:.7rem;
+    animation: fadeSlideUp .7s .1s cubic-bezier(.2,.7,.3,1) both;
+  }
+  .hero-side .eyebrow::before{content:"";display:block;width:28px;height:1px;background:linear-gradient(90deg, var(--silver), transparent);}
+
+  .hero-side h1{font-family:'Cormorant Garamond',serif;color:#fff;font-size:clamp(1.9rem,2.8vw,2.75rem);line-height:1.08;letter-spacing:-.3px;margin-bottom:1rem;font-weight:600;}
+  .hero-side h1 .line1{display:block;animation: fadeSlideUp .8s .25s cubic-bezier(.2,.7,.3,1) both;}
+  .hero-side h1 .line2{display:block;margin-top:.15em;animation: fadeSlideUp .8s .4s cubic-bezier(.2,.7,.3,1) both;}
+  .hero-side h1 em{color:var(--silver);font-style:italic;}
+
+  .hero-side .blurb{
+    font-size:.9rem;line-height:1.7;color:rgba(232,225,216,.8);margin-bottom:1.8rem;font-weight:300;max-width:380px;
+    animation: fadeSlideUp .8s .55s cubic-bezier(.2,.7,.3,1) both;
+  }
+
+  .hero-side .section-mini{
+    font-size:.65rem;letter-spacing:2.2px;text-transform:uppercase;color:var(--silver);
+    opacity:.75;margin-bottom:.9rem;font-weight:600;display:flex;align-items:center;gap:.6rem;
+    animation: fadeSlideUp .6s .75s cubic-bezier(.2,.7,.3,1) both;
+  }
+  .hero-side .section-mini::after{content:"";flex:1;height:1px;background:linear-gradient(90deg, rgba(232,225,216,.3), transparent);}
+
+  .collection-list{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .collection-list a{
+    display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+    padding:.68rem .9rem;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(232,225,216,.1);
+    border-radius: 10px;
+    color: var(--greige);font-size:.82rem;font-weight:500;
+    text-decoration:none;white-space:nowrap;overflow:hidden;
+    transition: all .3s;
+    animation: cascadeIn .45s both cubic-bezier(.2,.7,.3,1);
+  }
+  .collection-list a:nth-child(1){animation-delay:.9s;}
+  .collection-list a:nth-child(2){animation-delay:.98s;}
+  .collection-list a:nth-child(3){animation-delay:1.06s;}
+  .collection-list a:nth-child(4){animation-delay:1.14s;}
+  .collection-list a:nth-child(5){animation-delay:1.22s;}
+  .collection-list a:nth-child(6){animation-delay:1.30s;}
+
+  .collection-list a .label{display:inline-flex;align-items:center;gap:.5rem;overflow:hidden;text-overflow:ellipsis;}
+  .collection-list a .emo{font-size:.98rem;flex-shrink:0;}
+  .collection-list a::after{content:"→";font-size:.95rem;opacity:0;transform:translateX(-6px);transition:all .3s;color:var(--silver);flex-shrink:0;}
+  .collection-list a:hover{background:rgba(255,255,255,.11);border-color:rgba(232,225,216,.35);transform:translateY(-2px);color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);}
+  .collection-list a:hover::after{opacity:1;transform:translateX(0);}
+
+  @keyframes fadeSlideUp{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes cascadeIn{from{opacity:0;transform:translateX(-14px) scale(.96);}to{opacity:1;transform:translateX(0) scale(1);}}
+
+  /* ---------- MEDIA SIDE — fills completely, no borders ---------- */
+  .hero-media{
+    order: 2;
+    position: relative;
+    inset: auto;
+    height: 100%;
+    overflow: hidden;
+    background: #0a121c;
+    /* Remove any grid gap possibility */
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  /* Force fill — the key fix */
+  .hero-media .track,
+  .hero-media .slide,
+  .hero-media .slide img,
+  .hero-media .slide video{
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  /* Images: cover + slow vertical pan to reveal full outfit over time */
+  .slide.active.slide-image img{
+    object-fit: cover !important;
+    object-position: center top;
+    animation: verticalPan 12s ease-in-out infinite alternate !important;
+  }
+  @keyframes verticalPan{
+    from { object-position: center 0%; }
+    to   { object-position: center 100%; }
+  }
+
+  /* Videos: cover — fills completely, no borders, no backdrop */
+  .slide-video{
+    background: #0a121c;
+  }
+  .slide-video video{
+    object-fit: cover !important;
+    object-position: center center;
+    animation: none !important;
+  }
+
+  /* Hide caption / wave on desktop */
+  .slide-caption{display:none;}
+  .hero-wave{display:none;}
+
+  .prev{left:20px;}.next{right:20px;}.dots{bottom:28px;}
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+  .hero{grid-template-columns: 0.8fr 1.2fr;height:86vh;min-height:560px;}
+  .hero-side{padding:2.4rem 2rem 2.4rem 2.6rem;}
+  .collection-list{grid-template-columns:1fr;gap:.45rem;}
+  .collection-list a{padding:.6rem .8rem;font-size:.78rem;}
+  .hero-side .blurb{max-width:100%;}
+}
+
+/* ============================================================
+   SEARCH OVERLAY
+   ============================================================ */
+.search-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(15,25,40,.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 500;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 6rem 1.4rem 2rem;
+  opacity: 0;
+  transition: opacity .25s ease;
+  overflow-y: auto;
+}
+.search-overlay.open{display:flex;opacity:1;}
+
+.search-modal{
+  background:#fff;
+  width:100%;
+  max-width: 720px;
+  border-radius: 20px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.4);
+  overflow: hidden;
+  transform: translateY(-14px) scale(.98);
+  transition: transform .3s cubic-bezier(.2,.7,.3,1);
+  animation: searchPop .35s cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes searchPop{
+  from { transform: translateY(-30px) scale(.94); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.search-bar{
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid var(--greige);
+  background: #fff;
+}
+.search-bar svg{
+  width: 22px;height: 22px;color: var(--navy);flex-shrink: 0;
+}
+.search-bar input{
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 1.05rem;
+  color: var(--navy);
+  background: transparent;
+}
+.search-bar input::placeholder{ color: #a8b1bb; }
+
+.search-close{
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--greige);
+  color: var(--navy);
+  cursor: pointer;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.search-close:hover{ background: var(--silver); }
+
+.search-results{
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 1rem .5rem;
+}
+
+.search-section{
+  padding: 0 .5rem;
+  margin-bottom: .8rem;
+}
+.search-section h4{
+  font-family: 'Poppins', sans-serif;
+  font-size: .68rem;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #7a8694;
+  font-weight: 600;
+  padding: 0 .6rem;
+  margin-bottom: .5rem;
+}
+
+.search-item{
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  padding: .7rem .8rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--navy);
+  transition: background .2s;
+  margin-bottom: .1rem;
+}
+.search-item:hover{ background: var(--greige); }
+
+.search-emo{
+  font-size: 1.4rem;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(232,225,216,.9), rgba(188,193,197,.4));
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.search-img{
+  width: 42px; height: 52px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--greige);
+  flex-shrink: 0;
+}
+.search-text{
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  min-width: 0;
+  flex: 1;
+}
+.search-text strong{
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--navy);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.search-text small{
+  font-size: .74rem;
+  color: #7a8694;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.search-text small .sold-tag{ color: #c0392b; font-weight: 600; }
+
+.no-results{
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #7a8694;
+  font-size: .92rem;
+}
+.no-results span{ font-size: 2.2rem; display: block; margin-bottom: .5rem; }
+
+.search-hint{
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #7a8694;
+  font-size: .82rem;
+}
+.search-hint kbd{
+  display: inline-block;
+  padding: .1rem .4rem;
+  background: var(--greige);
+  border-radius: 5px;
+  border: 1px solid rgba(43,70,100,.15);
+  font-family: monospace;
+  font-size: .75rem;
+  color: var(--navy);
+  margin: 0 .1rem;
+}
+
+@media (max-width: 600px) {
+  .search-overlay{padding: 3rem .8rem 1rem;}
+  .search-modal{border-radius: 16px;}
+  .search-bar{padding: 1rem 1.1rem;}
+  .search-bar input{font-size: .95rem;}
+  .search-results{max-height: 70vh;}
+}
+
+/* ============================================================
+   LOGOS + MARQUEE + SECTIONS + FOOTER
+   ============================================================ */
+.nav .logo{
+  position:relative;display:grid !important;place-items:center;
+  width:52px !important;height:52px !important;border-radius:50%;
+  background:#fff;
+  box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
+  overflow:visible !important;
+  transition: transform .35s;
+  animation: navLogoPulse 4s ease-in-out infinite;
+}
+.nav .logo img{width:100% !important;height:100% !important;object-fit:cover !important;border-radius:50%;display:block;position:relative;z-index:1;}
+.nav .logo::after{
+  content:"";position:absolute;inset:-4px;border-radius:50%;
+  border:2px solid transparent;
+  border-top-color: var(--silver);
+  border-right-color: rgba(188,193,197,.5);
+  animation: logoSpin 8s linear infinite;
+  pointer-events:none;
+}
+@keyframes logoSpin{to{transform:rotate(360deg);}}
+@keyframes navLogoPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 0 2px var(--navy),0 6px 18px rgba(43,70,100,.18);}
+  50%{transform:scale(1.05);box-shadow:0 0 0 3px var(--silver),0 10px 24px rgba(43,70,100,.28);}
+}
+.nav .logo:hover{animation:none;transform:scale(1.1) rotate(6deg);}
+
+.foot-brand img{
+  width:68px !important;height:68px !important;border-radius:50%;object-fit:cover;
+  background:#fff;padding:3px;
+  box-shadow:0 0 0 2px rgba(232,225,216,.5),0 10px 24px rgba(0,0,0,.35);
+  margin-bottom:1rem !important;display:block;
+  animation: footLogoFloat 5s ease-in-out infinite;
+}
+@keyframes footLogoFloat{
+  0%,100%{transform:translateY(0) rotate(0deg);box-shadow:0 0 0 2px rgba(232,225,216,.5),0 10px 24px rgba(0,0,0,.35);}
+  50%{transform:translateY(-6px) rotate(-3deg);box-shadow:0 0 0 3px rgba(232,225,216,.7),0 16px 28px rgba(0,0,0,.4);}
+}
+
+.marquee-wrap{background:var(--greige);overflow:hidden;padding:1.4rem 0;border-top:1px solid rgba(43,70,100,.08);border-bottom:1px solid rgba(43,70,100,.08);position:relative;}
+.marquee-wrap::before,.marquee-wrap::after{content:"";position:absolute;top:0;bottom:0;width:70px;z-index:2;pointer-events:none;}
+.marquee-wrap::before{left:0;background:linear-gradient(90deg,var(--greige),transparent);}
+.marquee-wrap::after{right:0;background:linear-gradient(-90deg,var(--greige),transparent);}
+.marquee-track{display:flex;gap:1.2rem;width:max-content;animation:marqueeScroll 30s linear infinite;}
+.marquee-wrap:hover .marquee-track{animation-play-state:paused;}
+@keyframes marqueeScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.marquee-item{display:inline-flex;align-items:center;gap:.55rem;padding:.7rem 1.4rem;background:#fff;border:1px solid rgba(43,70,100,.15);border-radius:999px;font-size:1rem;font-weight:500;letter-spacing:.4px;color:var(--navy);white-space:nowrap;transition:all .3s;text-decoration:none;}
+.marquee-item:hover{background:var(--navy);color:#fff;border-color:var(--navy);transform:translateY(-3px);box-shadow:0 12px 24px rgba(43,70,100,.25);}
+.marquee-item .emo{font-size:1.2rem;}
+
+.featured{max-width:1200px;margin:auto;padding:5rem 1.4rem 4rem;text-align:center;}
+.featured-head h2{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:.5rem;}
+.featured-head p{color:#5f6b78;font-weight:400;font-size:.95rem;margin-bottom:2.5rem;}
+.featured-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.6rem;text-align:left;}
+.fp-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--greige);border-radius:20px;overflow:hidden;color:var(--navy);text-decoration:none;transition:transform .4s cubic-bezier(.2,.7,.3,1),box-shadow .4s;}
+.fp-card:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(43,70,100,.18);}
+.fp-media{aspect-ratio:4/5;overflow:hidden;background:var(--greige);position:relative;}
+.fp-media img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease;}
+.fp-card:hover .fp-media img{transform:scale(1.08);}
+.fp-body{padding:1.1rem 1.2rem 1.4rem;text-align:center;}
+.fp-brand{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--navy);background:linear-gradient(135deg,rgba(232,225,216,.95),rgba(188,193,197,.35));border:1px solid rgba(43,70,100,.15);padding:.35rem .75rem;border-radius:999px;margin-bottom:.7rem;}
+.fp-body h3{font-size:1.15rem;margin:0 0 .4rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fp-price{font-size:.95rem;font-weight:600;color:var(--navy);}
+
+.testimonials{background:linear-gradient(135deg,#f4f7fb 0%,var(--greige) 100%);padding:5rem 1.4rem;text-align:center;}
+.testimonials h2{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:.5rem;}
+.testimonials .sub{color:#5f6b78;font-weight:400;margin-bottom:2.5rem;max-width:600px;margin-left:auto;margin-right:auto;}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem;max-width:1100px;margin:auto;}
+.testi{background:#fff;border-radius:20px;padding:2rem 1.7rem 1.6rem;box-shadow:0 10px 30px rgba(43,70,100,.08);text-align:left;position:relative;transition:transform .35s;}
+.testi:hover{transform:translateY(-6px);}
+.testi::before{content:'"';position:absolute;top:-20px;left:22px;font-family:'Cormorant Garamond',serif;font-size:5.5rem;color:var(--silver);line-height:1;pointer-events:none;}
+.testi-stars{color:#f59e0b;letter-spacing:2px;margin-bottom:.7rem;font-size:1rem;position:relative;z-index:1;}
+.testi p{font-size:.94rem;font-weight:300;line-height:1.7;color:#4a5560;margin-bottom:1.2rem;}
+.testi-author{display:flex;align-items:center;gap:.7rem;}
+.testi-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--navy),#5a7ba3);color:#fff;display:grid;place-items:center;font-weight:600;font-size:.95rem;flex-shrink:0;}
+.testi-name{font-weight:600;font-size:.88rem;color:var(--navy);}
+.testi-loc{font-size:.75rem;color:#7a8694;}
+
+.contact-strip{background:var(--navy);color:var(--greige);padding:4.5rem 1.4rem;text-align:center;position:relative;overflow:hidden;}
+.contact-strip::before{content:"";position:absolute;top:-50%;left:-20%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(90,123,163,.4),transparent 70%);pointer-events:none;}
+.contact-strip h2{color:#fff;font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:.5rem;position:relative;}
+.contact-strip .lead{color:rgba(232,225,216,.85);font-weight:300;margin-bottom:2.5rem;max-width:600px;margin-left:auto;margin-right:auto;position:relative;}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;max-width:960px;margin:auto;position:relative;}
+.contact-item{display:flex;flex-direction:column;align-items:center;gap:.8rem;padding:1.8rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(232,225,216,.15);border-radius:18px;text-decoration:none;color:var(--greige);transition:all .3s;}
+.contact-item:hover{background:rgba(255,255,255,.12);transform:translateY(-4px);border-color:rgba(232,225,216,.35);}
+.contact-item .ci-icon{font-size:2rem;}
+.contact-item .ci-label{font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;opacity:.7;font-weight:600;}
+.contact-item .ci-value{font-size:.95rem;font-weight:500;word-break:break-word;line-height:1.4;}
+
+.newsletter-wrap{padding:4rem 1.4rem;background:#fdfcfa;}
+.newsletter{background:#fff;border:1px solid var(--greige);border-radius:24px;padding:2.8rem 2rem;max-width:820px;margin:auto;text-align:center;box-shadow:0 20px 40px rgba(43,70,100,.06);}
+.newsletter h3{font-size:1.7rem;margin-bottom:.5rem;}
+.newsletter p{color:#5f6b78;font-weight:300;margin-bottom:1.6rem;}
+.newsletter form{display:flex;gap:.6rem;max-width:480px;margin:auto;}
+.newsletter input{flex:1;padding:.95rem 1.15rem;border:1.5px solid var(--greige);border-radius:12px;font:inherit;font-size:.92rem;color:var(--navy);transition:border-color .2s,box-shadow .2s;background:#fdfcfa;}
+.newsletter input:focus{outline:none;border-color:var(--navy);background:#fff;box-shadow:0 0 0 4px rgba(43,70,100,.1);}
+.newsletter button{padding:.95rem 1.8rem;background:var(--navy);color:#fff;border:0;border-radius:12px;font:inherit;font-weight:600;font-size:.88rem;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s;}
+.newsletter button:hover{background:#1f3450;transform:translateY(-2px);box-shadow:0 14px 24px rgba(43,70,100,.3);}
+
+.footer{background:var(--navy);color:var(--greige);padding:3rem 1.4rem 1.5rem;margin-top:0;}
+.footer .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem 1.6rem;padding-bottom:1.8rem;border-bottom:1px solid rgba(232,225,216,.2);font-size:.85rem;margin-bottom:2.5rem;max-width:1150px;margin-left:auto;margin-right:auto;}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;max-width:1150px;margin:0 auto 2rem;align-items:start;}
+.foot-brand p{font-size:.88rem;line-height:1.75;opacity:.75;font-weight:300;margin-bottom:1rem;}
+.foot-socials{display:flex;gap:.6rem;}
+.foot-socials a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:1.05rem;transition:all .25s;}
+.foot-socials a:hover{background:rgba(255,255,255,.2);transform:translateY(-3px);}
+.foot-grid h4{font-size:.76rem;letter-spacing:1.5px;text-transform:uppercase;color:#fff;margin-bottom:1.1rem;font-family:'Poppins',sans-serif;font-weight:600;}
+.foot-grid a{display:block;font-size:.88rem;font-weight:300;padding:.35rem 0;opacity:.8;transition:opacity .2s,transform .2s;}
+.foot-grid a:hover{opacity:1;transform:translateX(3px);}
+.foot-contact-item{display:flex;gap:.5rem;align-items:flex-start;padding:.35rem 0;font-size:.88rem;font-weight:300;opacity:.85;line-height:1.5;}
+.foot-contact-item strong{opacity:1;color:#fff;font-weight:500;min-width:60px;flex-shrink:0;}
+.footer .copy{text-align:center;font-size:.78rem;opacity:.55;margin:1rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(232,225,216,.15);max-width:1150px;}
+
+@media(max-width:900px){
+  .foot-grid{grid-template-columns:1fr 1fr;gap:1.8rem;}
+  .newsletter form{flex-direction:column;}
+  .testi-grid{grid-template-columns:1fr;}
+}
+@media(max-width:500px){
+  .foot-grid{grid-template-columns:1fr;}
+  .marquee-item{font-size:.9rem;padding:.6rem 1.1rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- 1. ANNOUNCEMENT -->
+<div class="announce">
+  <div class="announce-track">
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+  </div>
+</div>
+
+<!-- 2. NAVBAR -->
+<nav class="nav">
+  <button class="hamburger" id="navToggle" aria-label="Menu">☰</button>
+
+  <div class="nav-left">
+    <a href="index.html" class="nav-link">Home</a>
+    <div class="dropdown">
+      <button class="nav-link">Collections ▾</button>
+      <ul class="dropdown-menu">
+        <li><a href="new-arrivals.html">🌟 New Arrivals</a></li>
+        <li><a href="best.html">🔥 Best Sellers</a></li>
+        <li><a href="solid.html">🎨 Solids</a></li>
+        <li><a href="basic.html">🤍 Basics</a></li>
+        <li class="dropdown-sub">
+          <button>🎀 Embroidered &amp; Formals ▸</button>
+          <ul class="dropdown-menu sub-menu">
+            <li><a href="embro.html">🌸 Embroidered</a></li>
+            <li><a href="formal.html">👑 Formals</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <a href="index.html" class="logo"><img src="log.png" alt="Misk"></a>
+
+  <div class="nav-right">
+    <button class="icon-btn" id="searchOpen" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+    </button>
+    <a href="cart.html" class="icon-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="badge" id="cartCount">0</span>
+    </a>
+  </div>
+</nav>
+
+<!-- 3. HERO -->
+<section class="hero">
+  <aside class="hero-side">
+    <div class="hero-side-inner">
+      <p class="eyebrow">Misk Official</p>
+      <h1>
+        <span class="line1">Timeless Elegance,</span>
+        <span class="line2"><em>Delivered.</em></span>
+      </h1>
+      <p class="blurb">
+        Premium women's wear — from daily essentials to celebration pieces, delivered across Pakistan.
+      </p>
+
+      <p class="section-mini">Explore Collections</p>
+      <div class="collection-list">
+        <a href="new-arrivals.html"><span class="label"><span class="emo">🌟</span> New Arrivals</span></a>
+        <a href="best.html"><span class="label"><span class="emo">🔥</span> Best Sellers</span></a>
+        <a href="basic.html"><span class="label"><span class="emo">🤍</span> Basics</span></a>
+        <a href="solid.html"><span class="label"><span class="emo">🎨</span> Solids</span></a>
+        <a href="embro.html"><span class="label"><span class="emo">🌸</span> Embroidered</span></a>
+        <a href="formal.html"><span class="label"><span class="emo">👑</span> Formals</span></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="hero-media">
+    <div class="track" id="track">
+      <div class="slide slide-image"><img src="1.PNG" alt="Misk — New Arrivals"><div class="slide-caption"><h2>New Arrivals</h2><p>Fresh silhouettes, just dropped</p></div></div>
+      <div class="slide slide-video"><video src="2.MP4" muted playsinline preload="metadata"></video><div class="slide-caption"><h2>Everyday Elegance</h2><p>Made for the modern woman</p></div></div>
+      <div class="slide slide-image"><img src="2.PNG" alt="Misk — Best Sellers"><div class="slide-caption"><h2>Best Sellers</h2><p>Loved by thousands</p></div></div>
+      <div class="slide slide-video"><video src="3.MP4" muted playsinline preload="metadata"></video><div class="slide-caption"><h2>Timeless Formals</h2><p>Crafted for celebrations</p></div></div>
+      <div class="slide slide-image"><img src="3.PNG" alt="Misk — Embroidered"><div class="slide-caption"><h2>Hand Embroidered</h2><p>Detail that speaks</p></div></div>
+      <div class="slide slide-image"><img src="4.PNG" alt="Misk — Solids"><div class="slide-caption"><h2>Pure Solids</h2><p>One tone. Every occasion.</p></div></div>
+      <div class="slide slide-video"><video src="5.MP4" muted playsinline preload="metadata"></video><div class="slide-caption"><h2>Move With Misk</h2><p>Fashion in motion</p></div></div>
+      <div class="slide slide-video"><video src="6.MP4" muted playsinline preload="metadata"></video><div class="slide-caption"><h2>The Misk Wardrobe</h2><p>Your story, styled</p></div></div>
+    </div>
+
+    <button class="arrow prev" aria-label="Previous">‹</button>
+    <button class="arrow next" aria-label="Next">›</button>
+    <div class="dots" id="dots"></div>
+
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path fill="#E8E1D8" opacity="0.45">
+          <animate attributeName="d" dur="10s" repeatCount="indefinite" calcMode="spline"
+            keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
+            values="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,100 L0,100 Z;
+                    M0,40 C240,0 480,80 720,40 C960,0 1200,80 1440,40 L1440,100 L0,100 Z;
+                    M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,100 L0,100 Z"/>
+        </path>
+        <path fill="#E8E1D8">
+          <animate attributeName="d" dur="8s" repeatCount="indefinite" calcMode="spline"
+            keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
+            values="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,100 L0,100 Z;
+                    M0,60 C240,20 480,100 720,60 C960,20 1200,100 1440,60 L1440,100 L0,100 Z;
+                    M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,100 L0,100 Z"/>
+        </path>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 4. MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <a href="new-arrivals.html" class="marquee-item"><span class="emo">🌟</span> New Arrivals</a>
+    <a href="best.html" class="marquee-item"><span class="emo">🔥</span> Best Sellers</a>
+    <a href="basic.html" class="marquee-item"><span class="emo">🤍</span> Basics</a>
+    <a href="solid.html" class="marquee-item"><span class="emo">🎨</span> Solids</a>
+    <a href="embro.html" class="marquee-item"><span class="emo">🌸</span> Embroidered</a>
+    <a href="formal.html" class="marquee-item"><span class="emo">👑</span> Formals</a>
+    <a href="new-arrivals.html" class="marquee-item"><span class="emo">🌟</span> New Arrivals</a>
+    <a href="best.html" class="marquee-item"><span class="emo">🔥</span> Best Sellers</a>
+    <a href="basic.html" class="marquee-item"><span class="emo">🤍</span> Basics</a>
+    <a href="solid.html" class="marquee-item"><span class="emo">🎨</span> Solids</a>
+    <a href="embro.html" class="marquee-item"><span class="emo">🌸</span> Embroidered</a>
+    <a href="formal.html" class="marquee-item"><span class="emo">👑</span> Formals</a>
+  </div>
+</div>
+
+<!-- 5. CRAFTED -->
+<section class="section">
+  <h2 class="reveal">Crafted for Every <em>You</em></h2>
+  <p class="lead reveal">From premium silhouettes to easy daily basics — Misk brings timeless women's wear, delivered to your door anywhere in Pakistan.</p>
+  <div class="cards">
+    <a class="card reveal" href="new-arrivals.html"><div class="card-img">👗</div><h3>Premium Dresses</h3><p>Statement pieces for every occasion.</p></a>
+    <a class="card reveal" href="basic.html"><div class="card-img">🌿</div><h3>Casual &amp; Daily</h3><p>Soft, breathable, everyday comfort.</p></a>
+    <a class="card reveal" href="formal.html"><div class="card-img">✨</div><h3>Embroidered &amp; Formals</h3><p>Hand-finished detail for celebrations.</p></a>
+  </div>
+</section>
+
+<!-- 6. FEATURED -->
+<section class="featured">
+  <div class="featured-head reveal">
+    <h2>Featured This Week ✨</h2>
+    <p>Handpicked pieces our community is loving right now.</p>
+  </div>
+  <div class="featured-grid">
+    <a href="new arrivals/scarlet/ruby.html" class="fp-card reveal">
+      <div class="fp-media"><img src="new arrivals/scarlet/R1.PNG" alt="Festive Ruby 3pc" loading="lazy"></div>
+      <div class="fp-body"><span class="fp-brand">Scarlet Ruby</span><h3>Festive Ruby 3pc</h3><p class="fp-price">Rs. 7,800</p></div>
+    </a>
+    <a href="new arrivals/mirana/mirana.html" class="fp-card reveal">
+      <div class="fp-media"><img src="new arrivals/mirana/1.png" alt="Soft Hue Stone Work 2pc" loading="lazy"></div>
+      <div class="fp-body"><span class="fp-brand">Solenne</span><h3>Soft Hue Stone Work 2pc</h3><p class="fp-price">Rs. 4,500</p></div>
+    </a>
+    <a href="embro/airra/airra.html" class="fp-card reveal">
+      <div class="fp-media"><img src="embro/airra/A11.jpeg" alt="Royal Purple Floral Kurta" loading="lazy"></div>
+      <div class="fp-body"><span class="fp-brand">Airra</span><h3>Royal Purple Floral Kurta 2pc</h3><p class="fp-price">Rs. 4,500</p></div>
+    </a>
+  </div>
+</section>
+
+<!-- 7. WHY -->
+<section class="section alt">
+  <h2 class="reveal">Why Shop With Misk</h2>
+  <div class="cards">
+    <div class="card reveal"><div class="card-img">🚚</div><h3>COD Available</h3><p>Cash on delivery all over Pakistan.</p></div>
+    <div class="card reveal"><div class="card-img">💳</div><h3>5% Off</h3><p>On advance payment orders.</p></div>
+    <div class="card reveal"><div class="card-img">🎁</div><h3>Free Delivery</h3><p>On shopping above Rs. 10,000.</p></div>
+  </div>
+</section>
+
+<!-- 8. TESTIMONIALS -->
+<section class="testimonials">
+  <h2 class="reveal">Loved by Women Across Pakistan 💕</h2>
+  <p class="sub reveal">Real stories from our community</p>
+  <div class="testi-grid">
+    <div class="testi reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p>The quality of the fabric and stitching is beautiful. My Festive Ruby arrived in perfect condition — felt so elegant wearing it for Eid!</p>
+      <div class="testi-author"><div class="testi-avatar">A</div><div><div class="testi-name">Ayesha K.</div><div class="testi-loc">Karachi</div></div></div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p>Fast delivery, gorgeous packaging, and the COD option made it so easy. Misk is now my go-to for anything festive.</p>
+      <div class="testi-author"><div class="testi-avatar">F</div><div><div class="testi-name">Fatima R.</div><div class="testi-loc">Lahore</div></div></div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p>Customer service on WhatsApp was so helpful with sizing. The Farshi Shalwar is even more beautiful in person.</p>
+      <div class="testi-author"><div class="testi-avatar">S</div><div><div class="testi-name">Sana M.</div><div class="testi-loc">Islamabad</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. CONTACT -->
+<section class="contact-strip">
+  <h2 class="reveal">Get in Touch 💬</h2>
+  <p class="lead reveal">Questions about sizing, orders, or customizations? We're here to help.</p>
+  <div class="contact-grid">
+    <a href="mailto:Misk.officail20@gmail.com" class="contact-item reveal">
+      <span class="ci-icon">✉️</span><span class="ci-label">Email Us</span><span class="ci-value">Misk.officail20@gmail.com</span>
+    </a>
+    <a href="https://wa.me/923171349932" target="_blank" rel="noopener" class="contact-item reveal">
+      <span class="ci-icon">💬</span><span class="ci-label">WhatsApp</span><span class="ci-value">+92-317-134-9932</span>
+    </a>
+    <a href="https://maps.google.com/?q=Karachi,Pakistan" target="_blank" rel="noopener" class="contact-item reveal">
+      <span class="ci-icon">📍</span><span class="ci-label">Visit Us</span><span class="ci-value">Karachi, Pakistan</span>
+    </a>
+  </div>
+</section>
+
+<!-- 10. NEWSLETTER -->
+<section class="newsletter-wrap">
+  <div class="newsletter reveal">
+    <h3>Join the Misk Circle 🌸</h3>
+    <p>Be first to know about new drops, restocks and exclusive offers.</p>
+    <form onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;color:#2e7d5b;font-weight:600;padding:.5rem 0&quot;>✓ Thank you for subscribing!</p>';">
+      <input type="email" placeholder="Enter your email address" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- 11. FOOTER -->
+<footer class="footer">
+  <div class="badges">
+    <span>🚚 COD Available All Over Pakistan</span>
+    <span>💳 5% Off on Advance Payment</span>
+    <span>🎁 Free Delivery on Shopping up to Rs. 10,000</span>
+  </div>
+
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <img src="log.png" alt="Misk">
+      <p>Timeless women's wear, made for everyday elegance. Designed in Pakistan, delivered to your door.</p>
+      <div class="foot-socials">
+      
+      </div>
+    </div>
+
+    <div>
+      <h4>Shop</h4>
+      <a href="new-arrivals.html">🌟 New Arrivals</a>
+      <a href="best.html">🔥 Best Sellers</a>
+      <a href="basic.html">🤍 Basics</a>
+      <a href="solid.html">🎨 Solids</a>
+      <a href="embro.html">🌸 Embroidered</a>
+      <a href="formal.html">👑 Formals</a>
+    </div>
+
+    <div>
+      <h4>Policies</h4>
+      <a href="policy-shipping.html">Shipping Policy</a>
+      <a href="policy-returns.html">Return &amp; Exchange</a>
+      <a href="policy-privacy.html">Privacy Policy</a>
+      <a href="policy-terms.html">Terms of Service</a>
+      <a href="faq.html">FAQs</a>
+    </div>
+
+    <div>
+      <h4>Contact</h4>
+      <div class="foot-contact-item"><strong></strong>✉️<a href="mailto:Misk.officail20@gmail.com" style="padding:0;opacity:.85;">Misk.officail20@gmail.com</a></div>
+      <div class="foot-contact-item"><strong></strong>💬<a href="https://wa.me/923171349932" target="_blank" style="padding:0;opacity:.85;">+92-317-134-9932</a></div>
+      <div class="foot-contact-item"><strong></strong><span>Karachi, Pakistan</span></div>
+    </div>
+  </div>
+
+  <p class="copy">© 2025 Misk Official. All rights reserved. · Made with 🤍 in Pakistan</p>
+</footer>
+
+<!-- ============================================================
+     SEARCH OVERLAY
+     ============================================================ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-modal" role="dialog" aria-modal="true">
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input type="text" id="searchInput" placeholder="Search products, brands, collections…" autocomplete="off">
+      <button class="search-close" id="searchClose" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="products.js"></script>
+<script src="script.js"></script>
+<script>
+/* ============================================================
+   SEARCH
+   ============================================================ */
+const SEARCH_COLLECTIONS = [
+  { name:'New Arrivals', link:'new-arrivals.html', emoji:'🌟', keywords:'new arrivals latest fresh' },
+  { name:'Best Sellers', link:'best.html',         emoji:'🔥', keywords:'best sellers popular loved' },
+  { name:'Basics',       link:'basic.html',        emoji:'🤍', keywords:'basics daily casual essentials' },
+  { name:'Solids',       link:'solid.html',        emoji:'🎨', keywords:'solids plain pure colors' },
+  { name:'Embroidered',  link:'embro.html',        emoji:'🌸', keywords:'embroidered floral work' },
+  { name:'Formals',      link:'formal.html',       emoji:'👑', keywords:'formals festive party celebration' }
+];
+
+const searchOverlay = document.getElementById('searchOverlay');
+const searchInput   = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+const searchOpenBtn = document.getElementById('searchOpen');
+const searchCloseBtn= document.getElementById('searchClose');
+
+function openSearch(){
+  searchOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => searchInput.focus(), 80);
+  if (!searchInput.value.trim()) renderSearch('');
+}
+function closeSearch(){
+  searchOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+  searchInput.value = '';
+}
+
+searchOpenBtn.addEventListener('click', openSearch);
+searchCloseBtn.addEventListener('click', closeSearch);
+searchOverlay.addEventListener('click', e => {
+  if (e.target === searchOverlay) closeSearch();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && searchOverlay.classList.contains('open')) closeSearch();
+  /* Keyboard shortcut: / or Ctrl/Cmd + K opens search */
+  if ((e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) ||
+      ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) {
+    e.preventDefault(); openSearch();
+  }
+});
+
+function getProducts(){
+  if (typeof window.PRODUCTS !== 'undefined' && Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
+  return [];
+}
+
+function searchAll(query){
+  const q = query.toLowerCase().trim();
+  const collections = SEARCH_COLLECTIONS.filter(c =>
+    !q || c.name.toLowerCase().includes(q) || c.keywords.includes(q)
+  );
+  let products = [];
+  if (q) {
+    products = getProducts().filter(p =>
+      (p.name || '').toLowerCase().includes(q) ||
+      (p.brand || '').toLowerCase().includes(q) ||
+      (p.tags || []).some(t => t.toLowerCase().includes(q)) ||
+      (p.collections || []).some(c => c.replace('-',' ').includes(q))
+    );
+  }
+  return { collections, products, isQuery: !!q };
+}
+
+function renderSearch(query){
+  const { collections, products, isQuery } = searchAll(query);
+
+  if (!isQuery) {
+    /* Show collections as default suggestions */
+    searchResults.innerHTML = `
+      <div class="search-hint">
+        Type to search — or press <kbd>Esc</kbd> to close<br>
+        <span style="opacity:.7">Try <kbd>ruby</kbd> · <kbd>formal</kbd> · <kbd>silk</kbd></span>
+      </div>
+      <div class="search-section">
+        <h4>Browse Collections</h4>
+        ${collections.map(c => `
+          <a href="${c.link}" class="search-item">
+            <span class="search-emo">${c.emoji}</span>
+            <span class="search-text"><strong>${c.name}</strong><small>Collection</small></span>
+          </a>
+        `).join('')}
+      </div>`;
+    return;
+  }
+
+  if (!collections.length && !products.length) {
+    searchResults.innerHTML = `
+      <div class="no-results">
+        <span>🔍</span>
+        No results for "<strong>${escapeHtml(query)}</strong>"
+      </div>`;
+    return;
+  }
+
+  let html = '';
+
+  if (collections.length) {
+    html += `<div class="search-section"><h4>Collections (${collections.length})</h4>`;
+    html += collections.map(c => `
+      <a href="${c.link}" class="search-item">
+        <span class="search-emo">${c.emoji}</span>
+        <span class="search-text"><strong>${c.name}</strong><small>Collection</small></span>
+      </a>
+    `).join('');
+    html += `</div>`;
+  }
+
+  if (products.length) {
+    html += `<div class="search-section"><h4>Products (${products.length})</h4>`;
+    html += products.map(p => `
+      <a href="${p.link || '#'}" class="search-item">
+        <img src="${p.img}" alt="${escapeHtml(p.name)}" class="search-img" onerror="this.style.display='none'">
+        <span class="search-text">
+          <strong>${escapeHtml(p.name)}</strong>
+          <small>${escapeHtml(p.brand)} · Rs. ${(p.price||0).toLocaleString()}${p.soldOut ? ' · <span class="sold-tag">Sold Out</span>' : ''}</small>
+        </span>
+      </a>
+    `).join('');
+    html += `</div>`;
+  }
+
+  searchResults.innerHTML = html;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+let searchDebounce;
+searchInput.addEventListener('input', e => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => renderSearch(e.target.value), 120);
+});
+
+/* Close search when clicking a result */
+searchResults.addEventListener('click', e => {
+  if (e.target.closest('.search-item')) closeSearch();
+});
+</script>
+</body>
+</html>
