@@ -231,70 +231,52 @@ img,video{display:block;max-width:100%}
 /* ============================================================
    CIRCULAR ANIMATED LOGO — Navbar (all pages)
    ============================================================ */
-.nav .logo{
-  position: relative;
+/* ============================================================
+   ★ LOGO — ALWAYS CENTERED (all screens)
+   ============================================================ */
+
+/* Navbar — guaranteed 3-column layout with the middle column
+   taking only as much width as the logo needs, so the two side
+   columns split the remaining space exactly evenly. */
+.nav{
   display: grid !important;
-  place-items: center;
-  width: 52px !important;
-  height: 52px !important;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
-  overflow: visible !important;
-  transition: transform .35s;
-  animation: navLogoPulse 4s ease-in-out infinite;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
 }
 
+/* Force the logo into the middle column, centred both ways */
+.nav .logo{
+  grid-column: 2 !important;
+  justify-self: center !important;
+  align-self: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Image — stays small, aspect ratio preserved, centered */
 .nav .logo img{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  border-radius: 50%;
-  display: block;
-  position: relative;
-  z-index: 1;
+  display: block !important;
+  height: 40px !important;
+  width: auto !important;
+  max-width: 140px !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
 }
 
-/* Spinning silver ring around the circle */
-.nav .logo::after{
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  border-top-color: var(--silver);
-  border-right-color: rgba(188,193,197,.5);
-  animation: logoSpin 8s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes logoSpin{
-  to { transform: rotate(360deg); }
-}
-
-/* Gentle pulse */
-@keyframes navLogoPulse{
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 3px var(--silver), 0 10px 24px rgba(43,70,100,.28);
-  }
-}
-
-/* Hover — stop pulse, scale + tilt */
-.nav .logo:hover{
-  animation: none;
-  transform: scale(1.1) rotate(6deg);
-}
-
-/* Smaller circle on mobile */
+/* Smaller on phones so it doesn't crowd the nav links */
 @media (max-width: 900px){
-  .nav .logo{
-    width: 46px !important;
-    height: 46px !important;
+  .nav .logo img{
+    height: 36px !important;
+    max-width: 120px !important;
+  }
+}
+@media (max-width: 420px){
+  .nav .logo img{
+    height: 32px !important;
+    max-width: 100px !important;
   }
 }
 </style>

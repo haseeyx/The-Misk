@@ -1395,70 +1395,85 @@ img, video{ display:block; max-width:100% }
 /* ============================================================
    CIRCULAR ANIMATED LOGO — Navbar (all pages)
    ============================================================ */
-.nav .logo{
-  position: relative;
-  display: grid !important;
-  place-items: center;
-  width: 52px !important;
-  height: 52px !important;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
+/* ============================================================
+   NAV LOGO — FINAL (huge, flat, overflows navbar)
+   ============================================================ */
+
+/* 1) Navbar must never clip its children */
+.nav{
   overflow: visible !important;
-  transition: transform .35s;
-  animation: navLogoPulse 4s ease-in-out infinite;
+  z-index: 100 !important;
 }
 
-.nav .logo img{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  border-radius: 50%;
-  display: block;
-  position: relative;
-  z-index: 1;
+/* 2) Centring wrapper — locked dead centre */
+.logo-wrap{
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 0 !important;
+  pointer-events: auto !important;
+  height: auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* Spinning silver ring around the circle */
+/* 3) Logo — BIG, flat, no circle, no animation */
+.nav .logo{
+  width: auto !important;
+  min-width: 0 !important;
+  height: 180px !important;          /* ← much bigger than 104px */
+  max-height: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  animation: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+  transition: transform .3s ease !important;
+}
+
+/* 4) Kill the spinning ring + any pseudo element from style.css */
+.nav .logo::before,
 .nav .logo::after{
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  border-top-color: var(--silver);
-  border-right-color: rgba(188,193,197,.5);
-  animation: logoSpin 8s linear infinite;
-  pointer-events: none;
+  display: none !important;
+  content: none !important;
+  animation: none !important;
+  border: 0 !important;
 }
 
-@keyframes logoSpin{
-  to { transform: rotate(360deg); }
+/* 5) Image — no cropping, no circular mask */
+.nav .logo img{
+  height: 100% !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: block !important;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,.28));
 }
 
-/* Gentle pulse */
-@keyframes navLogoPulse{
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 3px var(--silver), 0 10px 24px rgba(43,70,100,.28);
-  }
-}
-
-/* Hover — stop pulse, scale + tilt */
+/* 6) Hover — subtle scale, no spin / tilt */
 .nav .logo:hover{
-  animation: none;
-  transform: scale(1.1) rotate(6deg);
+  animation: none !important;
+  transform: scale(1.05) !important;
 }
 
-/* Smaller circle on mobile */
-@media (max-width: 900px){
-  .nav .logo{
-    width: 46px !important;
-    height: 46px !important;
-  }
-}
-
+/* 7) Responsive — stays impressive but never eats the nav buttons */
+@media (max-width: 1200px){ .nav .logo{ height: 155px !important; } }
+@media (max-width: 900px){  .nav .logo{ height: 130px !important; } }
+@media (max-width: 600px){  .nav .logo{ height: 105px !important; } }
+@media (max-width: 420px){  .nav .logo{ height: 88px  !important; } }

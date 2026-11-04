@@ -412,33 +412,8 @@
 }
 
 /* ============================================================
-   LOGOS + MARQUEE + SECTIONS + FOOTER
+   MARQUEE + SECTIONS + FOOTER
    ============================================================ */
-.nav .logo{
-  position:relative;display:grid !important;place-items:center;
-  width:52px !important;height:52px !important;border-radius:50%;
-  background:#fff;
-  box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
-  overflow:visible !important;
-  transition: transform .35s;
-  animation: navLogoPulse 4s ease-in-out infinite;
-}
-.nav .logo img{width:100% !important;height:100% !important;object-fit:cover !important;border-radius:50%;display:block;position:relative;z-index:1;}
-.nav .logo::after{
-  content:"";position:absolute;inset:-4px;border-radius:50%;
-  border:2px solid transparent;
-  border-top-color: var(--silver);
-  border-right-color: rgba(188,193,197,.5);
-  animation: logoSpin 8s linear infinite;
-  pointer-events:none;
-}
-@keyframes logoSpin{to{transform:rotate(360deg);}}
-@keyframes navLogoPulse{
-  0%,100%{transform:scale(1);box-shadow:0 0 0 2px var(--navy),0 6px 18px rgba(43,70,100,.18);}
-  50%{transform:scale(1.05);box-shadow:0 0 0 3px var(--silver),0 10px 24px rgba(43,70,100,.28);}
-}
-.nav .logo:hover{animation:none;transform:scale(1.1) rotate(6deg);}
-
 .foot-brand img{
   width:68px !important;height:68px !important;border-radius:50%;object-fit:cover;
   background:#fff;padding:3px;
@@ -535,73 +510,6 @@
   .marquee-item{font-size:.9rem;padding:.6rem 1.1rem;}
 }
 
-.nav .logo{
-  position: relative;
-  display: grid !important;
-  place-items: center;
-  width: 52px !important;
-  height: 52px !important;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
-  overflow: visible !important;
-  transition: transform .35s;
-  animation: navLogoPulse 4s ease-in-out infinite;
-}
-
-.nav .logo img{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  border-radius: 50%;
-  display: block;
-  position: relative;
-  z-index: 1;
-}
-
-/* Spinning silver ring around the circle */
-.nav .logo::after{
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  border-top-color: var(--silver);
-  border-right-color: rgba(188,193,197,.5);
-  animation: logoSpin 8s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes logoSpin{
-  to { transform: rotate(360deg); }
-}
-
-/* Gentle pulse */
-@keyframes navLogoPulse{
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 3px var(--silver), 0 10px 24px rgba(43,70,100,.28);
-  }
-}
-
-/* Hover — stop pulse, scale + tilt */
-.nav .logo:hover{
-  animation: none;
-  transform: scale(1.1) rotate(6deg);
-}
-
-/* Smaller circle on mobile */
-@media (max-width: 900px){
-  .nav .logo{
-    width: 46px !important;
-    height: 46px !important;
-  }
-}
-
 /* ============================================================
    ★ FIX #2 — NAV LOGO ALWAYS PERFECTLY CENTERED (all screens)
    ============================================================ */
@@ -622,12 +530,6 @@
 @media (max-width: 900px){
   .logo-wrap{ top: 50%; }
 }
-
-/* ============================================================
-   ★ FIX #3 — MOBILE DROPDOWN (JS-driven, see script below)
-   The dropdown open/close is fully controlled by inline styles
-   with !important so it cannot get "stuck" from :hover state.
-   ============================================================ */
 
 /* ============================================================
    ★ FIX #1 — FLOATING WHATSAPP BUTTON
@@ -703,6 +605,126 @@
         position: relative;
     }
 }
+
+/* ============================================================
+   ★★★ NAV LOGO — FINAL: HUGE, FLAT, OVERFLOWING THE NAVBAR ★★★
+   ============================================================ */
+
+/* ============================================================
+   ★ NAVBAR — STICKY + LOGO SMALL + PERFECTLY CENTERED ★
+   ============================================================ */
+
+/* CRITICAL: 'clip' does NOT create a scroll container,
+   so position:sticky on .nav keeps working.
+   (style.css uses 'hidden' which breaks sticky.) */
+html, body{
+  overflow-x: clip !important;
+}
+
+/* Sticky navbar, always on top */
+.nav{
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 200 !important;         /* above hero / marquee / sections */
+  overflow: visible !important;
+}
+
+/* Centering wrapper — locks logo dead centre on every screen */
+.logo-wrap{
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  pointer-events: auto !important;
+}
+
+/* SMALL logo — fits comfortably inside the 68px navbar */
+.nav .logo{
+  width: auto !important;
+  min-width: 0 !important;
+  height: 52px !important;         /* small, fits in navbar */
+  max-height: 52px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  animation: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+  transition: transform .3s ease !important;
+}
+
+/* Kill the spinning ring + pulse from style.css */
+.nav .logo::before,
+.nav .logo::after{
+  display: none !important;
+  content: none !important;
+  animation: none !important;
+  border: 0 !important;
+}
+
+/* Image — full logo, no circle, no crop */
+.nav .logo img{
+  height: 100% !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: 52px !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: block !important;
+  filter: none !important;
+}
+
+.nav .logo:hover{
+  animation: none !important;
+  transform: scale(1.05) !important;
+}
+
+/* Slightly smaller on phones so it never eats the nav icons */
+@media (max-width: 900px){
+  .nav .logo{ height: 46px !important; max-height: 46px !important; }
+  .nav .logo img{ max-height: 46px !important; }
+}
+@media (max-width: 420px){
+  .nav .logo{ height: 40px !important; max-height: 40px !important; }
+  .nav .logo img{ max-height: 40px !important; }
+}
+
+/* Footer logo — flat, no circle */
+.foot-brand img{
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  animation: none !important;
+  width: auto !important;
+  height: 64px !important;
+  object-fit: contain !important;
+}
+/* Footer logo — flat, no circle */
+.foot-brand img{
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  animation: none !important;
+  width: auto !important;
+  height: 64px !important;
+  object-fit: contain !important;
+}
 </style>
 </head>
 <body>
@@ -718,8 +740,6 @@
     <span>✨ New Collection Live Now — Shop Today</span>
   </div>
 </div>
-
-
 
 <!-- 2. NAVBAR -->
 <nav class="nav">
@@ -870,7 +890,7 @@
       <div class="fp-media"><img src="new arrivals/mirana/1.png" alt="Soft Hue Stone Work 2pc" loading="lazy"></div>
       <div class="fp-body"><span class="fp-brand">Mirana</span><h3>Emerald Floral Embroidered 2pc</h3><p class="fp-price">Rs. 7,200</p></div>
     </a>
-  
+
   </div>
 </section>
 
@@ -919,7 +939,7 @@
       <span class="ci-icon">💬</span><span class="ci-label">WhatsApp</span><span class="ci-value">+92-317-134-9932</span>
     </a>
     <a href="https://maps.google.com/?q=Karachi,Pakistan" target="_blank" rel="noopener" class="contact-item reveal">
-      <span class="ci-icon">📍</span><span class="ci-label">Visit Us</span><span class="ci-value">Karachi, Pakistan</span>
+      <span class="ci-icon">📍</span><span class="ci-label">Visit Us</span><span class="ci-value">Shop#G-180, AQ Mall Bahria Town Karachi, Pakistan</span>
     </a>
   </div>
 </section>
@@ -1014,8 +1034,7 @@
 /* ============================================================
    ALL INLINE LOGIC IS WRAPPED IN AN IIFE.
    This prevents "Identifier already declared" conflicts with
-   script.js which would otherwise kill the whole script block
-   (that was the reason the mobile dropdown stopped opening).
+   script.js which would otherwise kill the whole script block.
    ============================================================ */
 (function () {
   'use strict';
@@ -1057,7 +1076,6 @@
   });
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && searchOverlay.classList.contains('open')) closeSearch();
-    /* Keyboard shortcut: / or Ctrl/Cmd + K opens search */
     if ((e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) ||
         ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) {
       e.preventDefault(); openSearch();
@@ -1166,16 +1184,6 @@
 
   /* ==========================================================
      2) MOBILE DROPDOWN — bulletproof fix
-     - Runs in the CAPTURE phase so script.js can never interfere
-     - Open/close state is written as INLINE styles with !important
-       so a stuck :hover state cannot keep it open
-     - Tapping outside, tapping a link, tapping ☰ or pressing Esc
-       always closes it
-     ========================================================== */
-  /* ==========================================================
-     2) MOBILE DROPDOWN — ONE source of truth
-     Clear BOTH classes and inline styles on close, and close
-     on pointerdown (click is unreliable for taps on mobile).
      ========================================================== */
   var mq = window.matchMedia('(max-width: 900px)');
   var OPEN_ATTR = 'data-misk-open';
@@ -1188,7 +1196,7 @@
     var menu = menuOf(li);
     if (!menu) return;
     li.setAttribute(OPEN_ATTR, '');
-    li.classList.add('open');                 /* keep classes in sync */
+    li.classList.add('open');
     var b = li.querySelector(':scope > button');
     if (b) b.setAttribute('aria-expanded', 'true');
 
@@ -1209,7 +1217,6 @@
   }
 
   function closeOne(li){
-    /* clear EVERY state — attribute, classes AND inline styles */
     li.removeAttribute(OPEN_ATTR);
     li.classList.remove('open', 'active');
     var b = li.querySelector(':scope > button');
@@ -1217,7 +1224,6 @@
     var menu = menuOf(li);
     if (menu) menu.removeAttribute('style');
 
-    /* and any nested submenu */
     li.querySelectorAll('.dropdown-sub').forEach(function(sub){
       sub.removeAttribute(OPEN_ATTR);
       sub.classList.remove('open', 'active');
@@ -1235,13 +1241,10 @@
     });
   }
 
-  /* ---- OUTSIDE TAP → close (pointerdown, not click) ---- */
   document.addEventListener('pointerdown', function (e) {
     if (!mq.matches) return;
     var t = e.target;
 
-    /* also slide the drawer back out when tapping outside it
-       (remove these 5 lines if you don't want that) */
     var drawer = document.querySelector('.nav-left');
     if (drawer && drawer.classList.contains('open') &&
         !drawer.contains(t) && !t.closest('#navToggle')) {
@@ -1251,15 +1254,12 @@
     if (!t.closest('.dropdown')) closeAll();
   }, true);
 
-  /* ---- TAPS INSIDE THE NAVBAR ---- */
   document.addEventListener('click', function (e) {
     if (!mq.matches) return;
     var t = e.target;
 
-    /* a link inside an open menu → close, then let it navigate */
     if (t.closest('.dropdown-menu a')) { closeAll(); return; }
 
-    /* main "Collections" button */
     var mainBtn = t.closest('.dropdown > .nav-link, .dropdown > button');
     if (mainBtn) {
       e.preventDefault();
@@ -1272,7 +1272,6 @@
       return;
     }
 
-    /* nested "Embroidered & Formals" button */
     var subBtn = t.closest('.dropdown-sub > button');
     if (subBtn) {
       e.preventDefault();
@@ -1284,7 +1283,6 @@
       return;
     }
 
-    /* hamburger → reset dropdowns, script.js toggles the drawer */
     if (t.closest('#navToggle')) { closeAll(); return; }
   }, true);
 
@@ -1296,91 +1294,8 @@
   if (mq.addEventListener) mq.addEventListener('change', onMqChange);
   else if (mq.addListener) mq.addListener(onMqChange);
 
-  /* ---- CAPTURE-PHASE CLICK HANDLER (runs before script.js) ---- */
-  document.addEventListener('click', function (e) {
-    if (!mq.matches) return;                  /* desktop → normal hover */
-    var t = e.target;
-
-    /* a) clicking a link inside an opened menu → close & navigate */
-    if (t.closest('.dropdown-menu a')) {
-      closeAll();
-      return;
-    }
-
-    /* b) main "Collections" button */
-    var mainBtn = t.closest('.dropdown > .nav-link');
-    if (mainBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-      var li = mainBtn.parentElement;
-      var wasOpen = li.hasAttribute(OPEN_ATTR);
-      closeAll(li);
-      if (!wasOpen) {
-        openOne(li);
-      } else {
-        closeOne(li);
-        if (document.activeElement === mainBtn) mainBtn.blur();
-      }
-      return;
-    }
-
-    /* c) nested "Embroidered & Formals" button */
-    var subBtn = t.closest('.dropdown-sub > button');
-    if (subBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-      var subLi = subBtn.parentElement;
-      var wasSubOpen = subLi.hasAttribute(OPEN_ATTR);
-      /* close other siblings first */
-      subLi.parentElement.querySelectorAll('.dropdown-sub[' + OPEN_ATTR + ']').forEach(function(n){
-        if (n !== subLi) closeOne(n);
-      });
-      if (!wasSubOpen) {
-        openOne(subLi);
-      } else {
-        closeOne(subLi);
-        if (document.activeElement === subBtn) subBtn.blur();
-      }
-      return;
-    }
-
-    /* d) hamburger → reset dropdowns (script.js opens/closes drawer) */
-    if (t.closest('#navToggle')) {
-      closeAll();
-      return;
-    }
-
-    /* e) tap anywhere else → close everything */
-    if (!t.closest('.dropdown')) {
-      closeAll();
-    }
-  }, true); /* ← capture = true : runs before script.js handlers */
-
-  /* Esc closes */
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeAll();
-  });
-
-  /* Back to desktop → clean up */
-  function onMqChange(){
-    if (!mq.matches) closeAll();
-  }
-  if (mq.addEventListener) mq.addEventListener('change', onMqChange);
-  else if (mq.addListener) mq.addListener(onMqChange);
-
 })();
-
-
-
-
-
-
-
 </script>
-
-
 
 </body>
 </html>

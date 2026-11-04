@@ -9,6 +9,102 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
+<style>
+/* ============================================================
+   ★ NAVBAR STICKY + SMALL FLAT CENTERED LOGO (NO CIRCLE)
+   These !important overrides win over style.css
+   ============================================================ */
+
+/* CRITICAL: overflow-x:clip (not hidden) so position:sticky
+   on .nav keeps working — 'hidden' creates a scroll container
+   on <body> which silently disables sticky positioning */
+html, body{
+  overflow-x: clip !important;
+}
+
+/* Sticky navbar, always on top */
+.nav{
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 200 !important;
+  overflow: visible !important;
+}
+
+/* SMALL FLAT logo — no circle, no ring, no background, no shadow */
+.nav .logo{
+  width: auto !important;
+  height: 44px !important;         /* small enough to sit neatly in the 68px bar */
+  max-width: 160px !important;
+  max-height: 44px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  grid-column: 2 !important;
+  justify-self: center !important;
+  align-self: center !important;
+  animation: none !important;      /* kill pulse */
+  transform: none !important;
+  transition: transform .3s !important;
+}
+
+/* Kill the spinning silver ring + any ::before/::after art */
+.nav .logo::before,
+.nav .logo::after{
+  display: none !important;
+  content: none !important;
+  animation: none !important;
+  border: 0 !important;
+}
+
+/* Image — flat, no circular mask, whole logo visible */
+.nav .logo img{
+  height: 100% !important;
+  width: auto !important;
+  max-width: 160px !important;
+  max-height: 44px !important;
+  object-fit: contain !important;   /* shows full logo, no cropping */
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: block !important;
+}
+
+.nav .logo:hover{
+  animation: none !important;
+  transform: scale(1.05) !important;
+}
+
+/* Slightly smaller on phones */
+@media (max-width: 900px){
+  .nav .logo{
+    height: 40px !important;
+    max-height: 40px !important;
+    max-width: 130px !important;
+  }
+  .nav .logo img{
+    max-height: 40px !important;
+    max-width: 130px !important;
+  }
+}
+@media (max-width: 420px){
+  .nav .logo{
+    height: 34px !important;
+    max-height: 34px !important;
+    max-width: 110px !important;
+  }
+  .nav .logo img{
+    max-height: 34px !important;
+    max-width: 110px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -27,8 +123,6 @@
 
   <div class="nav-left">
     <a href="index.html" class="link">Home</a>
-
-  
   </div>
 
   <a href="index.html" class="logo">
