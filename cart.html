@@ -331,7 +331,7 @@ function renderCart() {
       </div>`;
   }).join('');
 
-  const delivery = subtotal >= 10000 ? 0 : 250;
+  const delivery = subtotal >= 10000 ? 0 : 350;
   const total = subtotal + delivery;
 
   sub.textContent = `${cart.length} item${cart.length!==1?'s':''} in your cart`;

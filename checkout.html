@@ -67,8 +67,29 @@ button{font-family:inherit}
 .sum-row{display:flex;justify-content:space-between;padding:.65rem 0;font-size:.95rem;color:var(--ink)}
 .sum-row strong{color:var(--navy);font-weight:600}
 .sum-row.discount strong{color:var(--success)}
-.sum-row.total{font-family:'Cormorant Garamond',serif;font-size:1.25rem;border-top:1px solid var(--greige);margin-top:.6rem;padding-top:1rem}
-.sum-row.total strong{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700}
+.sum-row.free-ship{color:var(--success)}
+.sum-row.free-ship strong{color:var(--success);font-weight:700}
+
+/* ★ FIX: Total row uses clear Poppins font instead of Cormorant */
+.sum-row.total{
+  font-family:'Poppins',sans-serif;
+  font-size:1rem;
+  font-weight:600;
+  color:var(--navy);
+  letter-spacing:.3px;
+  border-top:2px solid var(--navy);
+  margin-top:.8rem;
+  padding-top:1.1rem;
+  align-items:baseline;
+}
+.sum-row.total strong{
+  font-family:'Poppins',sans-serif;
+  font-size:1.85rem;
+  font-weight:700;
+  letter-spacing:-.5px;
+  color:var(--navy);
+  line-height:1.1;
+}
 
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .form-group{margin-bottom:1.15rem}
@@ -161,6 +182,7 @@ button{font-family:inherit}
   .sum-item .price{grid-column:2;font-size:.92rem;margin-top:.5rem}
   .page-head h1{font-size:1.9rem}
   .card-title{font-size:1.2rem}
+  .sum-row.total strong{font-size:1.6rem}
 }
 </style>
 </head>
@@ -249,8 +271,8 @@ button{font-family:inherit}
       </div>
       <div class="form-group">
         <label for="address">Full Address <span class="req">*</span></label>
-        <textarea id="address" autocomplete="street-address" placeholder="House #, Street, Area, Landmark…"></textarea>
-        <p class="hint" id="addressHint"></p>
+        <textarea id="address" autocomplete="street-address" placeholder="House #, Street, Area, Landmark (min 5 characters)…"></textarea>
+        <p class="hint" id="addressHint">Minimum 5 characters required</p>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -276,11 +298,11 @@ button{font-family:inherit}
           </div>
         </label>
         <label class="pay-opt">
-          <span class="pay-badge">5% OFF</span>
+          <span class="pay-badge">5% OFF + FREE SHIP</span>
           <input type="radio" name="payment" value="advance">
           <div class="pay-body">
             <div class="pay-title">💳 Advance Payment</div>
-            <div class="pay-desc">HBL / EasyPaisa transfer</div>
+            <div class="pay-desc">HBL / EasyPaisa · 5% off + free delivery</div>
           </div>
         </label>
       </div>
@@ -403,7 +425,10 @@ function calcTotals(){
     if (p) { subtotal += p.price * item.qty; valid.push(item); }
     else    { unavailable.push(item); }
   });
-  const delivery = subtotal >= 10000 ? 0 : 250;
+
+  /* ★ Free delivery when subtotal ≥ 10,000 OR when Advance Payment is selected */
+  const delivery = (subtotal >= 10000 || paymentMethod === 'advance') ? 0 : 350;
+
   const discount = paymentMethod === 'advance' ? Math.round(subtotal * 0.05) : 0;
   const total    = subtotal + delivery - discount;
   return { cart, valid, unavailable, subtotal, delivery, discount, total };
@@ -485,9 +510,14 @@ function renderSummary() {
       </div>`;
   }).join('');
 
+  const freeDeliveryByAdvance = paymentMethod === 'advance' && subtotal < 10000;
+
   totalsEl.innerHTML = `
     <div class="sum-row"><span>Subtotal</span><strong>Rs. ${subtotal.toLocaleString()}</strong></div>
-    <div class="sum-row"><span>Delivery</span><strong>${delivery === 0 ? 'FREE 🎁' : 'Rs. ' + delivery}</strong></div>
+    <div class="sum-row${delivery === 0 ? ' free-ship' : ''}">
+      <span>Delivery${freeDeliveryByAdvance ? ' (Advance Payment)' : ''}</span>
+      <strong>${delivery === 0 ? 'FREE 🎁' : 'Rs. ' + delivery}</strong>
+    </div>
     ${discount ? `<div class="sum-row discount"><span>Advance Payment (5% off)</span><strong>− Rs. ${discount.toLocaleString()}</strong></div>` : ''}
     <div class="sum-row total"><span>Total</span><strong>Rs. ${total.toLocaleString()}</strong></div>
   `;
@@ -686,7 +716,8 @@ document.getElementById('checkoutForm').addEventListener('submit', async e => {
   let ok = true;
   if (name.length < 2) { showErr('name', 'Please enter your full name.'); ok = false; } else clearErr('name');
   if (!/^\d{11}$/.test(phone)) { showErr('phone', 'Enter exactly 11 digits (e.g., 03001234567).'); ok = false; } else clearErr('phone');
-  if (address.length < 5) { showErr('address', 'Please enter a complete address.'); ok = false; } else clearErr('address');
+  /* ★ Address must be at least 5 characters */
+  if (address.length < 5) { showErr('address', 'Address must be at least 5 characters long.'); ok = false; } else clearErr('address');
   if (city.length < 2)    { showErr('city', 'Please enter your city.'); ok = false; } else clearErr('city');
 
   let txnId = '';
@@ -777,7 +808,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async e => {
     noteEl.innerHTML = `<strong>💵 Cash on Delivery</strong><br>Please keep Rs. ${total.toLocaleString()} ready when the rider arrives. We'll call you on <strong>${phone}</strong> to confirm.`;
   } else {
     noteEl.className = 'note advance';
-    noteEl.innerHTML = `<strong>💳 Advance Payment — ${selectedBank}</strong><br>We'll verify your transaction (TXN: <strong>${txnId}</strong>) and confirm your order shortly on WhatsApp. 5% discount already applied.`;
+    noteEl.innerHTML = `<strong>💳 Advance Payment — ${selectedBank}</strong><br>We'll verify your transaction (TXN: <strong>${txnId}</strong>) and confirm your order shortly on WhatsApp. 5% discount + free delivery already applied.`;
   }
   document.getElementById('successModal').classList.add('open');
 

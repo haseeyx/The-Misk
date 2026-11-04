@@ -52,10 +52,13 @@ img,video{display:block;max-width:100%}
 .gallery{display:grid;gap:.9rem;animation:fadeUp .9s cubic-bezier(.2,.7,.3,1) both}
 .main-img{position:relative;background:var(--greige);border-radius:22px;overflow:hidden;
   aspect-ratio:4/5;box-shadow:0 20px 50px rgba(43,70,100,.10);cursor:zoom-in}
-.main-img img{width:100%;height:100%;object-fit:cover;
+.main-img img,
+.main-img video{width:100%;height:100%;object-fit:cover;
   transition:transform 1s cubic-bezier(.2,.7,.3,1), opacity .35s ease}
-.main-img:hover img{transform:scale(1.03)}
-.main-img.fade img{opacity:.35}
+.main-img:hover img,
+.main-img:hover video{transform:scale(1.03)}
+.main-img.fade img,
+.main-img.fade video{opacity:.35}
 .zoom-hint{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.94);
   color:var(--navy);font-size:.7rem;font-weight:500;letter-spacing:.6px;
   padding:.42rem .85rem;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.15);
@@ -199,15 +202,25 @@ img,video{display:block;max-width:100%}
   border:0;background:var(--greige);color:var(--navy);font-size:1.2rem;cursor:pointer;display:grid;place-items:center}
 .close-x:hover{background:var(--silver)}
 
-/* Zoom lightbox */
+/* ============================================================
+   ZOOM LIGHTBOX — image + video
+   ============================================================ */
 .lightbox{position:fixed;inset:0;background:rgba(8,12,20,.96);display:none;z-index:500;overflow:hidden}
 .lightbox.open{display:block;animation:fadeIn .3s ease}
 .lb-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   overflow:hidden;cursor:grab;touch-action:none}
 .lb-stage.dragging{cursor:grabbing}
-#lbImg{max-width:92vw;max-height:85vh;transform-origin:center center;
+#lbImg{
+  max-width:92vw;max-height:85vh;transform-origin:center center;
   transition:transform .12s ease-out;will-change:transform;user-select:none;
-  pointer-events:none;display:block}
+  pointer-events:none;display:block;
+}
+/* ★ Video fills the lightbox stage; object-fit:contain keeps aspect ratio */
+#lbVideo{
+  width:92vw;height:85vh;object-fit:contain;background:#000;border-radius:6px;
+  transform-origin:center center;transition:transform .12s ease-out;
+  will-change:transform;user-select:none;pointer-events:none;display:none;
+}
 .lb-close{position:absolute;top:1.2rem;right:1.2rem;width:46px;height:46px;border-radius:50%;
   border:0;background:rgba(255,255,255,.15);color:#fff;font-size:1.2rem;cursor:pointer;
   display:grid;place-items:center;z-index:2;backdrop-filter:blur(6px)}
@@ -264,7 +277,6 @@ img,video{display:block;max-width:100%}
   z-index: 1;
 }
 
-/* Spinning silver ring around the circle */
 .nav .logo::after{
   content: "";
   position: absolute;
@@ -281,7 +293,6 @@ img,video{display:block;max-width:100%}
   to { transform: rotate(360deg); }
 }
 
-/* Gentle pulse */
 @keyframes navLogoPulse{
   0%, 100% {
     transform: scale(1);
@@ -293,13 +304,11 @@ img,video{display:block;max-width:100%}
   }
 }
 
-/* Hover — stop pulse, scale + tilt */
 .nav .logo:hover{
   animation: none;
   transform: scale(1.1) rotate(6deg);
 }
 
-/* Smaller circle on mobile */
 @media (max-width: 900px){
   .nav .logo{
     width: 46px !important;
@@ -381,7 +390,7 @@ img,video{display:block;max-width:100%}
         <button class="size-btn active" data-size="M">M</button>
         <button class="size-btn" data-size="L">L</button>
       </div>
-      <p class="stock-note">✓ All sizes available — S, M, L</p>
+      <p class="stock-note"></p>
     </div>
 
     <div class="block">
@@ -406,7 +415,7 @@ img,video{display:block;max-width:100%}
 
     <div class="info-table">
       <h3>More Information</h3>
-      <div class="row"><strong>Brand</strong><span>Naaz</span></div>
+      <div class="row"><strong>Item</strong><span>Naaz</span></div>
       <div class="row"><strong>Fabric</strong><span>Cambric</span></div>
       <div class="row"><strong>Style</strong><span>Stitched · Farshi Shalwar</span></div>
       <div class="row"><strong>Colour</strong><span>White</span></div>
@@ -422,19 +431,19 @@ img,video{display:block;max-width:100%}
   <div class="modal-inner">
     <button class="close-x" id="closeChart">✕</button>
     <h3>📏 Size Chart</h3>
-    <!-- Size chart image coming soon -->
     <img src="size.jpeg" alt="size"/>
   </div>
 </div>
 
-<!-- Zoom lightbox -->
+<!-- Zoom lightbox (image + video) -->
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose">✕</button>
   <button class="lb-reset" id="lbReset">↺ Reset</button>
   <div class="lb-stage" id="lbStage">
-    <img id="lbImg" src="" draggable="false">
+    <img id="lbImg" src="" draggable="false" alt="">
+    <video id="lbVideo" playsinline loop muted preload="auto"></video>
   </div>
-  <p class="lb-hint">🖱️ Scroll to zoom · Drag to pan · Double-click to reset</p>
+  <p class="lb-hint" id="lbHint">🖱️ Scroll to zoom · Drag to pan · Double-click to reset</p>
 </div>
 
 <div class="toast" id="toast">✓ Added to cart</div>
@@ -491,7 +500,7 @@ images.forEach((src, i) => {
   t.className = 'thumb' + (i === 0 ? ' active' : '') + (isVideo ? ' video-thumb' : '');
   t.dataset.src = src;
   t.innerHTML = isVideo
-    ? `<video src="${src}" muted preload="metadata"></video>`
+    ? `<video src="${src}#t=0.1" muted preload="metadata"></video>`
     : `<img src="${src}" alt="view ${i+1}">`;
   t.onclick = () => showImage(i);
   thumbsEl.appendChild(t);
@@ -505,14 +514,22 @@ function showImage(i) {
   idx = (i + images.length) % images.length;
   const src = images[idx];
   const isVideo = /\.(mp4|webm|mov)$/i.test(src);
-  const stage = document.getElementById('mainImg');
-  const current = document.getElementById('mainImgSrc');
 
   mainImg.classList.add('fade');
 
   setTimeout(() => {
+    /* ★ Always grab the current element fresh — its tag changes
+       whenever we swap <img> ↔ <video>. */
+    const current = document.getElementById('mainImgSrc');
+    if (!current) { mainImg.classList.remove('fade'); return; }
+
     if (isVideo) {
-      current.outerHTML = `<video id="mainImgSrc" src="${src}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover"></video>`;
+      if (current.tagName !== 'VIDEO') {
+        current.outerHTML = `<video id="mainImgSrc" src="${src}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover"></video>`;
+      } else {
+        current.src = src;
+        current.play().catch(()=>{});
+      }
     } else {
       if (current.tagName === 'VIDEO') {
         current.outerHTML = `<img id="mainImgSrc" src="${src}" alt="view">`;
@@ -531,7 +548,6 @@ function startAuto() {
   clearInterval(autoTimer);
   autoTimer = setInterval(() => {
     if (paused) return;
-    // Skip auto-advance while a video is playing
     const current = document.getElementById('mainImgSrc');
     if (current && current.tagName === 'VIDEO') return;
     showImage(idx + 1);
@@ -544,29 +560,99 @@ document.getElementById('prevBtn').onclick = () => { paused = true; showImage(id
 document.getElementById('nextBtn').onclick = () => { paused = true; showImage(idx + 1); };
 startAuto();
 
-/* ---------- Zoom lightbox ---------- */
+/* ============================================================
+   ZOOM LIGHTBOX — identical gestures for image AND video
+   ============================================================ */
 const lightbox = document.getElementById('lightbox');
 const lbStage  = document.getElementById('lbStage');
 const lbImg    = document.getElementById('lbImg');
+const lbVideo  = document.getElementById('lbVideo');
+const lbHint   = document.getElementById('lbHint');
+
 let scale = 1, tx = 0, ty = 0, dragging = false, sx, sy, stx, sty;
+let activeLbMedia = lbImg;
 
-function applyLbTransform(){ lbImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; }
-function resetZoom(){ scale = 1; tx = 0; ty = 0; applyLbTransform(); }
+function applyLbTransform(){
+  (activeLbMedia || lbImg).style.transform =
+    `translate(${tx}px, ${ty}px) scale(${scale})`;
+}
+function resetZoom(){
+  scale = 1; tx = 0; ty = 0;
+  lbImg.style.transform = '';
+  lbVideo.style.transform = '';
+}
 
-mainImg.addEventListener('click', e => {
-  if (e.target.closest('.slider-arrow') || e.target.closest('.slider-dots')) return;
-  const main = document.getElementById('mainImgSrc');
-  if (main.tagName === 'VIDEO') return; // no zoom for video
-  lbImg.src = main.src;
+function openLightbox(mediaEl){
+  if (!mediaEl) return;
+  const src = mediaEl.currentSrc || mediaEl.src || '';
+  const isVid = mediaEl.tagName === 'VIDEO';
+
+  if (isVid) {
+    try { mediaEl.pause(); } catch (e) {}
+
+    lbImg.style.display = 'none';
+    lbImg.removeAttribute('src');
+
+    lbVideo.style.display = 'block';
+    lbVideo.src = src;
+    lbVideo.muted = true;
+    lbVideo.load();
+    lbVideo.play().catch(() => {
+      try { lbVideo.currentTime = 0.001; } catch (e) {}
+    });
+
+    activeLbMedia = lbVideo;
+    lbHint.textContent = 'Video · Scroll to zoom · Drag to pan · Double-click to reset';
+  } else {
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    lbVideo.style.display = 'none';
+
+    lbImg.style.display = 'block';
+    lbImg.src = src;
+
+    activeLbMedia = lbImg;
+    lbHint.textContent = '🖱️ Scroll to zoom · Drag to pan · Double-click to reset';
+  }
+
   resetZoom();
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(){
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+
+  lbVideo.pause();
+  lbVideo.removeAttribute('src');
+  lbVideo.load();
+  lbVideo.style.display = 'none';
+
+  lbImg.style.display = 'block';
+
+  scale = 1; tx = 0; ty = 0;
+  lbImg.style.transform = '';
+  lbVideo.style.transform = '';
+
+  const main = document.getElementById('mainImgSrc');
+  if (main && main.tagName === 'VIDEO') main.play().catch(()=>{});
+}
+
+/* Gallery click → open the current slide (image OR video) */
+mainImg.addEventListener('click', e => {
+  if (e.target.closest('.slider-arrow') || e.target.closest('.slider-dots')) return;
+  const main = document.getElementById('mainImgSrc');
+  if (!main) return;
+  openLightbox(main);
 });
 
-document.getElementById('lbClose').onclick = () => { lightbox.classList.remove('open'); document.body.style.overflow = ''; };
+document.getElementById('lbClose').onclick = closeLightbox;
 document.getElementById('lbReset').onclick = resetZoom;
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
+/* Wheel zoom (works on img and video — pointer-events:none lets it reach lbStage) */
 lbStage.addEventListener('wheel', e => {
   e.preventDefault();
   const r = lbStage.getBoundingClientRect();
@@ -582,6 +668,7 @@ lbStage.addEventListener('wheel', e => {
   applyLbTransform();
 }, { passive: false });
 
+/* Drag-to-pan (works on img and video) */
 lbStage.addEventListener('mousedown', e => {
   if (scale === 1) return;
   dragging = true;
@@ -597,13 +684,14 @@ document.addEventListener('mousemove', e => {
 });
 document.addEventListener('mouseup', () => { dragging = false; lbStage.classList.remove('dragging'); });
 
+/* Double-click zoom toggle (works on img and video) */
 lbStage.addEventListener('dblclick', () => {
   scale = scale > 1 ? 1 : 2.5;
   if (scale === 1) { tx = 0; ty = 0; }
   applyLbTransform();
 });
 
-/* Touch pinch */
+/* Touch pinch zoom (works on img and video) */
 let lastDist = 0;
 lbStage.addEventListener('touchstart', e => {
   if (e.touches.length === 2)

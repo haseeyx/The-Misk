@@ -17,7 +17,7 @@ html,body{overflow-x:hidden;width:100%}
 body{font-family:'Poppins',sans-serif;color:var(--navy);background:#fdfcfa;line-height:1.5}
 h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.15}
 a{text-decoration:none;color:inherit}
-img{display:block;max-width:100%}
+img,video{display:block;max-width:100%}
 
 /* Announcement */
 .announce{background:var(--navy);color:var(--greige);height:36px;overflow:hidden;display:flex;align-items:center}
@@ -52,10 +52,13 @@ img{display:block;max-width:100%}
 .gallery{display:grid;gap:.9rem;animation:fadeUp .9s cubic-bezier(.2,.7,.3,1) both}
 .main-img{position:relative;background:var(--greige);border-radius:22px;overflow:hidden;
   aspect-ratio:4/5;box-shadow:0 20px 50px rgba(43,70,100,.10);cursor:zoom-in}
-.main-img img{width:100%;height:100%;object-fit:cover;
+.main-img img,
+.main-img video{width:100%;height:100%;object-fit:cover;
   transition:transform 1s cubic-bezier(.2,.7,.3,1), opacity .35s ease}
-.main-img:hover img{transform:scale(1.03)}
-.main-img.fade img{opacity:.35}
+.main-img:hover img,
+.main-img:hover video{transform:scale(1.03)}
+.main-img.fade img,
+.main-img.fade video{opacity:.35}
 .zoom-hint{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.94);
   color:var(--navy);font-size:.7rem;font-weight:500;letter-spacing:.6px;
   padding:.42rem .85rem;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.15);
@@ -79,9 +82,12 @@ img{display:block;max-width:100%}
 
 /* Thumbs */
 .thumbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:.6rem}
-.thumb{background:var(--greige);border:2px solid transparent;border-radius:12px;overflow:hidden;
+.thumb{position:relative;background:var(--greige);border:2px solid transparent;border-radius:12px;overflow:hidden;
   aspect-ratio:1/1;cursor:pointer;padding:0;transition:border-color .3s, transform .3s, box-shadow .3s}
-.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb img,
+.thumb video{width:100%;height:100%;object-fit:cover}
+.thumb .thumb-play{position:absolute;inset:0;display:grid;place-items:center;
+  font-size:1.1rem;color:#fff;background:rgba(0,0,0,.35);pointer-events:none}
 .thumb:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(43,70,100,.15)}
 .thumb.active{border-color:var(--navy);box-shadow:0 6px 18px rgba(43,70,100,.18)}
 
@@ -190,15 +196,25 @@ img{display:block;max-width:100%}
   border:0;background:var(--greige);color:var(--navy);font-size:1.2rem;cursor:pointer;display:grid;place-items:center}
 .close-x:hover{background:var(--silver)}
 
-/* Zoom lightbox */
+/* ============================================================
+   ZOOM LIGHTBOX — image + video
+   ============================================================ */
 .lightbox{position:fixed;inset:0;background:rgba(8,12,20,.96);display:none;z-index:500;overflow:hidden}
 .lightbox.open{display:block;animation:fadeIn .3s ease}
 .lb-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   overflow:hidden;cursor:grab;touch-action:none}
 .lb-stage.dragging{cursor:grabbing}
-#lbImg{max-width:92vw;max-height:85vh;transform-origin:center center;
+#lbImg{
+  max-width:92vw;max-height:85vh;transform-origin:center center;
   transition:transform .12s ease-out;will-change:transform;user-select:none;
-  pointer-events:none;display:block}
+  pointer-events:none;display:block;
+}
+/* ★ Video fills the stage; object-fit:contain keeps aspect ratio */
+#lbVideo{
+  width:92vw;height:85vh;object-fit:contain;background:#000;border-radius:6px;
+  transform-origin:center center;transition:transform .12s ease-out;
+  will-change:transform;user-select:none;pointer-events:none;display:none;
+}
 .lb-close{position:absolute;top:1.2rem;right:1.2rem;width:46px;height:46px;border-radius:50%;
   border:0;background:rgba(255,255,255,.15);color:#fff;font-size:1.2rem;cursor:pointer;
   display:grid;place-items:center;z-index:2;backdrop-filter:blur(6px)}
@@ -254,7 +270,6 @@ img{display:block;max-width:100%}
   z-index: 1;
 }
 
-/* Spinning silver ring around the circle */
 .nav .logo::after{
   content: "";
   position: absolute;
@@ -271,7 +286,6 @@ img{display:block;max-width:100%}
   to { transform: rotate(360deg); }
 }
 
-/* Gentle pulse */
 @keyframes navLogoPulse{
   0%, 100% {
     transform: scale(1);
@@ -283,13 +297,11 @@ img{display:block;max-width:100%}
   }
 }
 
-/* Hover — stop pulse, scale + tilt */
 .nav .logo:hover{
   animation: none;
   transform: scale(1.1) rotate(6deg);
 }
 
-/* Smaller circle on mobile */
 @media (max-width: 900px){
   .nav .logo{
     width: 46px !important;
@@ -369,7 +381,6 @@ img{display:block;max-width:100%}
         <button class="size-btn disabled" data-size="L" disabled>L</button>
 
       </div>
-      <p class="stock-note">⚠️ Only Large in stock — S &amp; M sold out</p>
     </div>
 
     <div class="block">
@@ -394,7 +405,7 @@ img{display:block;max-width:100%}
 
     <div class="info-table">
       <h3>More Information</h3>
-      <div class="row"><strong>Brand</strong><span>Aura</span></div>
+      <div class="row"><strong>Item</strong><span>Aura</span></div>
       <div class="row"><strong>Fabric</strong><span>Pure Cotton</span></div>
       <div class="row"><strong>Stitched</strong><span>2pc — Shirt, Trouser</span></div>
       <div class="row"><strong>Work</strong><span>Pintuck detailing · Mandarin collar</span></div>
@@ -413,14 +424,15 @@ img{display:block;max-width:100%}
   </div>
 </div>
 
-<!-- Zoom lightbox -->
+<!-- Zoom lightbox (image + video) -->
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose">✕</button>
   <button class="lb-reset" id="lbReset">↺ Reset</button>
   <div class="lb-stage" id="lbStage">
-    <img id="lbImg" src="" draggable="false">
+    <img id="lbImg" src="" draggable="false" alt="">
+    <video id="lbVideo" playsinline loop muted preload="auto"></video>
   </div>
-  <p class="lb-hint">🖱️ Scroll to zoom · Drag to pan · Double-click to reset</p>
+  <p class="lb-hint" id="lbHint"></p>
 </div>
 
 <div class="toast" id="toast">✓ Added to cart</div>
@@ -457,13 +469,11 @@ if (typeof window.getCart === 'undefined') {
     };
   }
 }
-/* Sync badge on page load */
 updateCartBadge();
 
-/* ---------- Slider ---------- */
+/* ---------- Slider (images + video) ---------- */
 const images = ['1.png','2.png','3.png','4.png','wv.mp4'];
 const mainImg = document.getElementById('mainImg');
-const mainSrc = document.getElementById('mainImgSrc');
 const dotsEl = document.getElementById('dots');
 const thumbsEl = document.getElementById('thumbs');
 
@@ -479,7 +489,7 @@ images.forEach((src, i) => {
   t.className = 'thumb' + (i === 0 ? ' active' : '');
   t.dataset.src = src;
   t.innerHTML = isVideo
-    ? `<video src="${src}" muted preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none"></video>`
+    ? `<video src="${src}#t=0.1" muted preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none"></video><span class="thumb-play">▶</span>`
     : `<img src="${src}" alt="view ${i+1}">`;
   t.onclick = () => showImage(i);
   thumbsEl.appendChild(t);
@@ -495,21 +505,35 @@ function showImage(i) {
   setTimeout(() => {
     const src = images[idx];
     const isVideo = src.endsWith('.mp4');
+    /* ★ Always look the current element up fresh — the reference
+       changes each time we swap <img> ↔ <video>, which used to
+       break the video slide on its second visit. */
+    const current = document.getElementById('mainImgSrc');
+    if (!current) { mainImg.classList.remove('fade'); return; }
 
     if (isVideo) {
-      mainSrc.outerHTML = `<video id="mainImgSrc" src="${src}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover"></video>`;
-    } else {
-      const currentMain = document.getElementById('mainImgSrc');
-      if (currentMain.tagName === 'VIDEO') {
-        currentMain.outerHTML = `<img id="mainImgSrc" src="${src}" alt="view">`;
+      if (current.tagName !== 'VIDEO') {
+        current.outerHTML = `<video id="mainImgSrc" src="${src}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover"></video>`;
       } else {
-        currentMain.src = src;
+        current.src = src;
+        current.play().catch(()=>{});
+      }
+    } else {
+      if (current.tagName === 'VIDEO') {
+        current.outerHTML = `<img id="mainImgSrc" src="${src}" alt="view">`;
+      } else {
+        current.src = src;
       }
     }
     mainImg.classList.remove('fade');
   }, 150);
+
   dotsEl.querySelectorAll('.dot').forEach((d,n)=>d.classList.toggle('active',n===idx));
   thumbsEl.querySelectorAll('.thumb').forEach((t,n)=>t.classList.toggle('active',n===idx));
+
+  /* Pause auto-advance on the video slide */
+  if (images[idx].endsWith('.mp4')) clearInterval(autoTimer);
+  else startAuto();
 }
 
 function startAuto() {
@@ -523,29 +547,101 @@ document.getElementById('prevBtn').onclick = () => { paused = true; showImage(id
 document.getElementById('nextBtn').onclick = () => { paused = true; showImage(idx + 1); };
 startAuto();
 
-/* ---------- Zoom lightbox ---------- */
+/* ============================================================
+   ZOOM LIGHTBOX — identical gestures for image AND video
+   ============================================================ */
 const lightbox = document.getElementById('lightbox');
 const lbStage  = document.getElementById('lbStage');
 const lbImg    = document.getElementById('lbImg');
+const lbVideo  = document.getElementById('lbVideo');
+const lbHint   = document.getElementById('lbHint');
+
 let scale = 1, tx = 0, ty = 0, dragging = false, sx, sy, stx, sty;
+let activeLbMedia = lbImg;
 
-function applyLbTransform(){ lbImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; }
-function resetZoom(){ scale = 1; tx = 0; ty = 0; applyLbTransform(); }
+function applyLbTransform(){
+  (activeLbMedia || lbImg).style.transform =
+    `translate(${tx}px, ${ty}px) scale(${scale})`;
+}
+function resetZoom(){
+  scale = 1; tx = 0; ty = 0;
+  lbImg.style.transform = '';
+  lbVideo.style.transform = '';
+}
 
-mainImg.addEventListener('click', e => {
-  if (e.target.closest('.slider-arrow') || e.target.closest('.slider-dots')) return;
-  const main = document.getElementById('mainImgSrc');
-  if (main.tagName === 'VIDEO') return; // no zoom for video
-  lbImg.src = main.src;
+function openLightbox(mediaEl){
+  if (!mediaEl) return;
+  const src = mediaEl.currentSrc || mediaEl.src || '';
+  const isVid = mediaEl.tagName === 'VIDEO';
+
+  if (isVid) {
+    /* Pause the gallery video while its zoomed copy plays in the lightbox */
+    try { mediaEl.pause(); } catch (e) {}
+
+    lbImg.style.display = 'none';
+    lbImg.removeAttribute('src');
+
+    lbVideo.style.display = 'block';
+    lbVideo.src = src;
+    lbVideo.muted = true;
+    lbVideo.load();
+    lbVideo.play().catch(() => {
+      try { lbVideo.currentTime = 0.001; } catch (e) {}
+    });
+
+    activeLbMedia = lbVideo;
+    lbHint.textContent = 'Video ';
+  } else {
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    lbVideo.style.display = 'none';
+
+    lbImg.style.display = 'block';
+    lbImg.src = src;
+
+    activeLbMedia = lbImg;
+    lbHint.textContent = '';
+  }
+
   resetZoom();
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(){
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+
+  lbVideo.pause();
+  lbVideo.removeAttribute('src');
+  lbVideo.load();
+  lbVideo.style.display = 'none';
+
+  lbImg.style.display = 'block';
+
+  scale = 1; tx = 0; ty = 0;
+  lbImg.style.transform = '';
+  lbVideo.style.transform = '';
+
+  /* Resume the gallery video if we're still on that slide */
+  const main = document.getElementById('mainImgSrc');
+  if (main && main.tagName === 'VIDEO') main.play().catch(()=>{});
+}
+
+/* Gallery click → open the current slide (image OR video) */
+mainImg.addEventListener('click', e => {
+  if (e.target.closest('.slider-arrow') || e.target.closest('.slider-dots')) return;
+  const main = document.getElementById('mainImgSrc');
+  if (!main) return;
+  openLightbox(main);
 });
 
-document.getElementById('lbClose').onclick = () => { lightbox.classList.remove('open'); document.body.style.overflow = ''; };
+document.getElementById('lbClose').onclick = closeLightbox;
 document.getElementById('lbReset').onclick = resetZoom;
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
+/* Wheel zoom (works on img and video — pointer-events:none lets it reach lbStage) */
 lbStage.addEventListener('wheel', e => {
   e.preventDefault();
   const r = lbStage.getBoundingClientRect();
@@ -561,6 +657,7 @@ lbStage.addEventListener('wheel', e => {
   applyLbTransform();
 }, { passive: false });
 
+/* Drag-to-pan (works on img and video) */
 lbStage.addEventListener('mousedown', e => {
   if (scale === 1) return;
   dragging = true;
@@ -576,13 +673,14 @@ document.addEventListener('mousemove', e => {
 });
 document.addEventListener('mouseup', () => { dragging = false; lbStage.classList.remove('dragging'); });
 
+/* Double-click zoom toggle (works on img and video) */
 lbStage.addEventListener('dblclick', () => {
   scale = scale > 1 ? 1 : 2.5;
   if (scale === 1) { tx = 0; ty = 0; }
   applyLbTransform();
 });
 
-/* Touch pinch */
+/* Touch pinch zoom (works on img and video) */
 let lastDist = 0;
 lbStage.addEventListener('touchstart', e => {
   if (e.touches.length === 2)
@@ -600,7 +698,7 @@ lbStage.addEventListener('touchmove', e => {
 }, { passive: false });
 
 /* ---------- Size / qty ---------- */
-let selectedSize = 'L', qty = 1;
+let selectedSize = 'M', qty = 1;
 const qtyVal = document.getElementById('qtyVal');
 document.getElementById('sizes').addEventListener('click', e => {
   const b = e.target.closest('.size-btn');

@@ -176,7 +176,6 @@
     height: 100%;
     overflow: hidden;
     background: #0a121c;
-    /* Remove any grid gap possibility */
     margin: 0;
     padding: 0;
     border: 0;
@@ -535,6 +534,175 @@
   .foot-grid{grid-template-columns:1fr;}
   .marquee-item{font-size:.9rem;padding:.6rem 1.1rem;}
 }
+
+.nav .logo{
+  position: relative;
+  display: grid !important;
+  place-items: center;
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
+  overflow: visible !important;
+  transition: transform .35s;
+  animation: navLogoPulse 4s ease-in-out infinite;
+}
+
+.nav .logo img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* Spinning silver ring around the circle */
+.nav .logo::after{
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--silver);
+  border-right-color: rgba(188,193,197,.5);
+  animation: logoSpin 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes logoSpin{
+  to { transform: rotate(360deg); }
+}
+
+/* Gentle pulse */
+@keyframes navLogoPulse{
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 2px var(--navy), 0 6px 18px rgba(43,70,100,.18);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px var(--silver), 0 10px 24px rgba(43,70,100,.28);
+  }
+}
+
+/* Hover — stop pulse, scale + tilt */
+.nav .logo:hover{
+  animation: none;
+  transform: scale(1.1) rotate(6deg);
+}
+
+/* Smaller circle on mobile */
+@media (max-width: 900px){
+  .nav .logo{
+    width: 46px !important;
+    height: 46px !important;
+  }
+}
+
+/* ============================================================
+   ★ FIX #2 — NAV LOGO ALWAYS PERFECTLY CENTERED (all screens)
+   ============================================================ */
+.nav{ position: relative; }
+.logo-wrap{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  pointer-events: auto;
+}
+.logo-wrap .logo{ margin: 0 !important; }
+@media (max-width: 900px){
+  .logo-wrap{ top: 50%; }
+}
+
+/* ============================================================
+   ★ FIX #3 — MOBILE DROPDOWN (JS-driven, see script below)
+   The dropdown open/close is fully controlled by inline styles
+   with !important so it cannot get "stuck" from :hover state.
+   ============================================================ */
+
+/* ============================================================
+   ★ FIX #1 — FLOATING WHATSAPP BUTTON
+   ============================================================ */
+.wa-float{
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 400;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(18,140,126,.45);
+  animation: waPulse 2.6s ease-out infinite;
+  transition: transform .3s cubic-bezier(.2,.7,.3,1);
+  -webkit-tap-highlight-color: transparent;
+}
+.wa-float svg{ width: 30px; height: 30px; display: block; }
+.wa-float:hover,
+.wa-float:focus-visible{ transform: scale(1.1) rotate(6deg); }
+
+@keyframes waPulse{
+  0%   { box-shadow: 0 10px 28px rgba(18,140,126,.45), 0 0 0 0 rgba(37,211,102,.60); }
+  70%  { box-shadow: 0 10px 28px rgba(18,140,126,.45), 0 0 0 18px rgba(37,211,102,0); }
+  100% { box-shadow: 0 10px 28px rgba(18,140,126,.45), 0 0 0 0 rgba(37,211,102,0); }
+}
+
+/* Hover tooltip */
+.wa-float .wa-tip{
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  background: #0f1a28;
+  color: #fff;
+  font-size: .76rem;
+  font-weight: 500;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  padding: .5rem .8rem;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, transform .25s;
+}
+.wa-float .wa-tip::after{
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: #0f1a28;
+}
+.wa-float:hover .wa-tip,
+.wa-float:focus-visible .wa-tip{
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+@media (max-width: 600px){
+  .wa-float{ width: 52px; height: 52px; right: 14px; bottom: 14px; }
+  .wa-float svg{ width: 27px; height: 27px; }
+  .wa-float .wa-tip{ display: none; }
+}
+@media (max-width: 768px) {
+    .nav-left .dropdown {
+        position: relative;
+    }
+}
 </style>
 </head>
 <body>
@@ -551,6 +719,8 @@
   </div>
 </div>
 
+
+
 <!-- 2. NAVBAR -->
 <nav class="nav">
   <button class="hamburger" id="navToggle" aria-label="Menu">☰</button>
@@ -558,24 +728,27 @@
   <div class="nav-left">
     <a href="index.html" class="nav-link">Home</a>
     <div class="dropdown">
-      <button class="nav-link">Collections ▾</button>
+      <button class="nav-link" aria-expanded="false">Collections ▾</button>
       <ul class="dropdown-menu">
-        <li><a href="new-arrivals.html">🌟 New Arrivals</a></li>
-        <li><a href="best.html">🔥 Best Sellers</a></li>
-        <li><a href="solid.html">🎨 Solids</a></li>
-        <li><a href="basic.html">🤍 Basics</a></li>
+        <li><a href="new-arrivals.html"> New Arrivals</a></li>
+        <li><a href="best.html"> Best Sellers</a></li>
+        <li><a href="solid.html"> Solids</a></li>
+        <li><a href="basic.html"> Basics</a></li>
         <li class="dropdown-sub">
-          <button>🎀 Embroidered &amp; Formals ▸</button>
+          <button aria-expanded="false"> Embroidered &amp; Formals ▸</button>
           <ul class="dropdown-menu sub-menu">
-            <li><a href="embro.html">🌸 Embroidered</a></li>
-            <li><a href="formal.html">👑 Formals</a></li>
+            <li><a href="embro.html"> Embroidered</a></li>
+            <li><a href="formal.html"> Formals</a></li>
           </ul>
         </li>
       </ul>
     </div>
   </div>
 
-  <a href="index.html" class="logo"><img src="log.png" alt="Misk"></a>
+  <!-- ★ Logo wrapped so it can be absolutely centered on every screen -->
+  <div class="logo-wrap">
+    <a href="index.html" class="logo"><img src="log.png" alt="Misk"></a>
+  </div>
 
   <div class="nav-right">
     <button class="icon-btn" id="searchOpen" aria-label="Search">
@@ -603,12 +776,12 @@
 
       <p class="section-mini">Explore Collections</p>
       <div class="collection-list">
-        <a href="new-arrivals.html"><span class="label"><span class="emo">🌟</span> New Arrivals</span></a>
-        <a href="best.html"><span class="label"><span class="emo">🔥</span> Best Sellers</span></a>
-        <a href="basic.html"><span class="label"><span class="emo">🤍</span> Basics</span></a>
-        <a href="solid.html"><span class="label"><span class="emo">🎨</span> Solids</span></a>
-        <a href="embro.html"><span class="label"><span class="emo">🌸</span> Embroidered</span></a>
-        <a href="formal.html"><span class="label"><span class="emo">👑</span> Formals</span></a>
+        <a href="new-arrivals.html"><span class="label"><span class="emo"></span> New Arrivals</span></a>
+        <a href="best.html"><span class="label"><span class="emo"></span> Best Sellers</span></a>
+        <a href="basic.html"><span class="label"><span class="emo"></span> Basics</span></a>
+        <a href="solid.html"><span class="label"><span class="emo"></span> Solids</span></a>
+        <a href="embro.html"><span class="label"><span class="emo"></span> Embroidered</span></a>
+        <a href="formal.html"><span class="label"><span class="emo"></span> Formals</span></a>
       </div>
     </div>
   </aside>
@@ -618,6 +791,8 @@
       <div class="slide slide-image"><img src="1.PNG" alt="Misk — New Arrivals"><div class="slide-caption"><h2>New Arrivals</h2><p>Fresh silhouettes, just dropped</p></div></div>
       <div class="slide slide-image"><img src="2.PNG" alt="Misk — Best Sellers"><div class="slide-caption"><h2>Best Sellers</h2><p>Loved by thousands</p></div></div>
       <div class="slide slide-image"><img src="3.PNG" alt="Misk — Embroidered"><div class="slide-caption"><h2>Hand Embroidered</h2><p>Detail that speaks</p></div></div>
+            <div class="slide slide-image"><img src="formal/twi/T11.jpeg" alt="Misk — Best Sellers"><div class="slide-caption"><h2>Formals</h2><p>Loved by thousands</p></div></div>
+
       <div class="slide slide-image"><img src="4.PNG" alt="Misk — Solids"><div class="slide-caption"><h2>Pure Solids</h2><p>One tone. Every occasion.</p></div></div>
     </div>
 
@@ -649,18 +824,18 @@
 <!-- 4. MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee-track">
-    <a href="new-arrivals.html" class="marquee-item"><span class="emo">🌟</span> New Arrivals</a>
-    <a href="best.html" class="marquee-item"><span class="emo">🔥</span> Best Sellers</a>
-    <a href="basic.html" class="marquee-item"><span class="emo">🤍</span> Basics</a>
-    <a href="solid.html" class="marquee-item"><span class="emo">🎨</span> Solids</a>
-    <a href="embro.html" class="marquee-item"><span class="emo">🌸</span> Embroidered</a>
-    <a href="formal.html" class="marquee-item"><span class="emo">👑</span> Formals</a>
-    <a href="new-arrivals.html" class="marquee-item"><span class="emo">🌟</span> New Arrivals</a>
-    <a href="best.html" class="marquee-item"><span class="emo">🔥</span> Best Sellers</a>
-    <a href="basic.html" class="marquee-item"><span class="emo">🤍</span> Basics</a>
-    <a href="solid.html" class="marquee-item"><span class="emo">🎨</span> Solids</a>
-    <a href="embro.html" class="marquee-item"><span class="emo">🌸</span> Embroidered</a>
-    <a href="formal.html" class="marquee-item"><span class="emo">👑</span> Formals</a>
+    <a href="new-arrivals.html" class="marquee-item"><span class="emo"></span> New Arrivals</a>
+    <a href="best.html" class="marquee-item"><span class="emo"></span> Best Sellers</a>
+    <a href="basic.html" class="marquee-item"><span class="emo"></span> Basics</a>
+    <a href="solid.html" class="marquee-item"><span class="emo"></span> Solids</a>
+    <a href="embro.html" class="marquee-item"><span class="emo"></span> Embroidered</a>
+    <a href="formal.html" class="marquee-item"><span class="emo"></span> Formals</a>
+    <a href="new-arrivals.html" class="marquee-item"><span class="emo"></span> New Arrivals</a>
+    <a href="best.html" class="marquee-item"><span class="emo"></span> Best Sellers</a>
+    <a href="basic.html" class="marquee-item"><span class="emo"></span> Basics</a>
+    <a href="solid.html" class="marquee-item"><span class="emo"></span> Solids</a>
+    <a href="embro.html" class="marquee-item"><span class="emo"></span> Embroidered</a>
+    <a href="formal.html" class="marquee-item"><span class="emo"></span> Formals</a>
   </div>
 </div>
 
@@ -682,18 +857,20 @@
     <p>Handpicked pieces our community is loving right now.</p>
   </div>
   <div class="featured-grid">
+
+      <a href="formal/twi/twilight.html" class="fp-card reveal">
+      <div class="fp-media"><img src="formal/twi/T11.jpeg" alt="Sage Floral Vine 3pc" loading="lazy"></div>
+      <div class="fp-body"><span class="fp-brand">Twilight</span><h3>Sage Floral Vine 3pc</h3><p class="fp-price">Rs. 16,500</p></div>
+    </a>
     <a href="new arrivals/scarlet/ruby.html" class="fp-card reveal">
       <div class="fp-media"><img src="new arrivals/scarlet/R1.PNG" alt="Festive Ruby 3pc" loading="lazy"></div>
       <div class="fp-body"><span class="fp-brand">Scarlet Ruby</span><h3>Festive Ruby 3pc</h3><p class="fp-price">Rs. 7,800</p></div>
     </a>
     <a href="new arrivals/mirana/mirana.html" class="fp-card reveal">
       <div class="fp-media"><img src="new arrivals/mirana/1.png" alt="Soft Hue Stone Work 2pc" loading="lazy"></div>
-      <div class="fp-body"><span class="fp-brand">Solenne</span><h3>Soft Hue Stone Work 2pc</h3><p class="fp-price">Rs. 4,500</p></div>
+      <div class="fp-body"><span class="fp-brand">Mirana</span><h3>Emerald Floral Embroidered 2pc</h3><p class="fp-price">Rs. 7,200</p></div>
     </a>
-    <a href="embro/airra/airra.html" class="fp-card reveal">
-      <div class="fp-media"><img src="embro/airra/A11.jpeg" alt="Royal Purple Floral Kurta" loading="lazy"></div>
-      <div class="fp-body"><span class="fp-brand">Airra</span><h3>Royal Purple Floral Kurta 2pc</h3><p class="fp-price">Rs. 4,500</p></div>
-    </a>
+  
   </div>
 </section>
 
@@ -702,7 +879,7 @@
   <h2 class="reveal">Why Shop With Misk</h2>
   <div class="cards">
     <div class="card reveal"><div class="card-img">🚚</div><h3>COD Available</h3><p>Cash on delivery all over Pakistan.</p></div>
-    <div class="card reveal"><div class="card-img">💳</div><h3>5% Off</h3><p>On advance payment orders.</p></div>
+    <div class="card reveal"><div class="card-img">💳</div><h3>5% Off + Free Delivery</h3><p>On advance payment orders.</p></div>
     <div class="card reveal"><div class="card-img">🎁</div><h3>Free Delivery</h3><p>On shopping above Rs. 10,000.</p></div>
   </div>
 </section>
@@ -763,8 +940,8 @@
 <footer class="footer">
   <div class="badges">
     <span>🚚 COD Available All Over Pakistan</span>
-    <span>💳 5% Off on Advance Payment</span>
-    <span>🎁 Free Delivery on Shopping up to Rs. 10,000</span>
+    <span>💳 5% Off + Free Delivery on Advance Payment</span>
+    <span>🎁 Free Delivery on Shopping above Rs. 10,000</span>
   </div>
 
   <div class="foot-grid">
@@ -778,12 +955,12 @@
 
     <div>
       <h4>Shop</h4>
-      <a href="new-arrivals.html">🌟 New Arrivals</a>
-      <a href="best.html">🔥 Best Sellers</a>
-      <a href="basic.html">🤍 Basics</a>
-      <a href="solid.html">🎨 Solids</a>
-      <a href="embro.html">🌸 Embroidered</a>
-      <a href="formal.html">👑 Formals</a>
+      <a href="new-arrivals.html"> New Arrivals</a>
+      <a href="best.html">Best Sellers</a>
+      <a href="basic.html"> Basics</a>
+      <a href="solid.html"> Solids</a>
+      <a href="embro.html">Embroidered</a>
+      <a href="formal.html">Formals</a>
     </div>
 
     <div>
@@ -807,6 +984,17 @@
 </footer>
 
 <!-- ============================================================
+     ★ FLOATING WHATSAPP BUTTON  (+92 317 134 9932)
+     ============================================================ -->
+<a href="https://wa.me/923171349932" class="wa-float" target="_blank" rel="noopener"
+   aria-label="Chat with Misk on WhatsApp">
+  <span class="wa-tip">Chat with us</span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<!-- ============================================================
      SEARCH OVERLAY
      ============================================================ -->
 <div class="search-overlay" id="searchOverlay">
@@ -824,146 +1012,375 @@
 <script src="script.js"></script>
 <script>
 /* ============================================================
-   SEARCH
+   ALL INLINE LOGIC IS WRAPPED IN AN IIFE.
+   This prevents "Identifier already declared" conflicts with
+   script.js which would otherwise kill the whole script block
+   (that was the reason the mobile dropdown stopped opening).
    ============================================================ */
-const SEARCH_COLLECTIONS = [
-  { name:'New Arrivals', link:'new-arrivals.html', emoji:'🌟', keywords:'new arrivals latest fresh' },
-  { name:'Best Sellers', link:'best.html',         emoji:'🔥', keywords:'best sellers popular loved' },
-  { name:'Basics',       link:'basic.html',        emoji:'🤍', keywords:'basics daily casual essentials' },
-  { name:'Solids',       link:'solid.html',        emoji:'🎨', keywords:'solids plain pure colors' },
-  { name:'Embroidered',  link:'embro.html',        emoji:'🌸', keywords:'embroidered floral work' },
-  { name:'Formals',      link:'formal.html',       emoji:'👑', keywords:'formals festive party celebration' }
-];
+(function () {
+  'use strict';
 
-const searchOverlay = document.getElementById('searchOverlay');
-const searchInput   = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
-const searchOpenBtn = document.getElementById('searchOpen');
-const searchCloseBtn= document.getElementById('searchClose');
+  /* ==========================================================
+     1) SEARCH
+     ========================================================== */
+  var SEARCH_COLLECTIONS = [
+    { name:'New Arrivals', link:'new-arrivals.html', emoji:'🌟', keywords:'new arrivals latest fresh' },
+    { name:'Best Sellers', link:'best.html',         emoji:'🔥', keywords:'best sellers popular loved' },
+    { name:'Basics',       link:'basic.html',        emoji:'🤍', keywords:'basics daily casual essentials' },
+    { name:'Solids',       link:'solid.html',        emoji:'🎨', keywords:'solids plain pure colors' },
+    { name:'Embroidered',  link:'embro.html',        emoji:'🌸', keywords:'embroidered floral work' },
+    { name:'Formals',      link:'formal.html',       emoji:'👑', keywords:'formals festive party celebration' }
+  ];
 
-function openSearch(){
-  searchOverlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => searchInput.focus(), 80);
-  if (!searchInput.value.trim()) renderSearch('');
-}
-function closeSearch(){
-  searchOverlay.classList.remove('open');
-  document.body.style.overflow = '';
-  searchInput.value = '';
-}
+  var searchOverlay = document.getElementById('searchOverlay');
+  var searchInput   = document.getElementById('searchInput');
+  var searchResults = document.getElementById('searchResults');
+  var searchOpenBtn = document.getElementById('searchOpen');
+  var searchCloseBtn= document.getElementById('searchClose');
 
-searchOpenBtn.addEventListener('click', openSearch);
-searchCloseBtn.addEventListener('click', closeSearch);
-searchOverlay.addEventListener('click', e => {
-  if (e.target === searchOverlay) closeSearch();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && searchOverlay.classList.contains('open')) closeSearch();
-  /* Keyboard shortcut: / or Ctrl/Cmd + K opens search */
-  if ((e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) ||
-      ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) {
-    e.preventDefault(); openSearch();
+  function openSearch(){
+    searchOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ searchInput.focus(); }, 80);
+    if (!searchInput.value.trim()) renderSearch('');
   }
-});
-
-function getProducts(){
-  if (typeof window.PRODUCTS !== 'undefined' && Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
-  return [];
-}
-
-function searchAll(query){
-  const q = query.toLowerCase().trim();
-  const collections = SEARCH_COLLECTIONS.filter(c =>
-    !q || c.name.toLowerCase().includes(q) || c.keywords.includes(q)
-  );
-  let products = [];
-  if (q) {
-    products = getProducts().filter(p =>
-      (p.name || '').toLowerCase().includes(q) ||
-      (p.brand || '').toLowerCase().includes(q) ||
-      (p.tags || []).some(t => t.toLowerCase().includes(q)) ||
-      (p.collections || []).some(c => c.replace('-',' ').includes(q))
-    );
-  }
-  return { collections, products, isQuery: !!q };
-}
-
-function renderSearch(query){
-  const { collections, products, isQuery } = searchAll(query);
-
-  if (!isQuery) {
-    /* Show collections as default suggestions */
-    searchResults.innerHTML = `
-      <div class="search-hint">
-        Type to search — or press <kbd>Esc</kbd> to close<br>
-        <span style="opacity:.7">Try <kbd>ruby</kbd> · <kbd>formal</kbd> · <kbd>silk</kbd></span>
-      </div>
-      <div class="search-section">
-        <h4>Browse Collections</h4>
-        ${collections.map(c => `
-          <a href="${c.link}" class="search-item">
-            <span class="search-emo">${c.emoji}</span>
-            <span class="search-text"><strong>${c.name}</strong><small>Collection</small></span>
-          </a>
-        `).join('')}
-      </div>`;
-    return;
+  function closeSearch(){
+    searchOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    searchInput.value = '';
   }
 
-  if (!collections.length && !products.length) {
-    searchResults.innerHTML = `
-      <div class="no-results">
-        <span>🔍</span>
-        No results for "<strong>${escapeHtml(query)}</strong>"
-      </div>`;
-    return;
+  if (searchOpenBtn) searchOpenBtn.addEventListener('click', openSearch);
+  if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearch);
+  if (searchOverlay) searchOverlay.addEventListener('click', function(e){
+    if (e.target === searchOverlay) closeSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && searchOverlay.classList.contains('open')) closeSearch();
+    /* Keyboard shortcut: / or Ctrl/Cmd + K opens search */
+    if ((e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) ||
+        ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) {
+      e.preventDefault(); openSearch();
+    }
+  });
+
+  function getProducts(){
+    if (typeof window.PRODUCTS !== 'undefined' && Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
+    return [];
   }
 
-  let html = '';
-
-  if (collections.length) {
-    html += `<div class="search-section"><h4>Collections (${collections.length})</h4>`;
-    html += collections.map(c => `
-      <a href="${c.link}" class="search-item">
-        <span class="search-emo">${c.emoji}</span>
-        <span class="search-text"><strong>${c.name}</strong><small>Collection</small></span>
-      </a>
-    `).join('');
-    html += `</div>`;
+  function searchAll(query){
+    var q = query.toLowerCase().trim();
+    var collections = SEARCH_COLLECTIONS.filter(function(c){
+      return !q || c.name.toLowerCase().indexOf(q) !== -1 || c.keywords.indexOf(q) !== -1;
+    });
+    var products = [];
+    if (q) {
+      products = getProducts().filter(function(p){
+        return (p.name || '').toLowerCase().indexOf(q) !== -1 ||
+               (p.brand || '').toLowerCase().indexOf(q) !== -1 ||
+               (p.tags || []).some(function(t){ return t.toLowerCase().indexOf(q) !== -1; }) ||
+               (p.collections || []).some(function(c){ return c.replace('-',' ').indexOf(q) !== -1; });
+      });
+    }
+    return { collections: collections, products: products, isQuery: !!q };
   }
 
-  if (products.length) {
-    html += `<div class="search-section"><h4>Products (${products.length})</h4>`;
-    html += products.map(p => `
-      <a href="${p.link || '#'}" class="search-item">
-        <img src="${p.img}" alt="${escapeHtml(p.name)}" class="search-img" onerror="this.style.display='none'">
-        <span class="search-text">
-          <strong>${escapeHtml(p.name)}</strong>
-          <small>${escapeHtml(p.brand)} · Rs. ${(p.price||0).toLocaleString()}${p.soldOut ? ' · <span class="sold-tag">Sold Out</span>' : ''}</small>
-        </span>
-      </a>
-    `).join('');
-    html += `</div>`;
+  function renderSearch(query){
+    var res = searchAll(query);
+    var collections = res.collections, products = res.products, isQuery = res.isQuery;
+
+    if (!isQuery) {
+      searchResults.innerHTML =
+        '<div class="search-hint">' +
+          'Type to search — or press <kbd>Esc</kbd> to close<br>' +
+          '<span style="opacity:.7">Try <kbd>ruby</kbd> · <kbd>formal</kbd> · <kbd>silk</kbd></span>' +
+        '</div>' +
+        '<div class="search-section">' +
+          '<h4>Browse Collections</h4>' +
+          collections.map(function(c){
+            return '<a href="' + c.link + '" class="search-item">' +
+              '<span class="search-emo">' + c.emoji + '</span>' +
+              '<span class="search-text"><strong>' + c.name + '</strong><small>Collection</small></span>' +
+            '</a>';
+          }).join('') +
+        '</div>';
+      return;
+    }
+
+    if (!collections.length && !products.length) {
+      searchResults.innerHTML =
+        '<div class="no-results">' +
+          '<span>🔍</span>' +
+          'No results for "<strong>' + escapeHtml(query) + '</strong>"' +
+        '</div>';
+      return;
+    }
+
+    var html = '';
+
+    if (collections.length) {
+      html += '<div class="search-section"><h4>Collections (' + collections.length + ')</h4>';
+      html += collections.map(function(c){
+        return '<a href="' + c.link + '" class="search-item">' +
+          '<span class="search-emo">' + c.emoji + '</span>' +
+          '<span class="search-text"><strong>' + c.name + '</strong><small>Collection</small></span>' +
+        '</a>';
+      }).join('');
+      html += '</div>';
+    }
+
+    if (products.length) {
+      html += '<div class="search-section"><h4>Products (' + products.length + ')</h4>';
+      html += products.map(function(p){
+        return '<a href="' + (p.link || '#') + '" class="search-item">' +
+          '<img src="' + p.img + '" alt="' + escapeHtml(p.name) + '" class="search-img" onerror="this.style.display=\'none\'">' +
+          '<span class="search-text">' +
+            '<strong>' + escapeHtml(p.name) + '</strong>' +
+            '<small>' + escapeHtml(p.brand) + ' · Rs. ' + (p.price||0).toLocaleString() +
+            (p.soldOut ? ' · <span class="sold-tag">Sold Out</span>' : '') + '</small>' +
+          '</span>' +
+        '</a>';
+      }).join('');
+      html += '</div>';
+    }
+
+    searchResults.innerHTML = html;
   }
 
-  searchResults.innerHTML = html;
-}
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
 
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
+  var searchDebounce;
+  searchInput.addEventListener('input', function(e){
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(function(){ renderSearch(e.target.value); }, 120);
+  });
 
-let searchDebounce;
-searchInput.addEventListener('input', e => {
-  clearTimeout(searchDebounce);
-  searchDebounce = setTimeout(() => renderSearch(e.target.value), 120);
-});
+  searchResults.addEventListener('click', function(e){
+    if (e.target.closest('.search-item')) closeSearch();
+  });
 
-/* Close search when clicking a result */
-searchResults.addEventListener('click', e => {
-  if (e.target.closest('.search-item')) closeSearch();
-});
+  /* ==========================================================
+     2) MOBILE DROPDOWN — bulletproof fix
+     - Runs in the CAPTURE phase so script.js can never interfere
+     - Open/close state is written as INLINE styles with !important
+       so a stuck :hover state cannot keep it open
+     - Tapping outside, tapping a link, tapping ☰ or pressing Esc
+       always closes it
+     ========================================================== */
+  /* ==========================================================
+     2) MOBILE DROPDOWN — ONE source of truth
+     Clear BOTH classes and inline styles on close, and close
+     on pointerdown (click is unreliable for taps on mobile).
+     ========================================================== */
+  var mq = window.matchMedia('(max-width: 900px)');
+  var OPEN_ATTR = 'data-misk-open';
+
+  function menuOf(li){
+    return li.querySelector(':scope > .dropdown-menu, :scope > .sub-menu');
+  }
+
+  function openOne(li){
+    var menu = menuOf(li);
+    if (!menu) return;
+    li.setAttribute(OPEN_ATTR, '');
+    li.classList.add('open');                 /* keep classes in sync */
+    var b = li.querySelector(':scope > button');
+    if (b) b.setAttribute('aria-expanded', 'true');
+
+    var s = menu.style;
+    s.setProperty('display',        'block',    'important');
+    s.setProperty('visibility',     'visible',  'important');
+    s.setProperty('opacity',        '1',        'important');
+    s.setProperty('pointer-events', 'auto',     'important');
+    s.setProperty('transform',      'none',     'important');
+    s.setProperty('max-height',     'none',     'important');
+    s.setProperty('height',         'auto',     'important');
+    s.setProperty('position',       'relative', 'important');
+    s.setProperty('left',           'auto',     'important');
+    s.setProperty('right',          'auto',     'important');
+    s.setProperty('top',            'auto',     'important');
+    s.setProperty('bottom',         'auto',     'important');
+    s.setProperty('z-index',        '60',       'important');
+  }
+
+  function closeOne(li){
+    /* clear EVERY state — attribute, classes AND inline styles */
+    li.removeAttribute(OPEN_ATTR);
+    li.classList.remove('open', 'active');
+    var b = li.querySelector(':scope > button');
+    if (b) b.setAttribute('aria-expanded', 'false');
+    var menu = menuOf(li);
+    if (menu) menu.removeAttribute('style');
+
+    /* and any nested submenu */
+    li.querySelectorAll('.dropdown-sub').forEach(function(sub){
+      sub.removeAttribute(OPEN_ATTR);
+      sub.classList.remove('open', 'active');
+      var sb = sub.querySelector(':scope > button');
+      if (sb) sb.setAttribute('aria-expanded', 'false');
+      var sm = menuOf(sub);
+      if (sm) sm.removeAttribute('style');
+    });
+  }
+
+  function closeAll(except){
+    document.querySelectorAll('.dropdown, .dropdown-sub').forEach(function(li){
+      if (li === except) return;
+      closeOne(li);
+    });
+  }
+
+  /* ---- OUTSIDE TAP → close (pointerdown, not click) ---- */
+  document.addEventListener('pointerdown', function (e) {
+    if (!mq.matches) return;
+    var t = e.target;
+
+    /* also slide the drawer back out when tapping outside it
+       (remove these 5 lines if you don't want that) */
+    var drawer = document.querySelector('.nav-left');
+    if (drawer && drawer.classList.contains('open') &&
+        !drawer.contains(t) && !t.closest('#navToggle')) {
+      drawer.classList.remove('open');
+    }
+
+    if (!t.closest('.dropdown')) closeAll();
+  }, true);
+
+  /* ---- TAPS INSIDE THE NAVBAR ---- */
+  document.addEventListener('click', function (e) {
+    if (!mq.matches) return;
+    var t = e.target;
+
+    /* a link inside an open menu → close, then let it navigate */
+    if (t.closest('.dropdown-menu a')) { closeAll(); return; }
+
+    /* main "Collections" button */
+    var mainBtn = t.closest('.dropdown > .nav-link, .dropdown > button');
+    if (mainBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      var li = mainBtn.parentElement;
+      var wasOpen = li.hasAttribute(OPEN_ATTR) || li.classList.contains('open');
+      closeAll(li);
+      if (!wasOpen) openOne(li); else closeOne(li);
+      return;
+    }
+
+    /* nested "Embroidered & Formals" button */
+    var subBtn = t.closest('.dropdown-sub > button');
+    if (subBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      var subLi = subBtn.parentElement;
+      var wasSubOpen = subLi.hasAttribute(OPEN_ATTR) || subLi.classList.contains('open');
+      if (!wasSubOpen) openOne(subLi); else closeOne(subLi);
+      return;
+    }
+
+    /* hamburger → reset dropdowns, script.js toggles the drawer */
+    if (t.closest('#navToggle')) { closeAll(); return; }
+  }, true);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll();
+  });
+
+  function onMqChange(){ if (!mq.matches) closeAll(); }
+  if (mq.addEventListener) mq.addEventListener('change', onMqChange);
+  else if (mq.addListener) mq.addListener(onMqChange);
+
+  /* ---- CAPTURE-PHASE CLICK HANDLER (runs before script.js) ---- */
+  document.addEventListener('click', function (e) {
+    if (!mq.matches) return;                  /* desktop → normal hover */
+    var t = e.target;
+
+    /* a) clicking a link inside an opened menu → close & navigate */
+    if (t.closest('.dropdown-menu a')) {
+      closeAll();
+      return;
+    }
+
+    /* b) main "Collections" button */
+    var mainBtn = t.closest('.dropdown > .nav-link');
+    if (mainBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      var li = mainBtn.parentElement;
+      var wasOpen = li.hasAttribute(OPEN_ATTR);
+      closeAll(li);
+      if (!wasOpen) {
+        openOne(li);
+      } else {
+        closeOne(li);
+        if (document.activeElement === mainBtn) mainBtn.blur();
+      }
+      return;
+    }
+
+    /* c) nested "Embroidered & Formals" button */
+    var subBtn = t.closest('.dropdown-sub > button');
+    if (subBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      var subLi = subBtn.parentElement;
+      var wasSubOpen = subLi.hasAttribute(OPEN_ATTR);
+      /* close other siblings first */
+      subLi.parentElement.querySelectorAll('.dropdown-sub[' + OPEN_ATTR + ']').forEach(function(n){
+        if (n !== subLi) closeOne(n);
+      });
+      if (!wasSubOpen) {
+        openOne(subLi);
+      } else {
+        closeOne(subLi);
+        if (document.activeElement === subBtn) subBtn.blur();
+      }
+      return;
+    }
+
+    /* d) hamburger → reset dropdowns (script.js opens/closes drawer) */
+    if (t.closest('#navToggle')) {
+      closeAll();
+      return;
+    }
+
+    /* e) tap anywhere else → close everything */
+    if (!t.closest('.dropdown')) {
+      closeAll();
+    }
+  }, true); /* ← capture = true : runs before script.js handlers */
+
+  /* Esc closes */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll();
+  });
+
+  /* Back to desktop → clean up */
+  function onMqChange(){
+    if (!mq.matches) closeAll();
+  }
+  if (mq.addEventListener) mq.addEventListener('change', onMqChange);
+  else if (mq.addListener) mq.addListener(onMqChange);
+
+})();
+
+
+
+
+
+
+
 </script>
+
+
+
 </body>
 </html>
