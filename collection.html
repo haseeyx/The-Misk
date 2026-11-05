@@ -29,12 +29,12 @@
 
 <script>
 const names = {
-  'new-arrivals' : 'New Arrivals 🌟',
-  'best-sellers' : 'Best Sellers 🔥',
-  'solids'       : 'Solids 🎨',
-  'basics'       : 'Basics 🤍',
-  'embroidered'  : 'Embroidered 🌸',
-  'formals'      : 'Formals 👑'
+  'new-arrivals' : 'New Arrivals ',
+  'best-sellers' : 'Best Sellers ',
+  'solids'       : 'Solids ',
+  'basics'       : 'Basics ',
+  'embroidered'  : 'Embroidered ',
+  'formals'      : 'Formals '
 };
 const key = new URLSearchParams(location.search).get('c') || 'new-arrivals';
 document.getElementById('title').textContent = names[key] || 'Collection';

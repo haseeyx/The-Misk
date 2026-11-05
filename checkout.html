@@ -184,6 +184,48 @@ button{font-family:inherit}
   .card-title{font-size:1.2rem}
   .sum-row.total strong{font-size:1.6rem}
 }
+
+.nav{
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+}
+
+/* Force the logo into the middle column, centred both ways */
+.nav .logo{
+  grid-column: 2 !important;
+  justify-self: center !important;
+  align-self: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Image — stays small, aspect ratio preserved, centered */
+.nav .logo img{
+  display: block !important;
+  height: 40px !important;
+  width: auto !important;
+  max-width: 140px !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+}
+
+/* Smaller on phones so it doesn't crowd the nav links */
+@media (max-width: 900px){
+  .nav .logo img{
+    height: 36px !important;
+    max-width: 120px !important;
+  }
+}
+@media (max-width: 420px){
+  .nav .logo img{
+    height: 32px !important;
+    max-width: 100px !important;
+  }
+}
 </style>
 </head>
 <body>

@@ -607,29 +607,19 @@
 }
 
 /* ============================================================
-   ★★★ NAV LOGO — FINAL: HUGE, FLAT, OVERFLOWING THE NAVBAR ★★★
+   ★ NAVBAR — STICKY + LOGO SMALL + PERFECTLY CENTERED
    ============================================================ */
-
-/* ============================================================
-   ★ NAVBAR — STICKY + LOGO SMALL + PERFECTLY CENTERED ★
-   ============================================================ */
-
-/* CRITICAL: 'clip' does NOT create a scroll container,
-   so position:sticky on .nav keeps working.
-   (style.css uses 'hidden' which breaks sticky.) */
 html, body{
   overflow-x: clip !important;
 }
 
-/* Sticky navbar, always on top */
 .nav{
   position: sticky !important;
   top: 0 !important;
-  z-index: 200 !important;         /* above hero / marquee / sections */
+  z-index: 200 !important;
   overflow: visible !important;
 }
 
-/* Centering wrapper — locks logo dead centre on every screen */
 .logo-wrap{
   position: absolute !important;
   left: 50% !important;
@@ -647,11 +637,10 @@ html, body{
   pointer-events: auto !important;
 }
 
-/* SMALL logo — fits comfortably inside the 68px navbar */
 .nav .logo{
   width: auto !important;
   min-width: 0 !important;
-  height: 52px !important;         /* small, fits in navbar */
+  height: 52px !important;
   max-height: 52px !important;
   border-radius: 0 !important;
   background: transparent !important;
@@ -667,7 +656,6 @@ html, body{
   transition: transform .3s ease !important;
 }
 
-/* Kill the spinning ring + pulse from style.css */
 .nav .logo::before,
 .nav .logo::after{
   display: none !important;
@@ -676,7 +664,6 @@ html, body{
   border: 0 !important;
 }
 
-/* Image — full logo, no circle, no crop */
 .nav .logo img{
   height: 100% !important;
   width: auto !important;
@@ -695,7 +682,6 @@ html, body{
   transform: scale(1.05) !important;
 }
 
-/* Slightly smaller on phones so it never eats the nav icons */
 @media (max-width: 900px){
   .nav .logo{ height: 46px !important; max-height: 46px !important; }
   .nav .logo img{ max-height: 46px !important; }
@@ -705,17 +691,6 @@ html, body{
   .nav .logo img{ max-height: 40px !important; }
 }
 
-/* Footer logo — flat, no circle */
-.foot-brand img{
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  animation: none !important;
-  width: auto !important;
-  height: 64px !important;
-  object-fit: contain !important;
-}
-/* Footer logo — flat, no circle */
 .foot-brand img{
   border-radius: 0 !important;
   background: transparent !important;
@@ -729,15 +704,15 @@ html, body{
 </head>
 <body>
 
-<!-- 1. ANNOUNCEMENT -->
+<!-- 1. ANNOUNCEMENT — DELIVERY THEMED -->
 <div class="announce">
   <div class="announce-track">
-    <span>👑 Premium Dresses — Elegance Redefined</span>
-    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
-    <span>✨ New Collection Live Now — Shop Today</span>
-    <span>👑 Premium Dresses — Elegance Redefined</span>
-    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
-    <span>✨ New Collection Live Now — Shop Today</span>
+    <span>🚚 COD Available All Over Pakistan</span>
+    <span>🎁 Get Free Delivery on Shopping above Rs. 10,000</span>
+    <span>💳 Get 5% Off &amp; Free Delivery on Advance Payment</span>
+    <span>🚚 COD Available All Over Pakistan</span>
+    <span>🎁 Get Free Delivery on Shopping above Rs. 10,000</span>
+    <span>💳 Get 5% Off &amp; Free Delivery on Advance Payment</span>
   </div>
 </div>
 
@@ -864,7 +839,7 @@ html, body{
   <h2 class="reveal">Crafted for Every <em>You</em></h2>
   <p class="lead reveal">From premium silhouettes to easy daily basics — Misk brings timeless women's wear, delivered to your door anywhere in Pakistan.</p>
   <div class="cards">
-    <a class="card reveal" href="new-arrivals.html"><div class="card-img">👗</div><h3>Premium Dresses</h3><p>Statement pieces for every occasion.</p></a>
+    <a class="card reveal" href="new-arrivals.html"><div class="card-img">👗</div><h3>Fresh Arrival</h3><p>Statement pieces for every occasion.</p></a>
     <a class="card reveal" href="basic.html"><div class="card-img">🌿</div><h3>Casual &amp; Daily</h3><p>Soft, breathable, everyday comfort.</p></a>
     <a class="card reveal" href="formal.html"><div class="card-img">✨</div><h3>Embroidered &amp; Formals</h3><p>Hand-finished detail for celebrations.</p></a>
   </div>
@@ -969,7 +944,7 @@ html, body{
       <img src="log.png" alt="Misk">
       <p>Timeless women's wear, made for everyday elegance. Designed in Pakistan, delivered to your door.</p>
       <div class="foot-socials">
-      
+
       </div>
     </div>
 
@@ -1029,8 +1004,35 @@ html, body{
 </div>
 
 <script src="products.js"></script>
-<script src="script.js"></script>
+<script src="script.js">
+  
+</script>
 <script>
+
+
+
+
+window.PRODUCTS = [
+  { id:'festive-ruby',         brand:'Scarlet Ruby',  name:'Festive Ruby 3pc',                price:7800,  img:'new arrivals/ruby/R1.PNG',      link:'new arrivals/ruby/ruby.html',          sizes:['S','M','L'], collections:['new-arrivals','embroidered'],               tags:['Festive','Embroidered'] },
+  { id:'emerald-mandarin',     brand:'Aura',          name:'Emerald Mandarin Collar 2pc',     price:4500,  img:'new arrivals/aura/1.png',       link:'new arrivals/aura/aura.html',          sizes:['S','M','L'], collections:['new-arrivals','solids'],                    tags:['Daily','Minimal'] },
+  { id:'emerald-floral',       brand:'Mirana',        name:'Emerald Floral Embroidered 2pc',  price:7200,  img:'new arrivals/mirana/1.png',     link:'new arrivals/mirana/mirana.html',      sizes:['S','M','L'], collections:['new-arrivals'],                             tags:['Embroidered','Festive'] },
+  { id:'farshi-white',         brand:'Naaz',          name:'Farshi Shalwar — White',          price:4800,  img:'new arrivals/naaz/n2.PNG',      link:'new arrivals/naaz/naaz.html',          sizes:['S','M','L'], collections:['new-arrivals','best-sellers'],              tags:['Farshi','Gota'] },
+  { id:'midnight-black',       brand:'Zar-e-Siyaah',  name:'Midnight Black 3pc',              price:7500,  img:'new arrivals/zar/Z11.JPEG',     link:'new arrivals/zar/zar.html',            sizes:['S','M','L'], collections:['new-arrivals','best-sellers','embroidered'], tags:['Formal','Festive'] },
+  { id:'khaki-printed',        brand:'Khaki',         name:'Printed Lawn 2pc',                price:6200,  img:'best/khaki/K1.PNG',             link:'best/khaki/khaki.html',                sizes:['S','M','L'], collections:['best-sellers','basics'],                    tags:['Printed','Lawn'],                soldOut:true },
+  { id:'noor-maroon',          brand:'Noor',          name:'Maroon Cutwork Shirt 2pc',        price:14500, img:'best/noor/N11.jpeg',            link:'best/noor/noor.html',                  sizes:['S','M','L'], collections:['best-sellers','formal'],                    tags:['Cutwork','Embroidered'],         soldOut:true },
+  { id:'twilight-sage-vine',   brand:'Twilight Bloom', name:'Sage Floral Vine 3pc',           price:16500, img:'formal/twi/T11.jpeg',           link:'formal/twi/twilight.html',             sizes:['S','M','L'], collections:['formal'],                                   tags:['Russian Silk','Embroidered'] },
+  { id:'boxy-white',           brand:'Boxy',          name:'Long Embroidered Shirt — White',  price:7500,  img:'best/boxy/w4.jpeg',             link:'best/boxy/boxy.html?id=white',         sizes:['S','M','L'], collections:['best-sellers','embroidered'],               tags:['Embroidered','White'],           soldOut:true },
+  { id:'boxy-green',           brand:'Boxy',          name:'Long Embroidered Shirt — Green',  price:7500,  img:'best/boxy/g2.jpeg',             link:'best/boxy/boxy.html?id=green',         sizes:['S','M','L'], collections:['best-sellers','embroidered'],               tags:['Embroidered','Green'],           soldOut:true },
+  { id:'tea-pink-embroidered', brand:'Riaa',          name:'Tea Pink Embroidered 2pc',        price:4650,  img:'basic/riaa/RI1.jpeg',           link:'basic/riaa/riaa.html',                 sizes:['S','M','L'], collections:['basics'],                                   tags:['Embroidered','Daily'] },
+  { id:'black-embroidered',    brand:'Naya',          name:'Black Embroidered 2pc',           price:3800,  img:'basic/naya/N1.PNG',             link:'basic/naya/naya.html',                 sizes:['S','M','L'], collections:['basics'],                                   tags:['Embroidered','Daily'],           soldOut:true },
+  { id:'amethyst-boat-cowl',   brand:'Amethyst',      name:'Royal Blue Boat Cowl 2pc',        price:3200,  img:'solid/ame/am1.PNG',             link:'solid/ame/amethyst.html',              sizes:['S','M','L'], collections:['solids'],                                   tags:['Cowl','Embellished'],            soldOut:true },
+  { id:'sage-v-pleat',         brand:'Sage',          name:'Green V-Pleat Long Shirt 2pc',    price:0,     img:'solid/sage/s1.PNG',             link:'solid/sage/sage.html',                 sizes:['S','M','L'], collections:['solids'],                                   tags:['Pleated','Long Shirt'],          soldOut:true, priceTBA:true },
+  { id:'solenne-stone',        brand:'Solenne',       name:'Soft Hue Stone Work 2pc',         price:4500,  img:'solid/sole/S11.PNG',            link:'solid/sole/solenne.html',              sizes:['S','M','L'], collections:['solids','embroidered'],                     tags:['Stone Work','Embellished'] },
+  { id:'ruby-fringe',          brand:'Ruby',          name:'Fringes & Buttons 2pc',           price:3500,  img:'solid/ruby/r1.PNG',             link:'solid/ruby/ruby.html',                 sizes:['S','M','L'], collections:['solids'],                                   tags:['Georgette','Fringes'],           soldOut:true },
+  { id:'flare-button',         brand:'Flare',         name:'Straight-Cut Button-Down 2pc',    price:3800,  img:'solid/flair/f1.PNG',            link:'solid/flair/flare.html',               sizes:['S','M','L'], collections:['solids'],                                   tags:['Georgette','Off White'],         soldOut:true },
+  { id:'airra-purple-kurta',   brand:'Airra',         name:'Royal Purple Floral Kurta 2pc',   price:4500,  img:'embro/airra/A11.jpeg',          link:'embro/airra/airra.html',               sizes:['S','M','L'], collections:['embroidered'],                              tags:['Floral','Kurta'] }
+];
+console.log('[Misk] Inline products loaded:', window.PRODUCTS.length);
 /* ============================================================
    ALL INLINE LOGIC IS WRAPPED IN AN IIFE.
    This prevents "Identifier already declared" conflicts with
@@ -1041,21 +1043,26 @@ html, body{
 
   /* ==========================================================
      1) SEARCH
+     ==========================================================
+     Collections now show IMAGES (1.png … 6.png) instead of emoji.
+     The product search already matches on brand (Aura, Mirana,
+     Scarlet Ruby, Noor, Boxy, Khaki, Naaz, etc.) because the
+     filter checks p.brand — nothing extra needed here.
      ========================================================== */
   var SEARCH_COLLECTIONS = [
-    { name:'New Arrivals', link:'new-arrivals.html', emoji:'🌟', keywords:'new arrivals latest fresh' },
-    { name:'Best Sellers', link:'best.html',         emoji:'🔥', keywords:'best sellers popular loved' },
-    { name:'Basics',       link:'basic.html',        emoji:'🤍', keywords:'basics daily casual essentials' },
-    { name:'Solids',       link:'solid.html',        emoji:'🎨', keywords:'solids plain pure colors' },
-    { name:'Embroidered',  link:'embro.html',        emoji:'🌸', keywords:'embroidered floral work' },
-    { name:'Formals',      link:'formal.html',       emoji:'👑', keywords:'formals festive party celebration' }
+    { name:'New Arrivals', link:'new-arrivals.html', img:'new arrivals/mirana/1.png', keywords:'new arrivals latest fresh' },
+    { name:'Best Sellers', link:'best.html',         img:'new arrivals/zar/Z12.JPEG', keywords:'best sellers popular loved' },
+    { name:'Basics',       link:'basic.html',        img:'basic/riaa/RI1.jpeg', keywords:'basics daily casual essentials' },
+    { name:'Solids',       link:'solid.html',        img:'solid/Ame/am1.PNG', keywords:'solids plain pure colors' },
+    { name:'Embroidered',  link:'embro.html',        img:'embro/airra/A11.jpeg', keywords:'embroidered floral work' },
+    { name:'Formals',      link:'formal.html',       img:'formal/twi/T11.jpeg', keywords:'formals festive party celebration' }
   ];
 
-  var searchOverlay = document.getElementById('searchOverlay');
-  var searchInput   = document.getElementById('searchInput');
-  var searchResults = document.getElementById('searchResults');
-  var searchOpenBtn = document.getElementById('searchOpen');
-  var searchCloseBtn= document.getElementById('searchClose');
+  var searchOverlay  = document.getElementById('searchOverlay');
+  var searchInput    = document.getElementById('searchInput');
+  var searchResults  = document.getElementById('searchResults');
+  var searchOpenBtn  = document.getElementById('searchOpen');
+  var searchCloseBtn = document.getElementById('searchClose');
 
   function openSearch(){
     searchOverlay.classList.add('open');
@@ -1069,9 +1076,9 @@ html, body{
     searchInput.value = '';
   }
 
-  if (searchOpenBtn) searchOpenBtn.addEventListener('click', openSearch);
+  if (searchOpenBtn)  searchOpenBtn.addEventListener('click', openSearch);
   if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearch);
-  if (searchOverlay) searchOverlay.addEventListener('click', function(e){
+  if (searchOverlay)  searchOverlay.addEventListener('click', function(e){
     if (e.target === searchOverlay) closeSearch();
   });
   document.addEventListener('keydown', function(e){
@@ -1082,10 +1089,15 @@ html, body{
     }
   });
 
-  function getProducts(){
-    if (typeof window.PRODUCTS !== 'undefined' && Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
-    return [];
-  }
+ function getProducts(){
+  /* Works whether PRODUCTS is declared with var (→ window.PRODUCTS)
+     or const/let (→ only accessible by name). */
+  try {
+    if (typeof PRODUCTS !== 'undefined' && Array.isArray(PRODUCTS)) return PRODUCTS;
+  } catch (e) { /* PRODUCTS not yet defined */ }
+  if (typeof window.PRODUCTS !== 'undefined' && Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
+  return [];
+}
 
   function searchAll(query){
     var q = query.toLowerCase().trim();
@@ -1094,6 +1106,7 @@ html, body{
     });
     var products = [];
     if (q) {
+      /* Matches: product name, brand name, tags, collection id */
       products = getProducts().filter(function(p){
         return (p.name || '').toLowerCase().indexOf(q) !== -1 ||
                (p.brand || '').toLowerCase().indexOf(q) !== -1 ||
@@ -1104,24 +1117,34 @@ html, body{
     return { collections: collections, products: products, isQuery: !!q };
   }
 
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  /* Collection row — image thumbnail (falls back to hidden if image missing) */
+  function collectionRow(c){
+    return '<a href="' + c.link + '" class="search-item">' +
+      '<img src="' + c.img + '" alt="" class="search-img" onerror="this.style.opacity=\'0\'">' +
+      '<span class="search-text"><strong>' + escapeHtml(c.name) + '</strong><small>Collection</small></span>' +
+    '</a>';
+  }
+
   function renderSearch(query){
     var res = searchAll(query);
     var collections = res.collections, products = res.products, isQuery = res.isQuery;
 
+    /* Empty state — hint + all collections */
     if (!isQuery) {
       searchResults.innerHTML =
         '<div class="search-hint">' +
           'Type to search — or press <kbd>Esc</kbd> to close<br>' +
-          '<span style="opacity:.7">Try <kbd>ruby</kbd> · <kbd>formal</kbd> · <kbd>silk</kbd></span>' +
+          '<span style="opacity:.7">Try <kbd>aura</kbd> · <kbd>mirana</kbd> · <kbd>ruby</kbd> · <kbd>formal</kbd></span>' +
         '</div>' +
         '<div class="search-section">' +
           '<h4>Browse Collections</h4>' +
-          collections.map(function(c){
-            return '<a href="' + c.link + '" class="search-item">' +
-              '<span class="search-emo">' + c.emoji + '</span>' +
-              '<span class="search-text"><strong>' + c.name + '</strong><small>Collection</small></span>' +
-            '</a>';
-          }).join('') +
+          collections.map(collectionRow).join('') +
         '</div>';
       return;
     }
@@ -1139,12 +1162,7 @@ html, body{
 
     if (collections.length) {
       html += '<div class="search-section"><h4>Collections (' + collections.length + ')</h4>';
-      html += collections.map(function(c){
-        return '<a href="' + c.link + '" class="search-item">' +
-          '<span class="search-emo">' + c.emoji + '</span>' +
-          '<span class="search-text"><strong>' + c.name + '</strong><small>Collection</small></span>' +
-        '</a>';
-      }).join('');
+      html += collections.map(collectionRow).join('');
       html += '</div>';
     }
 
@@ -1164,12 +1182,6 @@ html, body{
     }
 
     searchResults.innerHTML = html;
-  }
-
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, function(c){
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-    });
   }
 
   var searchDebounce;
