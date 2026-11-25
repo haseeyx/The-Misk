@@ -1064,7 +1064,16 @@ renderSummary();
 renderBankInfo();
 </script>
 </body>
-</html> -->
+</html>
+
+
+
+
+
+
+
+
+ -->
 
 
 
@@ -1076,7 +1085,13 @@ renderBankInfo();
 
 
 
-<!DOCTYPE html>
+
+
+
+
+
+
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1088,7 +1103,7 @@ renderBankInfo();
 <style>
 :root{--navy:#2B4664;--silver:#BCC1C5;--greige:#E8E1D8;--ink:#5f6b78;
   --success:#2e7d5b;--danger:#c0392b;--hbl:#0b3d91;--easypaisa:#00a651;--warn:#d97706;
-  --gold:#E8C98A;--gold-deep:#7a5a12}
+  --gold:#E8C98A;--gold-soft:#F3DFAE}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden;width:100%}
 body{font-family:'Poppins',sans-serif;color:#1f2d3d;background:#fdfcfa;line-height:1.6;font-size:15px}
@@ -1098,7 +1113,7 @@ img{display:block;max-width:100%}
 button{font-family:inherit}
 
 .announce{background:var(--navy);color:var(--greige);height:36px;overflow:hidden;display:flex;align-items:center}
-.announce-track{display:flex;gap:3.5rem;width:max-content;white-space:nowrap;font-size:.8rem;letter-spacing:.4px;animation:scroll 30s linear infinite}
+.announce-track{display:flex;gap:3.5rem;width:max-content;white-space:nowrap;font-size:.8rem;letter-spacing:.4px;animation:scroll 26s linear infinite}
 .announce-track span{white-space:nowrap}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -1112,59 +1127,97 @@ button{font-family:inherit}
 .cart-btn svg{width:22px;height:22px}
 .badge{position:absolute;top:-2px;right:-6px;background:var(--navy);color:#fff;font-size:.62rem;min-width:16px;height:16px;border-radius:50%;display:grid;place-items:center}
 
-/* ═══════════════ BLESSED FRIDAY SALE BAR ═══════════════ */
-.sale-bar{
-  background:linear-gradient(120deg,#2B4664 0%,#1c3149 55%,#2B4664 100%);
-  color:#fff;padding:.85rem 1.4rem;position:relative;overflow:hidden;
-  border-bottom:1px solid rgba(232,225,216,.15);
-}
-.sale-bar::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(circle at 12% 50%,rgba(232,201,138,.20),transparent 55%),
-             radial-gradient(circle at 88% 50%,rgba(232,201,138,.14),transparent 55%);
-}
-.sale-bar-inner{
-  max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;
-  gap:1rem;flex-wrap:wrap;position:relative;z-index:1;
-}
-.sale-info{display:flex;align-items:center;gap:.8rem}
-.sale-info .spark{font-size:1.5rem;line-height:1;animation:sparkPulse 2s ease-in-out infinite}
-@keyframes sparkPulse{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.18) rotate(-6deg)}}
-.sale-info strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:700;letter-spacing:.3px;color:#fff;line-height:1.15}
-.sale-info small{display:block;font-size:.72rem;letter-spacing:.9px;color:var(--gold);font-weight:600;text-transform:uppercase;margin-top:.1rem}
-.sale-timer{display:flex;align-items:center;gap:.3rem}
-.t-box{
-  min-width:52px;padding:.35rem .45rem;text-align:center;border-radius:9px;
-  background:rgba(255,255,255,.09);border:1px solid rgba(232,201,138,.32);
-  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
-}
-.t-num{display:block;font-size:1.22rem;font-weight:700;line-height:1.1;color:#F3DFAE;font-variant-numeric:tabular-nums}
-.t-lbl{display:block;font-size:.56rem;letter-spacing:1.1px;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:.18rem}
-.t-sep{color:rgba(232,201,138,.7);font-weight:700;font-size:1rem;align-self:center;padding-bottom:.35rem}
-
-/* ═══════════════ SALE NOTE INSIDE SUMMARY ═══════════════ */
-.sale-note{
-  background:linear-gradient(120deg,#fdf6e7,#faf0d9);
-  border:1px dashed #d9b968;border-radius:12px;
-  padding:.7rem 1rem;font-size:.86rem;color:var(--gold-deep);
-  margin-bottom:1.1rem;text-align:center;font-weight:500;line-height:1.5;
-}
-.sale-note strong{color:#5c430c;font-weight:700}
-
-.ship-hint{
-  font-size:.78rem;color:#8a5a3a;background:#fdf6f0;border:1px dashed #e8c9a8;
-  border-radius:8px;padding:.45rem .7rem;margin:.1rem 0 .65rem;text-align:center;line-height:1.45;
-}
-
 .crumb{max-width:900px;margin:1.4rem auto 0;padding:0 1.4rem;font-size:.82rem;color:#7a8694;letter-spacing:.5px}
 .crumb a{color:var(--navy);opacity:.85;font-weight:500}
 .crumb a:hover{opacity:1;text-decoration:underline}
 .crumb span{opacity:.65}
 
 .checkout{max-width:900px;margin:1.4rem auto 3rem;padding:0 1.4rem}
-.page-head{text-align:center;margin-bottom:2rem}
+.page-head{text-align:center;margin-bottom:1.6rem}
 .page-head h1{font-size:clamp(2.1rem,4.5vw,2.9rem);letter-spacing:-.3px;margin-bottom:.4rem}
 .page-head p{font-size:1rem;color:#55606b;font-weight:400}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎉 BLESSED FRIDAY SALE — upper banner with countdown
+   ═══════════════════════════════════════════════════════════════ */
+.sale-banner{
+  background:linear-gradient(120deg,#2B4664 0%,#1c3149 55%,#2B4664 100%);
+  color:#fff;
+  border-radius:16px;
+  padding:1rem 1.4rem;
+  margin-bottom:1.4rem;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(232,201,138,.25);
+  box-shadow:0 10px 26px -14px rgba(43,70,100,.55);
+  animation:saleIn .6s cubic-bezier(.22,.9,.32,1) both;
+}
+@keyframes saleIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:none;}}
+.sale-banner::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 12% 50%,rgba(232,201,138,.20),transparent 55%),
+             radial-gradient(circle at 88% 50%,rgba(232,201,138,.14),transparent 55%);
+}
+.sale-banner-inner{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+}
+.sale-banner-text{display:flex;align-items:center;gap:.7rem;flex:1 1 auto;min-width:0;}
+.sale-banner-text .sale-spark{
+  font-size:1.3rem;line-height:1;flex-shrink:0;
+  animation:sparkPulse 2s ease-in-out infinite;
+}
+@keyframes sparkPulse{
+  0%,100%{transform:scale(1) rotate(0);}
+  50%{transform:scale(1.15) rotate(-6deg);}
+}
+.sale-banner-text strong{
+  display:block;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:700;color:#fff;line-height:1.15;
+}
+.sale-banner-text small{
+  display:block;font-size:.72rem;color:rgba(255,255,255,.78);
+  margin-top:.18rem;letter-spacing:.3px;line-height:1.5;
+}
+.sale-banner-text small b{
+  color:var(--gold-soft);font-weight:700;
+  text-decoration:underline;text-decoration-color:rgba(243,223,174,.5);
+  text-underline-offset:2px;cursor:pointer;
+  transition:color .2s;
+}
+.sale-banner-text small b:hover{color:#fff;}
+.sale-banner-timer{display:flex;align-items:center;gap:.3rem;flex-shrink:0;}
+.st-box{
+  min-width:46px;padding:.3rem .42rem;text-align:center;
+  border-radius:8px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(232,201,138,.30);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+.st-box span{
+  display:block;font-size:1rem;font-weight:700;line-height:1.1;
+  color:var(--gold-soft);font-variant-numeric:tabular-nums;
+}
+.st-box small{
+  display:block;font-size:.48rem;letter-spacing:.9px;text-transform:uppercase;
+  color:rgba(255,255,255,.7);margin-top:.1rem;
+}
+.st-sep{
+  color:rgba(232,201,138,.7);font-weight:700;font-size:.85rem;
+  align-self:center;padding-bottom:.3rem;
+}
+@media(max-width:700px){
+  .sale-banner{padding:.85rem 1rem;}
+  .sale-banner-inner{justify-content:center;text-align:center;}
+  .sale-banner-text{justify-content:center;flex:1 1 100%;text-align:center;}
+  .sale-banner-text strong{font-size:1.05rem;}
+  .sale-banner-text small{font-size:.66rem;}
+  .sale-banner-timer{justify-content:center;}
+  .st-box{min-width:40px;}
+  .st-box span{font-size:.9rem;}
+}
 
 .card{background:#fff;border:1px solid var(--greige);border-radius:18px;padding:1.8rem;margin-bottom:1.2rem;animation:fadeUp .5s cubic-bezier(.2,.7,.3,1) both;box-shadow:0 4px 16px rgba(43,70,100,.04)}
 .card-title{font-size:1.4rem;letter-spacing:-.2px;margin-bottom:1.3rem;display:flex;align-items:center;gap:.65rem;padding-bottom:.85rem;border-bottom:1px dashed var(--greige)}
@@ -1261,7 +1314,6 @@ button{font-family:inherit}
   margin-top:.55rem;
   font-size:.82rem;
   font-weight:500;
-  line-height:1.45;
 }
 .promo-msg.ok{color:var(--success)}
 .promo-msg.err{color:var(--danger)}
@@ -1385,16 +1437,6 @@ button{font-family:inherit}
   .page-head h1{font-size:1.9rem}
   .card-title{font-size:1.2rem}
   .sum-row.total strong{font-size:1.6rem}
-
-  /* sale bar mobile */
-  .sale-bar{padding:.85rem 1rem}
-  .sale-bar-inner{justify-content:center;text-align:center}
-  .sale-info{flex-direction:column;gap:.15rem;text-align:center}
-  .sale-info strong{font-size:1.1rem}
-  .sale-info small{font-size:.66rem}
-  .t-box{min-width:44px;padding:.3rem .3rem}
-  .t-num{font-size:1rem}
-  .t-lbl{font-size:.5rem;letter-spacing:.8px}
 }
 
 .nav{
@@ -1434,11 +1476,11 @@ button{font-family:inherit}
   <div class="announce-track">
     <span>👑 Premium Dresses — Elegance Redefined</span>
     <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
-    <span>🎉 Blessed Friday Sale — Flat 25% OFF till 30 Nov</span>
+    <span>🎉 Blessed Friday Sale — Use code "Blessed" for 25% OFF</span>
     <span>✨ New Collection Live Now — Shop Today</span>
     <span>👑 Premium Dresses — Elegance Redefined</span>
     <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
-    <span>🎉 Blessed Friday Sale — Flat 25% OFF till 30 Nov</span>
+    <span>🎉 Blessed Friday Sale — Use code "Blessed" for 25% OFF</span>
     <span>✨ New Collection Live Now — Shop Today</span>
   </div>
 </div>
@@ -1457,29 +1499,6 @@ button{font-family:inherit}
     </a>
   </div>
 </nav>
-
-<!-- ═══════════ BLESSED FRIDAY SALE BAR + COUNTDOWN ═══════════ -->
-<div class="sale-bar" id="saleBar">
-  <div class="sale-bar-inner">
-    <div class="sale-info">
-      <span class="spark">🎉</span>
-      <div>
-        <strong>Blessed Friday Sale</strong>
-        <small>Flat 25% OFF · Ends 30 November</small>
-      </div>
-    </div>
-    <div class="sale-timer" aria-label="Blessed Friday Sale countdown">
-      <div class="t-box"><span class="t-num" id="cdD">00</span><span class="t-lbl">Days</span></div>
-      <span class="t-sep">:</span>
-      <div class="t-box"><span class="t-num" id="cdH">00</span><span class="t-lbl">Hours</span></div>
-      <span class="t-sep">:</span>
-      <div class="t-box"><span class="t-num" id="cdM">00</span><span class="t-lbl">Mins</span></div>
-      <span class="t-sep">:</span>
-      <div class="t-box"><span class="t-num" id="cdS">00</span><span class="t-lbl">Secs</span></div>
-    </div>
-  </div>
-</div>
-
 <a href="cart.html" 
    style="display:inline-flex;
           align-items:center;
@@ -1509,6 +1528,35 @@ button{font-family:inherit}
 </p>
 
 <main class="checkout">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       🎉 BLESSED FRIDAY SALE — upper banner with countdown
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="sale-banner" id="saleBanner">
+    <div class="sale-banner-inner">
+      <div class="sale-banner-text">
+        <span class="sale-spark" aria-hidden="true">🎉</span>
+        <div>
+          <strong>Blessed Friday Sale</strong>
+          <small>
+            Use code <b id="saleCode" title="Click to auto-fill this code">Blessed</b>
+            for <u>25% OFF</u> on the entire Misk Official collection · Ends 30 Nov
+          </small>
+        </div>
+      </div>
+      <div class="sale-banner-timer" role="timer" aria-live="polite" aria-atomic="true">
+        <div class="st-box"><span data-sale="d">00</span><small>Days</small></div>
+        <span class="st-sep" aria-hidden="true">:</span>
+        <div class="st-box"><span data-sale="h">00</span><small>Hours</small></div>
+        <span class="st-sep" aria-hidden="true">:</span>
+        <div class="st-box"><span data-sale="m">00</span><small>Mins</small></div>
+        <span class="st-sep" aria-hidden="true">:</span>
+        <div class="st-box"><span data-sale="s">00</span><small>Secs</small></div>
+      </div>
+    </div>
+  </div>
+  <!-- ═══════════════ END BLESSED FRIDAY SALE BANNER ═══════════════ -->
+
   <div class="page-head">
     <h1>Checkout 💳</h1>
     <p>Review your order and complete the details below</p>
@@ -1516,15 +1564,13 @@ button{font-family:inherit}
 
   <section class="card">
     <h2 class="card-title"><span class="num">🛍️</span> Order Summary</h2>
-    <div id="saleNote"></div>
     <div id="unavailWarn"></div>
     <div class="sum-items" id="sumItems"></div>
 
-    <!-- ★ PROMO BOX -->
     <div class="promo-box" id="promoBox">
       <label for="promoInput">🎁 Have a promo code?</label>
       <div class="promo-input-row">
-        <input type="text" id="promoInput" placeholder="Enter promo code" autocomplete="off" spellcheck="false">
+        <input type="text" id="promoInput" placeholder="Try: Blessed" autocomplete="off" spellcheck="false">
         <button type="button" id="promoApplyBtn">Apply</button>
       </div>
       <p class="promo-msg" id="promoMsg"></p>
@@ -1577,11 +1623,11 @@ button{font-family:inherit}
           </div>
         </label>
         <label class="pay-opt">
-          <span class="pay-badge" id="advanceBadge">EXTRA 5% OFF + FREE SHIP</span>
+          <span class="pay-badge" id="advanceBadge">5% OFF + FREE SHIP</span>
           <input type="radio" name="payment" value="advance">
           <div class="pay-body">
             <div class="pay-title">💳 Advance Payment</div>
-            <div class="pay-desc" id="advanceDesc">HBL / EasyPaisa · extra 5% off + free delivery</div>
+            <div class="pay-desc" id="advanceDesc">HBL / EasyPaisa · 5% off + free delivery</div>
           </div>
         </label>
       </div>
@@ -1647,30 +1693,38 @@ button{font-family:inherit}
 const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzSU4tLKPkDMQP8ST5Uj7hw-cXHzxAy-iMJjHYdV0DNqtorxdOFyZmryCo8i2s0bzxI/exec';
 
 /* ============================================================
-   🎉 BLESSED FRIDAY SALE — FLAT 25% OFF (auto-applied)
-   ⚠️ UPDATE THE YEAR BELOW IF YOU RUN THIS SALE AGAIN NEXT YEAR
+   🎉 BLESSED FRIDAY SALE — countdown constants
+   ⚠️ Only SALE_END matters now (promo expiry + countdown banner)
    ============================================================ */
-const SALE_NAME          = 'Blessed Friday Sale';
-const SALE_DISCOUNT_RATE = 0.25;                            // 25% flat off
-const SALE_END           = new Date('2026-11-30T23:59:59+05:00'); // 30 Nov, 11:59:59 PM (PKT)
+const SALE_END = new Date('2026-11-30T23:59:59+05:00');
 
 /* ============================================================
    💳 PAYMENT / SHIPPING RULES
    ============================================================ */
-const ADVANCE_DISCOUNT_RATE    = 0.05;   // 5% extra off on advance payment — ONLY when no sale is live
+const ADVANCE_DISCOUNT_RATE    = 0.05;   // 5% off on advance (only when no promo applied)
 const FREE_DELIVERY_THRESHOLD  = 10000;  // COD: free delivery at/above this cart value
 const DELIVERY_FEE             = 350;    // COD: delivery fee below threshold
 
 /* ============================================================
-   🎁 PROMO CODES — case-insensitive exact match
+   🎁 PROMO CODES — case-insensitive match, canonical name stored
+   ────────────────────────────────────────────────────────────
+   "Blessed"   → 25% off, valid till 30 Nov (blessed friday sale)
+   "rahimi55"  → 20% off, no expiry
    ============================================================ */
-const PROMO_CODES = ['rahimi55'];   // add more codes here in future
-const PROMO_DISCOUNT_RATE = 0.20;   // 20%
+const PROMO_CODES = {
+  'blessed':  { rate: 0.25, name: 'Blessed',  expires: SALE_END },
+  'rahimi55': { rate: 0.20, name: 'rahimi55', expires: null }
+};
 
-function isValidPromo(code) {
-  if (!code) return false;
-  const normalized = String(code).trim().toLowerCase();
-  return PROMO_CODES.some(c => c.toLowerCase() === normalized);
+function getPromo(raw) {
+  if (!raw) return null;
+  const key = String(raw).trim().toLowerCase();
+  const p = PROMO_CODES[key];
+  if (!p) return null;
+  if (p.expires && Date.now() > p.expires.getTime()) {
+    return { ...p, expired: true };
+  }
+  return p;
 }
 
 /* ============================================================
@@ -1703,68 +1757,6 @@ const CATALOG = [
 ];
 
 /* ============================================================
-   SALE STATE + COUNTDOWN
-   ============================================================ */
-function isSaleActive(){ return Date.now() < SALE_END.getTime(); }
-
-let saleLive = isSaleActive();
-
-const saleBar = document.getElementById('saleBar');
-const cdD = document.getElementById('cdD');
-const cdH = document.getElementById('cdH');
-const cdM = document.getElementById('cdM');
-const cdS = document.getElementById('cdS');
-const advanceBadgeEl = document.getElementById('advanceBadge');
-const advanceDescEl  = document.getElementById('advanceDesc');
-
-const pad2 = n => String(n).padStart(2, '0');
-
-/* Keep the advance-payment badge & description consistent with sale state */
-function updateAdvancePayUI(){
-  if (saleLive){
-    advanceBadgeEl.textContent = 'FREE DELIVERY 🎁';
-    advanceDescEl.textContent  = 'HBL / EasyPaisa · free delivery (sale already applied)';
-  } else {
-    advanceBadgeEl.textContent = 'EXTRA 5% OFF + FREE SHIP';
-    advanceDescEl.textContent  = 'HBL / EasyPaisa · extra 5% off + free delivery';
-  }
-}
-
-function tickSale(){
-  const diff = SALE_END.getTime() - Date.now();
-
-  /* ── Sale finished ── */
-  if (diff <= 0){
-    cdD.textContent = cdH.textContent = cdM.textContent = cdS.textContent = '00';
-    if (saleLive){
-      saleLive = false;
-      saleBar.style.display = 'none';
-      updateAdvancePayUI();
-      renderSummary();
-    }
-    return;
-  }
-
-  /* ── Sale (re)started / still running ── */
-  if (!saleLive){
-    saleLive = true;
-    saleBar.style.display = '';
-    updateAdvancePayUI();
-    renderSummary();
-  }
-
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
-
-  cdD.textContent = pad2(d);
-  cdH.textContent = pad2(h);
-  cdM.textContent = pad2(m);
-  cdS.textContent = pad2(s);
-}
-
-/* ============================================================
    SAFE HELPERS
    ============================================================ */
 function findAnyProduct(id){ return CATALOG.find(p => p.id === id); }
@@ -1783,20 +1775,7 @@ function updateBadge(){
 }
 
 /* ============================================================
-   ★ TOTALS — Sale + Promo + Advance + Delivery
-   ────────────────────────────────────────────────────────────
-   RULE MATRIX
-   ────────────────────────────────────────────────────────────
-   Sale live:
-     • Base discount  = 25% (sale)
-     • Advance bonus  = NO extra 5% (already discounted)
-     • Advance ship   = FREE
-     • COD ship       = Rs.350 under 10,000, FREE at/above
-   Sale not live:
-     • Base discount  = 20% promo (if entered) else 0
-     • Advance bonus  = 5% extra
-     • Advance ship   = FREE
-     • COD ship       = Rs.350 under 10,000, FREE at/above
+   ★ TOTALS — promo aware, promo blocks advance 5% (as before)
    ============================================================ */
 function calcTotals(){
   const cart = safeGetCart();
@@ -1810,29 +1789,24 @@ function calcTotals(){
     else    { unavailable.push(item); }
   });
 
-  /* Base % discount: Sale (25%) vs Promo (20%) → bigger wins */
-  const salePct  = saleLive ? SALE_DISCOUNT_RATE : 0;
-  const promoPct = promoApplied ? PROMO_DISCOUNT_RATE : 0;
-  const basePct  = Math.max(salePct, promoPct);
-  const baseDiscount = Math.round(subtotal * basePct);
+  /* Discount: promo rate wins, else advance 5% */
+  let discount = 0;
+  if (promoApplied) {
+    discount = Math.round(subtotal * promoRate);
+  } else if (paymentMethod === 'advance') {
+    discount = Math.round(subtotal * ADVANCE_DISCOUNT_RATE);
+  }
 
-  /* Advance bonus 5% — ONLY when sale is NOT live */
-  const advanceDiscount = (paymentMethod === 'advance' && !saleLive)
-    ? Math.round(subtotal * ADVANCE_DISCOUNT_RATE)
-    : 0;
-
-  /* Delivery */
+  /* Delivery: advance = free; COD = based on subtotal */
   let delivery = 0;
-  if (paymentMethod === 'advance'){
-    delivery = 0;                                          // advance → always free
+  if (paymentMethod === 'advance') {
+    delivery = 0;
   } else {
     delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
   }
 
-  const discount = baseDiscount + advanceDiscount;
-  const total    = Math.max(0, subtotal - discount + delivery);
-
-  return { cart, valid, unavailable, subtotal, delivery, baseDiscount, advanceDiscount, discount, total };
+  const total = Math.max(0, subtotal + delivery - discount);
+  return { cart, valid, unavailable, subtotal, delivery, discount, total };
 }
 
 /* ============================================================
@@ -1842,12 +1816,28 @@ let paymentMethod     = 'cod';
 let selectedBank      = 'HBL';
 let screenshotDataUrl = null;
 let promoApplied      = false;
-let promoCode         = '';
+let promoCode         = '';   // canonical name (e.g., 'Blessed', 'rahimi55')
+let promoRate         = 0;
 
 const BANKS = {
   HBL: { name:'HBL — Habib Bank Limited', accountNo:'08797901891099', accountName:'Iqra Maqbool', icon:'🏦', dotClass:'hbl' },
   EasyPaisa: { name:'EasyPaisa', accountNo:'03171349932', accountName:'Iqra Maqbool', icon:'📱', dotClass:'easypaisa' }
 };
+
+/* ============================================================
+   ★ ADVANCE-PAYMENT BADGE — reflects promo state
+   ============================================================ */
+function updateAdvanceBadge(){
+  const badge = document.getElementById('advanceBadge');
+  const desc  = document.getElementById('advanceDesc');
+  if (promoApplied) {
+    if (badge) badge.textContent = 'FREE DELIVERY 🎁';
+    if (desc)  desc.textContent  = 'HBL / EasyPaisa · free delivery (promo already applied)';
+  } else {
+    if (badge) badge.textContent = '5% OFF + FREE SHIP';
+    if (desc)  desc.textContent  = 'HBL / EasyPaisa · 5% off + free delivery';
+  }
+}
 
 /* ============================================================
    ★ PROMO HANDLER
@@ -1861,12 +1851,14 @@ promoApplyBtn.addEventListener('click', () => {
     /* REMOVE promo */
     promoApplied = false;
     promoCode    = '';
+    promoRate    = 0;
     promoInput.value    = '';
     promoInput.readOnly = false;
     promoApplyBtn.textContent = 'Apply';
     promoApplyBtn.classList.remove('remove');
     promoMsg.textContent = '';
     promoMsg.className   = 'promo-msg';
+    updateAdvanceBadge();
     renderSummary();
     return;
   }
@@ -1880,29 +1872,45 @@ promoApplyBtn.addEventListener('click', () => {
     return;
   }
 
-  if (isValidPromo(raw)) {
-    promoApplied = true;
-    promoCode    = raw;
-    promoInput.readOnly = true;
-    promoApplyBtn.textContent = 'Remove';
-    promoApplyBtn.classList.add('remove');
+  const promo = getPromo(raw);
 
-    if (saleLive) {
-      promoMsg.textContent = `✓ Code accepted — but ${SALE_NAME} (${Math.round(SALE_DISCOUNT_RATE*100)}% off) is already the bigger discount.`;
-    } else {
-      promoMsg.textContent = `✓ Promo code applied — ${Math.round(PROMO_DISCOUNT_RATE*100)}% off!`;
-    }
-    promoMsg.className = 'promo-msg ok';
-    renderSummary();
-  } else {
+  if (!promo) {
     promoApplied = false;
     promoCode    = '';
+    promoRate    = 0;
     promoMsg.textContent = '✗ Invalid promo code. Please check and try again.';
     promoMsg.className   = 'promo-msg err';
+    updateAdvanceBadge();
     renderSummary();
+    return;
   }
+
+  if (promo.expired) {
+    promoApplied = false;
+    promoCode    = '';
+    promoRate    = 0;
+    promoMsg.textContent = '✗ This promo code has expired.';
+    promoMsg.className   = 'promo-msg err';
+    updateAdvanceBadge();
+    renderSummary();
+    return;
+  }
+
+  /* Success */
+  promoApplied = true;
+  promoCode    = promo.name;              // canonical name for sheet
+  promoRate    = promo.rate;
+  promoInput.value    = promo.name;       // show canonical
+  promoInput.readOnly = true;
+  promoApplyBtn.textContent = 'Remove';
+  promoApplyBtn.classList.add('remove');
+  promoMsg.textContent = `✓ "${promo.name}" code applied — ${Math.round(promo.rate*100)}% off!`;
+  promoMsg.className   = 'promo-msg ok';
+  updateAdvanceBadge();
+  renderSummary();
 });
 
+/* Enter key applies/removes too */
 promoInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -1910,22 +1918,36 @@ promoInput.addEventListener('keydown', e => {
   }
 });
 
+/* Click the "Blessed" suggestion in the banner → auto-fill the input */
+document.getElementById('saleCode').addEventListener('click', () => {
+  if (promoApplied && String(promoCode).toLowerCase() === 'blessed') {
+    promoMsg.textContent = '✓ Blessed promo is already applied!';
+    promoMsg.className   = 'promo-msg ok';
+    return;
+  }
+  if (promoApplied) {
+    /* remove other promo first */
+    promoApplied = false;
+    promoCode    = '';
+    promoRate    = 0;
+    promoInput.readOnly = false;
+    promoApplyBtn.textContent = 'Apply';
+    promoApplyBtn.classList.remove('remove');
+  }
+  promoInput.value = 'Blessed';
+  promoApplyBtn.click();
+});
+
 /* ============================================================
    Render summary
    ============================================================ */
 function renderSummary() {
-  const itemsEl    = document.getElementById('sumItems');
-  const totalsEl   = document.getElementById('sumTotals');
-  const warnEl     = document.getElementById('unavailWarn');
-  const saleNoteEl = document.getElementById('saleNote');
-  const btn        = document.getElementById('orderBtn');
+  const itemsEl  = document.getElementById('sumItems');
+  const totalsEl = document.getElementById('sumTotals');
+  const warnEl   = document.getElementById('unavailWarn');
+  const btn      = document.getElementById('orderBtn');
 
-  /* ★ Sale ribbon */
-  saleNoteEl.innerHTML = saleLive
-    ? `<div class="sale-note">🎉 <strong>${SALE_NAME}</strong> is live — flat ${Math.round(SALE_DISCOUNT_RATE*100)}% OFF applied automatically!</div>`
-    : '';
-
-  const { cart, valid, unavailable, subtotal, delivery, baseDiscount, advanceDiscount, discount, total } = calcTotals();
+  const { cart, valid, unavailable, subtotal, delivery, discount, total } = calcTotals();
 
   if (!cart.length) {
     warnEl.innerHTML = '';
@@ -1978,19 +2000,24 @@ function renderSummary() {
       </div>`;
   }).join('');
 
-  /* ★ Discount label — sale wins over promo */
-  let baseLabel = '';
-  if (saleLive) {
-    baseLabel = `${SALE_NAME} — ${Math.round(SALE_DISCOUNT_RATE*100)}% off`;
-  } else if (promoApplied) {
-    baseLabel = `Promo Code (${promoCode}) — ${Math.round(PROMO_DISCOUNT_RATE*100)}% off`;
+  /* ★ Discount label */
+  let discountLabel = '';
+  if (promoApplied) {
+    discountLabel = `Promo Code (${promoCode}) — ${Math.round(promoRate*100)}% off`;
+  } else if (paymentMethod === 'advance') {
+    discountLabel = 'Advance Payment (5% off)';
   }
 
-  const deliveryLabel = (paymentMethod === 'advance') ? 'Delivery (Advance Payment)' : 'Delivery';
+  const deliveryLabel = (paymentMethod === 'advance')
+    ? 'Delivery (Advance Payment)'
+    : 'Delivery';
 
+  /* "Add more for free delivery" hint */
   const remaining = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
   const shipHint = (delivery > 0 && remaining > 0)
-    ? `<p class="ship-hint">Add <strong>Rs. ${remaining.toLocaleString()}</strong> more to get FREE delivery 🎁</p>`
+    ? `<p style="font-size:.78rem;color:#8a5a3a;background:#fdf6f0;border:1px dashed #e8c9a8;border-radius:8px;padding:.45rem .7rem;margin:.1rem 0 .65rem;text-align:center;line-height:1.45">
+        Add <strong>Rs. ${remaining.toLocaleString()}</strong> more to get FREE delivery 🎁
+      </p>`
     : '';
 
   totalsEl.innerHTML = `
@@ -2000,8 +2027,7 @@ function renderSummary() {
       <strong>${delivery === 0 ? 'FREE 🎁' : 'Rs. ' + delivery.toLocaleString()}</strong>
     </div>
     ${shipHint}
-    ${baseDiscount ? `<div class="sum-row discount"><span>${baseLabel}</span><strong>− Rs. ${baseDiscount.toLocaleString()}</strong></div>` : ''}
-    ${advanceDiscount ? `<div class="sum-row discount"><span>Advance Payment Bonus (${Math.round(ADVANCE_DISCOUNT_RATE*100)}%)</span><strong>− Rs. ${advanceDiscount.toLocaleString()}</strong></div>` : ''}
+    ${discount ? `<div class="sum-row discount"><span>${discountLabel}</span><strong>− Rs. ${discount.toLocaleString()}</strong></div>` : ''}
     <div class="sum-row total"><span>Total</span><strong>Rs. ${total.toLocaleString()}</strong></div>
   `;
 
@@ -2180,7 +2206,7 @@ function generateOrderId() {
 document.getElementById('checkoutForm').addEventListener('submit', async e => {
   e.preventDefault();
 
-  const { cart, valid, unavailable, subtotal, delivery, baseDiscount, advanceDiscount, discount, total } = calcTotals();
+  const { cart, valid, unavailable, subtotal, delivery, discount, total } = calcTotals();
 
   if (!cart.length) { alert('Your cart is empty!'); return; }
   if (unavailable.length) {
@@ -2215,10 +2241,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async e => {
 
   const orderId = generateOrderId();
 
-  const saleDiscountAmount  = saleLive ? Math.round(subtotal * SALE_DISCOUNT_RATE) : 0;
-  const promoDiscountAmount = (promoApplied && !saleLive) ? Math.round(subtotal * PROMO_DISCOUNT_RATE) : 0;
-
-  /* ★ Order payload — includes Sale (top-level for sheet) + nested sale object */
+  /* ★ Order payload — no Sale field, promoCode stored as canonical name */
   const order = {
     orderId,
     date: new Date().toISOString(),
@@ -2242,19 +2265,11 @@ document.getElementById('checkoutForm').addEventListener('submit', async e => {
       screenshotBase64: paymentMethod === 'advance' ? screenshotDataUrl : '',
       screenshotName: screenshot.files[0]?.name || ''
     },
-    sale: {
-      name: SALE_NAME,
-      active: saleLive,
-      rate: saleLive ? SALE_DISCOUNT_RATE : 0,
-      discount: saleDiscountAmount
-    },
+    /* ★ Promo — canonical name: "Blessed" / "rahimi55" / "" */
     promoCode: promoApplied ? promoCode : '',
     promoApplied: promoApplied,
-    promoDiscount: promoDiscountAmount,
-    advanceDiscount: advanceDiscount,
-    totals: { subtotal, delivery, discount, total },
-    /* ★ LAST FIELD — your Google Sheet "Sale" column reads this */
-    Sale: saleLive ? SALE_NAME : ''
+    promoDiscount: discount,
+    totals: { subtotal, delivery, discount, total }
   };
 
   const btn = document.getElementById('orderBtn');
@@ -2300,50 +2315,74 @@ document.getElementById('checkoutForm').addEventListener('submit', async e => {
   if (paymentMethod === 'cod') {
     noteEl.className = 'note cod';
     noteEl.innerHTML = `<strong>💵 Cash on Delivery</strong><br>Please keep Rs. ${total.toLocaleString()} ready when the rider arrives. We'll call you on <strong>${phone}</strong> to confirm.`;
-    if (saleLive) {
-      noteEl.innerHTML += `<br><br>🎉 <strong>${SALE_NAME}</strong> — ${Math.round(SALE_DISCOUNT_RATE*100)}% off applied (Rs. ${saleDiscountAmount.toLocaleString()} saved).`;
-    }
-    if (promoApplied && !saleLive) {
-      noteEl.innerHTML += `<br><br>🎁 Promo <strong>${promoCode}</strong> applied — Rs. ${promoDiscountAmount.toLocaleString()} off.`;
+    if (promoApplied) {
+      noteEl.innerHTML += `<br><br>🎁 Promo <strong>${promoCode}</strong> applied — Rs. ${discount.toLocaleString()} off.`;
     }
   } else {
     noteEl.className = 'note advance';
     const extras = [];
-    if (saleLive) {
-      extras.push(`${SALE_NAME} (${Math.round(SALE_DISCOUNT_RATE*100)}% off)`);
-    } else if (promoApplied) {
-      extras.push(`Promo <strong>${promoCode}</strong> (${Math.round(PROMO_DISCOUNT_RATE*100)}% off)`);
-    }
-    /* Extra 5% advance bonus text — only when NOT in sale mode */
-    if (!saleLive) extras.push(`advance bonus ${Math.round(ADVANCE_DISCOUNT_RATE*100)}% off`);
+    if (promoApplied) extras.push(`Promo <strong>${promoCode}</strong> (${Math.round(promoRate*100)}% off)`);
+    else              extras.push(`5% advance discount`);
     extras.push(`free delivery`);
     noteEl.innerHTML = `<strong>💳 Advance Payment — ${selectedBank}</strong><br>We'll verify your transaction (TXN: <strong>${txnId}</strong>) and confirm your order shortly on WhatsApp. ${extras.join(' + ')} already applied.`;
   }
   document.getElementById('successModal').classList.add('open');
 
+  /* Reset promo state */
   promoApplied = false;
   promoCode    = '';
+  promoRate    = 0;
   promoInput.value = '';
   promoInput.readOnly = false;
   promoApplyBtn.textContent = 'Apply';
   promoApplyBtn.classList.remove('remove');
   promoMsg.textContent = '';
-  promoMsg.className   = 'promo-msg';
+  promoMsg.className = 'promo-msg';
+  updateAdvanceBadge();
 
   btn.disabled = false;
   btn.innerHTML = originalText;
 });
 
 /* ============================================================
+   🎉 SALE COUNTDOWN — Days · Hours · Mins · Secs till 30 Nov
+   ============================================================ */
+function updateSaleCountdown() {
+  const diff = SALE_END.getTime() - Date.now();
+  const dEl = document.querySelector('[data-sale="d"]');
+  const hEl = document.querySelector('[data-sale="h"]');
+  const mEl = document.querySelector('[data-sale="m"]');
+  const sEl = document.querySelector('[data-sale="s"]');
+
+  if (diff <= 0) {
+    [dEl, hEl, mEl, sEl].forEach(el => { if (el) el.textContent = '00'; });
+    const small = document.querySelector('.sale-banner-text small');
+    if (small) small.innerHTML = 'This offer has ended · Stay tuned for the next drop';
+    if (window._saleTimerId) { clearInterval(window._saleTimerId); window._saleTimerId = null; }
+    return;
+  }
+
+  const pad = n => String(n).padStart(2, '0');
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+
+  if (dEl) dEl.textContent = pad(d);
+  if (hEl) hEl.textContent = pad(h);
+  if (mEl) mEl.textContent = pad(m);
+  if (sEl) sEl.textContent = pad(s);
+}
+
+/* ============================================================
    Init
    ============================================================ */
 updateBadge();
-if (!saleLive) saleBar.style.display = 'none';
-updateAdvancePayUI();
-tickSale();
-setInterval(tickSale, 1000);
+updateAdvanceBadge();
 renderSummary();
 renderBankInfo();
+updateSaleCountdown();
+window._saleTimerId = setInterval(updateSaleCountdown, 1000);
 </script>
 </body>
 </html>
