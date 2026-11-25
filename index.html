@@ -834,6 +834,258 @@ html, body{
   </div>
 </div>
 
+
+
+
+
+
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🎉 BLESSED FRIDAY SALE — COMPACT SECTION + SHOP NOW BUTTON
+     • Paste anywhere inside <body> on home page
+     • Scoped with "bfs-" — no conflicts with existing CSS
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="bfs-wrap" aria-label="Blessed Friday Sale">
+<style>
+/* ───────── BLESSED FRIDAY SALE — scoped styles ───────── */
+.bfs-wrap{
+  --bfs-gold:#E8C98A;
+  --bfs-gold-soft:#F3DFAE;
+  --bfs-gold-deep:#7a5a12;
+  max-width:1200px;
+  margin:1.4rem auto;
+  padding:0 1.4rem;
+  font-family:'Poppins',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.bfs-wrap *,.bfs-wrap *::before,.bfs-wrap *::after{box-sizing:border-box;}
+
+.bfs-bar{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg,#2B4664 0%,#1c3149 55%,#2B4664 100%);
+  color:#fff;
+  border-radius:16px;
+  padding:1rem 1.4rem 1.1rem;
+  border:1px solid rgba(232,201,138,.25);
+  box-shadow:0 14px 32px -16px rgba(43,70,100,.55);
+  animation:bfsIn .6s cubic-bezier(.22,.9,.32,1) both;
+}
+.bfs-bar::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 12% 50%,rgba(232,201,138,.22),transparent 55%),
+             radial-gradient(circle at 88% 50%,rgba(232,201,138,.14),transparent 55%);
+}
+@keyframes bfsIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:none;}}
+
+.bfs-inner{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+}
+
+/* left: spark + text */
+.bfs-info{display:flex;align-items:center;gap:.7rem;min-width:0;flex:1 1 auto;}
+.bfs-spark{
+  font-size:1.25rem;line-height:1;flex-shrink:0;
+  animation:bfsPulse 2s ease-in-out infinite;
+}
+@keyframes bfsPulse{
+  0%,100%{transform:scale(1) rotate(0);}
+  50%{transform:scale(1.15) rotate(-6deg);}
+}
+.bfs-info strong{
+  display:block;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.18rem;font-weight:700;letter-spacing:.3px;
+  color:#fff;line-height:1.15;
+}
+.bfs-info small{
+  display:block;
+  font-size:.68rem;letter-spacing:.9px;
+  color:var(--bfs-gold);font-weight:600;text-transform:uppercase;
+  margin-top:.12rem;
+}
+
+/* middle: countdown */
+.bfs-timer{display:flex;align-items:center;gap:.28rem;flex-shrink:0;}
+.bfs-box{
+  min-width:44px;
+  padding:.3rem .42rem;
+  text-align:center;
+  border-radius:8px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(232,201,138,.30);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+.bfs-num{
+  display:block;
+  font-size:1.02rem;font-weight:700;line-height:1.1;
+  color:var(--bfs-gold-soft);
+  font-variant-numeric:tabular-nums;
+}
+.bfs-lab{
+  display:block;
+  font-size:.5rem;letter-spacing:.9px;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+  margin-top:.12rem;
+}
+.bfs-sep{
+  color:rgba(232,201,138,.7);
+  font-weight:700;font-size:.9rem;
+  align-self:center;padding-bottom:.3rem;
+}
+.bfs-box.is-tick{animation:bfsTick .35s ease;}
+@keyframes bfsTick{
+  0%{transform:scale(1);}
+  45%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+
+/* right: shop now button */
+.bfs-btn{
+  position:relative;overflow:hidden;
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.72rem 1.35rem;
+  border-radius:99px;
+  background:linear-gradient(120deg,#E8C98A,#FFF3D2 55%,#E8C98A);
+  color:#2a2410;
+  font-size:.8rem;font-weight:700;
+  letter-spacing:.8px;text-transform:uppercase;
+  text-decoration:none;
+  box-shadow:0 10px 22px -8px rgba(232,201,138,.7);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.bfs-btn svg{width:14px;height:14px;transition:transform .25s ease;}
+.bfs-btn::after{
+  content:"";position:absolute;top:0;left:-130%;
+  width:55%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.9),transparent);
+  transform:skewX(-22deg);
+  animation:bfsShine 3.2s ease-in-out infinite;
+}
+.bfs-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 30px -10px rgba(232,201,138,.9);
+}
+.bfs-btn:hover svg{transform:translateX(3px);}
+
+/* slim progress line at bottom = timeline */
+.bfs-progress{
+  position:absolute;left:0;right:0;bottom:0;
+  height:3px;background:rgba(255,255,255,.08);
+  overflow:hidden;z-index:1;
+}
+.bfs-progress i{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,#8a6a1f,#E8C98A 40%,#FFF6DC 65%,#E8C98A);
+  background-size:220% 100%;
+  box-shadow:0 0 10px rgba(232,201,138,.7);
+  transition:width 1s cubic-bezier(.4,0,.2,1);
+  animation:bfsFlow 3.5s linear infinite;
+}
+@keyframes bfsFlow{to{background-position:220% center;}}
+@keyframes bfsShine{
+  0%,55%{left:-130%;}
+  85%,100%{left:135%;}
+}
+
+/* ended state */
+.bfs-bar.is-ended{opacity:.9;}
+.bfs-bar.is-ended .bfs-num{color:rgba(255,255,255,.55);}
+.bfs-bar.is-ended .bfs-spark{animation:none;}
+
+/* ── responsive ── */
+@media(max-width:820px){
+  .bfs-inner{justify-content:center;text-align:center;gap:.85rem;}
+  .bfs-info{flex:1 1 100%;justify-content:center;text-align:center;}
+  .bfs-timer{order:2;}
+  .bfs-btn{order:3;width:100%;justify-content:center;}
+}
+@media(max-width:560px){
+  .bfs-wrap{margin:1rem auto;padding:0 .9rem;}
+  .bfs-bar{padding:.9rem 1rem 1rem;border-radius:14px;}
+  .bfs-info strong{font-size:1.02rem;}
+  .bfs-info small{font-size:.6rem;}
+  .bfs-spark{font-size:1.05rem;}
+  .bfs-box{min-width:40px;padding:.26rem .32rem;}
+  .bfs-num{font-size:.92rem;}
+  .bfs-lab{font-size:.46rem;letter-spacing:.7px;}
+  .bfs-btn{font-size:.74rem;padding:.65rem 1rem;}
+}
+@media(max-width:400px){
+  .bfs-box{min-width:34px;padding:.22rem .22rem;}
+  .bfs-num{font-size:.84rem;}
+  .bfs-sep{display:none;}
+  .bfs-timer{gap:.18rem;}
+}
+@media(prefers-reduced-motion:reduce){
+  .bfs-bar,.bfs-spark,.bfs-progress i,.bfs-box.is-tick,.bfs-btn::after{
+    animation:none !important;
+  }
+}
+</style>
+
+  <div class="bfs-bar" id="bfsSale">
+    <div class="bfs-inner">
+
+      <div class="bfs-info">
+        <span class="bfs-spark" aria-hidden="true">🎉</span>
+        <div>
+          <strong>Blessed Friday Sale</strong>
+          <small>Flat 25% OFF · Ends 30 November</small>
+        </div>
+      </div>
+
+      <div class="bfs-timer" role="timer" aria-live="polite" aria-atomic="true">
+        <div class="bfs-box"><span class="bfs-num" data-bfs="d">00</span><span class="bfs-lab">Days</span></div>
+        <span class="bfs-sep" aria-hidden="true">:</span>
+        <div class="bfs-box"><span class="bfs-num" data-bfs="h">00</span><span class="bfs-lab">Hours</span></div>
+        <span class="bfs-sep" aria-hidden="true">:</span>
+        <div class="bfs-box"><span class="bfs-num" data-bfs="m">00</span><span class="bfs-lab">Mins</span></div>
+        <span class="bfs-sep" aria-hidden="true">:</span>
+        <div class="bfs-box bfs-box--sec"><span class="bfs-num" data-bfs="s">00</span><span class="bfs-lab">Secs</span></div>
+      </div>
+
+      <a href="new-arrivals.html" class="bfs-btn">
+        Shop Now
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+
+    </div>
+    <div class="bfs-progress"><i data-bfs="fill"></i></div>
+  </div>
+</section>
+<!-- ═══════════════ END BLESSED FRIDAY SALE SECTION ═══════════════ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- 5. CRAFTED -->
 <section class="section">
   <h2 class="reveal">Crafted for Every <em>You</em></h2>
@@ -1306,6 +1558,89 @@ console.log('[Misk] Inline products loaded:', window.PRODUCTS.length);
   if (mq.addEventListener) mq.addEventListener('change', onMqChange);
   else if (mq.addListener) mq.addListener(onMqChange);
 
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════
+   🎉 BLESSED FRIDAY SALE — countdown + timeline
+   ═══════════════════════════════════════════════════════════════
+   • Safe to include on ANY page (auto-skips if #bfsSale missing)
+   • EDIT THE TWO DATES BELOW ONLY (PKT = +05:00)
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  var SALE_START = new Date('2026-11-20T00:00:00+05:00'); // timeline start
+  var SALE_END   = new Date('2026-11-30T23:59:59+05:00'); // countdown end
+
+  /* expose for other scripts (cart summary, checkout, etc.) */
+  window.BFS_isLive      = function () { return Date.now() < SALE_END.getTime(); };
+  window.BFS_saleName    = 'Blessed Friday Sale';
+  window.BFS_discountPct = 25;
+
+  var root = document.getElementById('bfsSale');
+  if (!root) return;   // not on this page → skip silently
+
+  var elD    = root.querySelector('[data-bfs="d"]');
+  var elH    = root.querySelector('[data-bfs="h"]');
+  var elM    = root.querySelector('[data-bfs="m"]');
+  var elS    = root.querySelector('[data-bfs="s"]');
+  var fill   = root.querySelector('[data-bfs="fill"]');
+  var secBox = root.querySelector('.bfs-box--sec');
+  var infoSm = root.querySelector('.bfs-info small');
+  var btnEl  = root.querySelector('.bfs-btn');
+
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  var timer = null;
+  var lastSec = null;
+  var endedFlag = false;
+
+  function paintProgress(now) {
+    var span = SALE_END.getTime() - SALE_START.getTime();
+    var pct  = span > 0 ? ((now - SALE_START.getTime()) / span) * 100 : 100;
+    pct = Math.max(0, Math.min(100, pct));
+    fill.style.width = pct + '%';
+  }
+
+  function showEnded() {
+    if (endedFlag) return;
+    endedFlag = true;
+    root.classList.add('is-ended');
+    if (infoSm) infoSm.textContent = 'Sale has ended · Stay tuned';
+    if (btnEl)  btnEl.childNodes[0].nodeValue = 'Explore Collection ';
+    [elD, elH, elM, elS].forEach(function (el) { if (el) el.textContent = '00'; });
+    fill.style.width = '100%';
+  }
+
+  function tick() {
+    var now  = Date.now();
+    paintProgress(now);
+
+    var diff = SALE_END.getTime() - now;
+    if (diff <= 0) {
+      showEnded();
+      if (timer) { clearInterval(timer); timer = null; }
+      return;
+    }
+
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+
+    if (elD) elD.textContent = pad(d);
+    if (elH) elH.textContent = pad(h);
+    if (elM) elM.textContent = pad(m);
+    if (elS) elS.textContent = pad(s);
+
+    if (secBox && lastSec !== null && s !== lastSec) {
+      secBox.classList.remove('is-tick');
+      void secBox.offsetWidth;
+      secBox.classList.add('is-tick');
+    }
+    lastSec = s;
+  }
+
+  tick();
+  timer = setInterval(tick, 1000);
 })();
 </script>
 

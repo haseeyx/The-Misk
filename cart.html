@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -189,6 +189,28 @@ button{font-family:inherit}
   <div id="cartContent"></div>
 </main>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 /* ============================================================
    SELF-CONTAINED PRODUCT CATALOG
@@ -323,6 +345,619 @@ function renderCart() {
           💳 <strong>Get 5% off</strong> if you pay in advance (HBL / EasyPaisa).<br>
           🎁 Free delivery on orders above Rs. 10,000.
         </div>
+        ${hasUnavailable ? '<div class="sum-note warn">⚠️ Some items are unavailable. Please remove them before checkout.</div>' : ''}
+        <a href="checkout.html" class="btn-checkout ${hasUnavailable || subtotal === 0 ? 'disabled' : ''}">${hasUnavailable ? 'Remove unavailable items first' : 'Proceed to Checkout →'}</a>
+        <a href="new-arrivals.html" class="btn-continue">or continue shopping</a>
+      </aside>
+    </div>`;
+
+  if (hasUnavailable) {
+    const btn = document.querySelector('.btn-checkout');
+    btn.removeAttribute('href');
+    btn.addEventListener('click', e => e.preventDefault());
+  }
+
+  updateBadge();
+}
+
+/* ============================================================
+   Cart item actions
+   ============================================================ */
+document.getElementById('cartContent').addEventListener('click', e => {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const key = btn.dataset.key;
+  const action = btn.dataset.action;
+  const cart = safeGetCart();
+  const item = cart.find(i => i.key === key);
+  if (!item) return;
+
+  if (action === 'plus') item.qty++;
+  if (action === 'minus') { item.qty--; if (item.qty <= 0) cart.splice(cart.indexOf(item), 1); }
+  if (action === 'remove') cart.splice(cart.indexOf(item), 1);
+
+  safeSaveCart(cart);
+  renderCart();
+});
+
+/* ---------- Run ---------- */
+try {
+  renderCart();
+} catch (err) {
+  console.error('❌ Cart render failed:', err);
+  document.getElementById('pageSub').textContent = '';
+  document.getElementById('cartContent').innerHTML = `
+    <div style="text-align:center;padding:3rem 1rem;color:#c0392b">
+      <p style="font-size:2rem;margin-bottom:.5rem">⚠️</p>
+      <p style="font-weight:600;margin-bottom:.5rem">Something went wrong loading the cart.</p>
+      <p style="font-size:.85rem;color:#7a8694;margin-bottom:1rem">Open the browser console (F12) for details.</p>
+      <a href="new-arrivals.html" style="color:var(--navy);text-decoration:underline;font-weight:600">← Back to shop</a>
+    </div>`;
+}
+</script>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart — Misk</title>
+<link rel="icon" type="image/png" href="log.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#2B4664;--silver:#BCC1C5;--greige:#E8E1D8;--ink:#5f6b78}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;width:100%}
+body{font-family:'Poppins',sans-serif;color:#1f2d3d;background:#fdfcfa;line-height:1.6;font-size:15px}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.15;color:var(--navy)}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{font-family:inherit}
+
+.announce{background:var(--navy);color:var(--greige);height:36px;overflow:hidden;display:flex;align-items:center}
+.announce-track{display:flex;gap:3.5rem;width:max-content;white-space:nowrap;font-size:.8rem;letter-spacing:.4px;animation:scroll 26s linear infinite}
+.announce-track span{white-space:nowrap}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.nav{position:sticky;top:0;z-index:80;height:64px;display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;padding:0 1.2rem;background:#fff;border-bottom:1px solid var(--greige)}
+.nav-l{display:flex;gap:1.4rem;align-items:center}
+.nav a.link{font-size:.92rem;font-weight:500}
+.logo img{height:40px}
+.nav-r{display:flex;justify-content:flex-end;gap:1rem;align-items:center}
+.cart-btn{position:relative;color:var(--navy);padding:.3rem}
+.cart-btn svg{width:22px;height:22px}
+.badge{position:absolute;top:-2px;right:-6px;background:var(--navy);color:#fff;font-size:.62rem;
+  min-width:16px;height:16px;border-radius:50%;display:grid;place-items:center}
+
+.crumb{max-width:1200px;margin:1.4rem auto 0;padding:0 1.4rem;font-size:.82rem;color:#7a8694}
+.crumb a{color:var(--navy);opacity:.85;font-weight:500}
+.crumb a:hover{opacity:1;text-decoration:underline}
+
+.cart-page{max-width:1200px;margin:1.4rem auto 3rem;padding:0 1.4rem}
+.page-title{font-size:clamp(2rem,4.5vw,2.9rem);margin-bottom:.3rem;letter-spacing:-.3px}
+.page-sub{font-size:.95rem;color:#7a8694;margin-bottom:1.2rem}
+
+.cart-layout{display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start}
+
+.cart-list{display:flex;flex-direction:column;gap:1rem}
+.cart-item{background:#fff;border:1px solid var(--greige);border-radius:18px;padding:1rem;
+  display:grid;grid-template-columns:110px 1fr auto;gap:1.2rem;align-items:center;
+  box-shadow:0 4px 16px rgba(43,70,100,.04);
+  animation:fadeUp .5s cubic-bezier(.2,.7,.3,1) both}
+.cart-item.unavailable{opacity:.7;border-style:dashed;border-color:#c0392b}
+.ci-media{background:var(--greige);border-radius:12px;overflow:hidden;aspect-ratio:4/5;width:110px;position:relative}
+.ci-media img{width:100%;height:100%;object-fit:cover}
+.ci-media.missing{display:flex;align-items:center;justify-content:center;font-size:2rem;color:#8a95a1;background:#f5f0e8}
+.ci-brand{font-size:.72rem;letter-spacing:1.3px;text-transform:uppercase;color:#8a95a1;
+  margin-bottom:.3rem;font-weight:600}
+.ci-body h3{font-size:1.15rem;margin-bottom:.4rem;color:var(--navy);line-height:1.25}
+.ci-size{font-size:.82rem;color:#6b7783;margin-bottom:.6rem}
+.ci-size strong{color:var(--navy);font-weight:600}
+.ci-price{font-size:1rem;font-weight:700;color:var(--navy)}
+.ci-price.na{color:#c0392b;font-size:.85rem;font-weight:600}
+.ci-actions{display:flex;flex-direction:column;gap:.65rem;align-items:flex-end}
+.qty-wrap{display:inline-flex;align-items:center;border:1px solid var(--greige);border-radius:10px;overflow:hidden;background:#fff}
+.qty-btn{width:36px;height:36px;border:0;background:#fff;color:var(--navy);font-size:1.05rem;cursor:pointer;font-weight:600}
+.qty-btn:hover{background:var(--greige)}
+.qty-val{min-width:36px;text-align:center;font-size:.9rem;font-weight:600}
+.ci-remove{background:none;border:0;color:#a04a54;font:inherit;font-size:.78rem;
+  letter-spacing:.4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:500}
+.ci-remove:hover{color:#7a3540}
+
+.summary{background:#fff;border:1px solid var(--greige);border-radius:18px;padding:1.5rem;
+  position:sticky;top:84px;box-shadow:0 8px 24px rgba(43,70,100,.06);
+  animation:fadeUp .5s .15s cubic-bezier(.2,.7,.3,1) both}
+.summary h2{font-size:1.4rem;margin-bottom:1rem}
+.sum-row{display:flex;justify-content:space-between;font-size:.92rem;color:var(--ink);padding:.6rem 0}
+.sum-row strong{color:var(--navy);font-weight:600}
+.sum-row.big{font-size:1.1rem;border-top:1px solid var(--greige);padding-top:1rem;margin-top:.6rem;
+  font-family:'Cormorant Garamond',serif}
+.sum-row.big strong{font-size:1.35rem;font-weight:700}
+.sum-note{background:#fdf6f0;border:1px dashed #e8d5c0;border-radius:10px;padding:.9rem 1rem;
+  font-size:.82rem;color:#8a5a3a;margin:1rem 0;line-height:1.6}
+.sum-note strong{color:var(--navy);font-weight:600}
+.sum-note.warn{background:#fef3c7;border-color:#fbbf24;color:#78350f}
+.btn-checkout{display:block;width:100%;background:var(--navy);color:#fff;border:0;
+  padding:1.05rem;border-radius:12px;font:inherit;font-size:.92rem;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-align:center;
+  margin-top:1rem;transition:transform .25s, box-shadow .25s, background .25s}
+.btn-checkout:hover{background:#1f3450;transform:translateY(-2px);box-shadow:0 14px 30px rgba(43,70,100,.3)}
+.btn-checkout.disabled{background:#c2c7cc;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-continue{display:block;text-align:center;margin-top:.9rem;font-size:.85rem;
+  color:var(--navy);text-decoration:underline;text-underline-offset:3px;font-weight:500}
+
+.empty-cart{text-align:center;padding:4rem 1rem}
+.empty-cart .icon{font-size:3.8rem;margin-bottom:.7rem}
+.empty-cart h2{font-size:1.7rem;margin-bottom:.6rem}
+.empty-cart p{color:var(--ink);margin-bottom:1.6rem;font-weight:400;font-size:.95rem}
+.btn-shop{display:inline-block;background:var(--navy);color:#fff;padding:1rem 2.2rem;
+  border-radius:12px;font-size:.9rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase}
+.btn-shop:hover{background:#1f3450}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+@media(max-width:900px){
+  .cart-layout{grid-template-columns:1fr}
+  .summary{position:static}
+  .cart-item{grid-template-columns:80px 1fr;gap:1rem}
+  .ci-media{width:80px}
+  .ci-actions{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center}
+  .page-title{font-size:1.9rem}
+}
+/* ============================================================
+   CIRCULAR ANIMATED LOGO — Navbar (all pages)
+   ============================================================ */
+.nav{
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+}
+.nav .logo{
+  grid-column: 2 !important;
+  justify-self: center !important;
+  align-self: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.nav .logo img{
+  display: block !important;
+  height: 40px !important;
+  width: auto !important;
+  max-width: 140px !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+}
+@media (max-width: 900px){
+  .nav .logo img{height: 36px !important;max-width: 120px !important;}
+}
+@media (max-width: 420px){
+  .nav .logo img{height: 32px !important;max-width: 100px !important;}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎉 BLESSED FRIDAY SALE — SLIM COMPACT BAR (like checkout)
+   ═══════════════════════════════════════════════════════════════ */
+.bfs-bar{
+  --bfs-gold:#E8C98A;
+  --bfs-gold-soft:#F3DFAE;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg,#2B4664 0%,#1c3149 55%,#2B4664 100%);
+  color:#fff;
+  border-radius:14px;
+  padding:.85rem 1.3rem .95rem;
+  margin:0 0 1.4rem;
+  border:1px solid rgba(232,201,138,.25);
+  box-shadow:0 10px 26px -14px rgba(43,70,100,.55);
+  font-family:'Poppins',sans-serif;
+  animation:bfsBarIn .6s cubic-bezier(.22,.9,.32,1) both;
+}
+@keyframes bfsBarIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+.bfs-bar::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 12% 50%,rgba(232,201,138,.22),transparent 55%),
+             radial-gradient(circle at 88% 50%,rgba(232,201,138,.14),transparent 55%);
+}
+
+.bfs-bar-inner{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+}
+
+.bfs-info{display:flex;align-items:center;gap:.7rem;min-width:0;}
+.bfs-info .spark{
+  font-size:1.25rem;line-height:1;
+  animation:bfsSparkPulse 2s ease-in-out infinite;
+}
+@keyframes bfsSparkPulse{
+  0%,100%{transform:scale(1) rotate(0);}
+  50%{transform:scale(1.15) rotate(-6deg);}
+}
+.bfs-info strong{
+  display:block;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.15rem;font-weight:700;letter-spacing:.3px;
+  color:#fff;line-height:1.15;
+}
+.bfs-info small{
+  display:block;
+  font-size:.68rem;letter-spacing:.9px;
+  color:var(--bfs-gold);font-weight:600;text-transform:uppercase;
+  margin-top:.1rem;
+}
+
+.bfs-timer{display:flex;align-items:center;gap:.28rem;}
+.bfs-box{
+  min-width:44px;
+  padding:.3rem .4rem;
+  text-align:center;
+  border-radius:8px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(232,201,138,.30);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+.bfs-num{
+  display:block;
+  font-size:1.02rem;font-weight:700;line-height:1.1;
+  color:var(--bfs-gold-soft);
+  font-variant-numeric:tabular-nums;
+}
+.bfs-lab{
+  display:block;
+  font-size:.5rem;letter-spacing:.9px;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+  margin-top:.12rem;
+}
+.bfs-sep{
+  color:rgba(232,201,138,.7);
+  font-weight:700;font-size:.9rem;
+  align-self:center;padding-bottom:.3rem;
+}
+.bfs-box.is-tick{animation:bfsTick .35s ease;}
+@keyframes bfsTick{
+  0%{transform:scale(1);}
+  45%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+
+/* slim progress line at the bottom = timeline */
+.bfs-progress{
+  position:absolute;left:0;right:0;bottom:0;
+  height:3px;background:rgba(255,255,255,.08);
+  overflow:hidden;z-index:1;
+}
+.bfs-progress i{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,#8a6a1f,#E8C98A 40%,#FFF6DC 65%,#E8C98A);
+  background-size:220% 100%;
+  box-shadow:0 0 10px rgba(232,201,138,.7);
+  transition:width 1s cubic-bezier(.4,0,.2,1);
+  animation:bfsFlow 3.5s linear infinite;
+}
+@keyframes bfsFlow{to{background-position:220% center;}}
+
+/* ended state */
+.bfs-bar.is-ended{opacity:.9;}
+.bfs-bar.is-ended .bfs-num{color:rgba(255,255,255,.55);}
+.bfs-bar.is-ended .spark{animation:none;}
+
+/* responsive */
+@media(max-width:600px){
+  .bfs-bar{padding:.75rem .9rem .85rem;border-radius:12px;margin:0 0 1rem;}
+  .bfs-bar-inner{justify-content:center;text-align:center;gap:.6rem;}
+  .bfs-info{flex-direction:column;gap:.15rem;text-align:center;}
+  .bfs-info strong{font-size:1rem;}
+  .bfs-info small{font-size:.6rem;}
+  .bfs-info .spark{font-size:1.05rem;}
+  .bfs-box{min-width:40px;padding:.26rem .3rem;}
+  .bfs-num{font-size:.92rem;}
+  .bfs-lab{font-size:.46rem;letter-spacing:.7px;}
+}
+@media(max-width:400px){
+  .bfs-box{min-width:34px;padding:.22rem .22rem;}
+  .bfs-num{font-size:.84rem;}
+  .bfs-sep{display:none;}
+  .bfs-timer{gap:.18rem;}
+}
+@media(prefers-reduced-motion:reduce){
+  .bfs-bar,.bfs-info .spark,.bfs-progress i,.bfs-box.is-tick{animation:none !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="announce">
+  <div class="announce-track">
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>🎉 Blessed Friday Sale — Flat 25% OFF till 30 Nov</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+    <span>👑 Premium Dresses — Elegance Redefined</span>
+    <span>🌿 Casual &amp; Daily Wears — Comfort Meets Style</span>
+    <span>🎉 Blessed Friday Sale — Flat 25% OFF till 30 Nov</span>
+    <span>✨ New Collection Live Now — Shop Today</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-l">
+    <a href="index.html" class="link">Home</a>
+  </div>
+  <a href="index.html" class="logo"><img src="log.png" alt="Misk"></a>
+  <div class="nav-r">
+    <a href="cart.html" class="cart-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="badge" id="cartCount">0</span>
+    </a>
+  </div>
+</nav>
+
+<p class="crumb"><a href="index.html">Home</a> / <span>Cart</span></p>
+
+<main class="cart-page">
+  <h1 class="page-title">Your Cart 🛍️</h1>
+  <p class="page-sub" id="pageSub">Loading…</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       🎉 BLESSED FRIDAY SALE — SLIM BAR (countdown + timeline)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="bfs-bar" id="bfsSale" aria-label="Blessed Friday Sale">
+    <div class="bfs-bar-inner">
+      <div class="bfs-info">
+        <span class="spark" aria-hidden="true">🎉</span>
+        <div>
+          <strong>Blessed Friday Sale</strong>
+          <small>Flat 25% OFF · Ends 30 November</small>
+        </div>
+      </div>
+      <div class="bfs-timer" role="timer" aria-live="polite" aria-atomic="true">
+        <div class="bfs-box"><span class="bfs-num" data-bfs="d">00</span><span class="bfs-lab">Days</span></div>
+        <span class="bfs-sep" aria-hidden="true">:</span>
+        <div class="bfs-box"><span class="bfs-num" data-bfs="h">00</span><span class="bfs-lab">Hours</span></div>
+        <span class="bfs-sep" aria-hidden="true">:</span>
+        <div class="bfs-box"><span class="bfs-num" data-bfs="m">00</span><span class="bfs-lab">Mins</span></div>
+        <span class="bfs-sep" aria-hidden="true">:</span>
+        <div class="bfs-box bfs-box--sec"><span class="bfs-num" data-bfs="s">00</span><span class="bfs-lab">Secs</span></div>
+      </div>
+    </div>
+    <div class="bfs-progress"><i data-bfs="fill"></i></div>
+  </div>
+  <!-- ═══════════════ END BLESSED FRIDAY SALE BAR ═══════════════ -->
+
+  <div id="cartContent"></div>
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🎉 SALE SCRIPT — runs FIRST so cart JS can read sale state
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  var SALE_START = new Date('2026-11-20T00:00:00+05:00');
+  var SALE_END   = new Date('2026-11-30T23:59:59+05:00');
+
+  /* Expose globally so cart JS can adapt its summary */
+  window.BFS_isLive      = function () { return Date.now() < SALE_END.getTime(); };
+  window.BFS_saleName    = 'Blessed Friday Sale';
+  window.BFS_discountPct = 25;
+
+  var root = document.getElementById('bfsSale');
+  if (!root) return;
+
+  var elD    = root.querySelector('[data-bfs="d"]');
+  var elH    = root.querySelector('[data-bfs="h"]');
+  var elM    = root.querySelector('[data-bfs="m"]');
+  var elS    = root.querySelector('[data-bfs="s"]');
+  var fill   = root.querySelector('[data-bfs="fill"]');
+  var secBox = root.querySelector('.bfs-box--sec');
+  var infoSm = root.querySelector('.bfs-info small');
+
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  var timer = null;
+  var lastSec = null;
+  var endedFlag = false;
+
+  function paintProgress(now) {
+    var span = SALE_END.getTime() - SALE_START.getTime();
+    var pct  = span > 0 ? ((now - SALE_START.getTime()) / span) * 100 : 100;
+    pct = Math.max(0, Math.min(100, pct));
+    fill.style.width = pct + '%';
+  }
+
+  function showEnded() {
+    if (endedFlag) return;
+    endedFlag = true;
+    root.classList.add('is-ended');
+    if (infoSm) infoSm.textContent = 'Sale has ended · Stay tuned';
+    [elD, elH, elM, elS].forEach(function (el) { if (el) el.textContent = '00'; });
+    fill.style.width = '100%';
+  }
+
+  function tick() {
+    var now  = Date.now();
+    paintProgress(now);
+
+    var diff = SALE_END.getTime() - now;
+    if (diff <= 0) {
+      showEnded();
+      if (timer) { clearInterval(timer); timer = null; }
+      return;
+    }
+
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+
+    if (elD) elD.textContent = pad(d);
+    if (elH) elH.textContent = pad(h);
+    if (elM) elM.textContent = pad(m);
+    if (elS) elS.textContent = pad(s);
+
+    if (secBox && lastSec !== null && s !== lastSec) {
+      secBox.classList.remove('is-tick');
+      void secBox.offsetWidth;
+      secBox.classList.add('is-tick');
+    }
+    lastSec = s;
+  }
+
+  tick();
+  timer = setInterval(tick, 1000);
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🛒 EXISTING CART SCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+/* ============================================================
+   SELF-CONTAINED PRODUCT CATALOG
+   — Cart always has every product, independent of products.js
+   ============================================================ */
+const CART_PRODUCTS = [
+  /* New Arrivals */
+  { id:'festive-ruby',          brand:'Scarlet Ruby', name:'Festive Ruby 3pc',              price:7800,  img:'new arrivals/scarlet/R1.PNG' },
+  { id:'emerald-mandarin',      brand:'Aura',         name:'Emerald Mandarin Collar 2pc',   price:4500,  img:'new arrivals/aura/1.png' },
+  { id:'emerald-floral',        brand:'Mirana',       name:'Emerald Floral Embroidered 2pc',price:7200,  img:'new arrivals/mirana/1.png' },
+  { id:'farshi-white',          brand:'Naaz',         name:'Farshi Shalwar — White',        price:4800,  img:'new arrivals/naaz/n2.PNG' },
+  { id:'midnight-black',        brand:'Zar-e-Siyaah', name:'Midnight Black 3pc',            price:7500,  img:'new arrivals/zar/Z11.JPEG' },
+  /* Best Sellers */
+  { id:'khaki-printed',         brand:'Khaki',        name:'Printed Lawn 2pc',              price:6200,  img:'best/khaki/K1.PNG' },
+  { id:'noor-maroon',           brand:'Noor',         name:'Maroon Cutwork Shirt 2pc',      price:14500, img:'best/noor/N11.jpeg' },
+  { id:'boxy-white',            brand:'Boxy',         name:'Long Embroidered Shirt — White',price:7500,  img:'best/boxy/w4.jpeg' },
+  { id:'boxy-green',            brand:'Boxy',         name:'Long Embroidered Shirt — Green',price:7500,  img:'best/boxy/g2.jpeg' },
+  /* Basics */
+  { id:'tea-pink-embroidered',  brand:'Riaa',         name:'Tea Pink Embroidered 2pc',      price:4650,  img:'basic/riaa/RI1.jpeg' },
+  { id:'black-embroidered',     brand:'Naya',         name:'Black Embroidered 2pc',         price:3800,  img:'basic/naya/N1.PNG' },
+
+  /* Solids */
+{ id:'amethyst-boat-cowl',    brand:'Amethyst', name:'Royal Blue Boat Cowl 2pc',      price:3200, img:'solid/ame/am1.PNG' },
+{ id:'sage-v-pleat',          brand:'Sage',     name:'Green V-Pleat Long Shirt 2pc',  price:3200, img:'solid/sage/s1.PNG' },
+{ id:'solenne-stone',         brand:'Solenne',  name:'Soft Hue Stone Work 2pc',       price:4500, img:'solid/sole/S11.PNG' },
+{ id:'ruby-fringe',           brand:'Ruby',     name:'Fringes & Buttons 2pc',         price:3500, img:'solid/ruby/r1.PNG' },
+{ id:'flare-button',          brand:'Flare',    name:'Straight-Cut Button-Down 2pc',  price:3800, img:'solid/flair/f1.PNG' },
+  { id:'airra-purple-kurta', brand:'Airra', name:'Royal Purple Floral Kurta 2pc', price:4500, img:'embro/airra/A11.jpeg' } ,
+
+  { id:'twilight-sage-vine', brand:'Twilight Bloom', name:'Sage Floral Vine 3pc', price:16500, img:'formal/twi/T11.jpeg' }
+  
+];
+
+/* ============================================================
+   SAFE CART HELPERS — never delete items
+   ============================================================ */
+function safeGetCart() {
+  try { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+  catch (e) { return []; }
+}
+function safeSaveCart(c) {
+  localStorage.setItem('cart', JSON.stringify(c));
+  updateBadge();
+}
+function safeFindProduct(id) {
+  return CART_PRODUCTS.find(p => p.id === id);
+}
+function updateBadge() {
+  const n = safeGetCart().reduce((s,i) => s + (i.qty || 0), 0);
+  document.querySelectorAll('#cartCount, .cart-badge').forEach(el => el.textContent = n);
+}
+
+/* ============================================================
+   RENDER CART
+   ============================================================ */
+function renderCart() {
+  const cart = safeGetCart();
+  const content = document.getElementById('cartContent');
+  const sub = document.getElementById('pageSub');
+
+  if (!cart.length) {
+    sub.textContent = '';
+    content.innerHTML = `
+      <div class="empty-cart">
+        <div class="icon">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>Discover elegant pieces crafted for every occasion.</p>
+        <a href="new-arrivals.html" class="btn-shop">Shop New Arrivals →</a>
+      </div>`;
+    updateBadge();
+    return;
+  }
+
+  let hasUnavailable = false;
+  let subtotal = 0;
+
+  const itemsHTML = cart.map((item, i) => {
+    const p = safeFindProduct(item.id);
+    if (!p) {
+      hasUnavailable = true;
+      return `
+        <div class="cart-item unavailable" style="animation-delay:${i*0.06}s">
+          <div class="ci-media missing">📦</div>
+          <div class="ci-body">
+            <p class="ci-brand">Unavailable</p>
+            <h3>Product no longer available</h3>
+            <p class="ci-size">ID: <strong>${item.id}</strong> · Size <strong>${item.size}</strong></p>
+            <p class="ci-price na">This item has been removed or is no longer sold</p>
+          </div>
+          <div class="ci-actions">
+            <button class="ci-remove" data-action="remove" data-key="${item.key}">Remove</button>
+          </div>
+        </div>`;
+    }
+
+    subtotal += p.price * item.qty;
+
+    return `
+      <div class="cart-item" style="animation-delay:${i*0.06}s">
+        <div class="ci-media"><img src="${p.img}" alt="${p.name}" onerror="this.style.opacity=.3"></div>
+        <div class="ci-body">
+          <p class="ci-brand">${p.brand}</p>
+          <h3>${p.name}</h3>
+          <p class="ci-size">Size: <strong>${item.size}</strong></p>
+          <p class="ci-price">Rs. ${(p.price * item.qty).toLocaleString()}</p>
+        </div>
+        <div class="ci-actions">
+          <div class="qty-wrap">
+            <button class="qty-btn" data-action="minus" data-key="${item.key}">−</button>
+            <span class="qty-val">${item.qty}</span>
+            <button class="qty-btn" data-action="plus" data-key="${item.key}">+</button>
+          </div>
+          <button class="ci-remove" data-action="remove" data-key="${item.key}">Remove</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const delivery = subtotal >= 10000 ? 0 : 350;
+  const total = subtotal + delivery;
+
+  sub.textContent = `${cart.length} item${cart.length!==1?'s':''} in your cart`;
+
+  /* Summary note — sale-aware */
+  const saleLive = (window.BFS_isLive && window.BFS_isLive());
+  const sumNoteHTML = saleLive
+    ? '🎉 <strong>Blessed Friday Sale</strong> — 25% off applied at checkout.<br>🎁 Free delivery on orders above Rs. 10,000.'
+    : '💳 <strong>Get 5% off</strong> if you pay in advance (HBL / EasyPaisa).<br>🎁 Free delivery on orders above Rs. 10,000.';
+
+  content.innerHTML = `
+    <div class="cart-layout">
+      <div class="cart-list">${itemsHTML}</div>
+      <aside class="summary">
+        <h2>Order Summary</h2>
+        <div class="sum-row"><span>Subtotal</span><strong>Rs. ${subtotal.toLocaleString()}</strong></div>
+        <div class="sum-row"><span>Delivery</span><strong>${delivery === 0 ? 'FREE 🎁' : 'Rs. ' + delivery}</strong></div>
+        <div class="sum-row big"><span>Total</span><strong>Rs. ${total.toLocaleString()}</strong></div>
+        <div class="sum-note">${sumNoteHTML}</div>
         ${hasUnavailable ? '<div class="sum-note warn">⚠️ Some items are unavailable. Please remove them before checkout.</div>' : ''}
         <a href="checkout.html" class="btn-checkout ${hasUnavailable || subtotal === 0 ? 'disabled' : ''}">${hasUnavailable ? 'Remove unavailable items first' : 'Proceed to Checkout →'}</a>
         <a href="new-arrivals.html" class="btn-continue">or continue shopping</a>
