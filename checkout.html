@@ -1088,10 +1088,7 @@ renderBankInfo();
 
 
 
-
-
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1214,9 +1211,9 @@ button{font-family:inherit}
   .sale-banner-text{justify-content:center;flex:1 1 100%;text-align:center;}
   .sale-banner-text strong{font-size:1.05rem;}
   .sale-banner-text small{font-size:.66rem;}
-  .sale-banner-timer{justify-content:center;}
-  .st-box{min-width:40px;}
-  .st-box span{font-size:.9rem;}
+  .sale-banner-timer{justify-content:center;flex-wrap:wrap;}
+  .st-box{min-width:38px;}
+  .st-box span{font-size:.88rem;}
 }
 
 .card{background:#fff;border:1px solid var(--greige);border-radius:18px;padding:1.8rem;margin-bottom:1.2rem;animation:fadeUp .5s cubic-bezier(.2,.7,.3,1) both;box-shadow:0 4px 16px rgba(43,70,100,.04)}
@@ -1259,9 +1256,11 @@ button{font-family:inherit}
 .promo-input-row{
   display:flex;
   gap:.5rem;
+  width:100%;
 }
 .promo-input-row input{
   flex:1;
+  min-width:0;               /* ✅ lets input shrink on narrow phones */
   padding:.75rem .95rem;
   border:1px solid #d8d0c4;
   border-radius:10px;
@@ -1296,6 +1295,7 @@ button{font-family:inherit}
   cursor:pointer;
   transition:background .2s,transform .2s;
   white-space:nowrap;
+  flex-shrink:0;             /* ✅ never let the button shrink/overflow */
 }
 .promo-input-row button:hover{
   background:#1f3450;
@@ -1396,7 +1396,7 @@ button{font-family:inherit}
 .file-drop .icon{font-size:2rem;margin-bottom:.5rem}
 .file-drop .txt{font-size:.88rem;color:var(--ink);line-height:1.5}
 .file-drop .txt strong{color:var(--navy);font-weight:600}
-.file-name{font-size:.82rem;color:var(--success);margin-top:.55rem;font-weight:600;display:none}
+.file-name{font-size:.82rem;color:var(--success);margin-top:.55rem;font-weight:600;display:none;word-break:break-all;}
 .file-preview{display:none;margin-top:.8rem;max-width:140px;border-radius:10px;border:1px solid var(--greige);overflow:hidden}
 .file-preview img{width:100%;display:block}
 
@@ -1437,6 +1437,20 @@ button{font-family:inherit}
   .page-head h1{font-size:1.9rem}
   .card-title{font-size:1.2rem}
   .sum-row.total strong{font-size:1.6rem}
+
+  /* ✅ Promo area — fit inside small phones */
+  .promo-box{padding:.85rem .8rem;}
+  .promo-input-row{gap:.4rem;}
+  .promo-input-row input{padding:.7rem .8rem;font-size:.9rem;}
+  .promo-input-row button{padding:.7rem .9rem;font-size:.78rem;}
+}
+
+/* ✅ Extra tiny screens (iPhone SE, Galaxy A01, etc.) */
+@media(max-width:380px){
+  .promo-input-row{gap:.32rem;}
+  .promo-input-row input{padding:.68rem .7rem;font-size:.85rem;}
+  .promo-input-row button{padding:.68rem .68rem;font-size:.72rem;letter-spacing:.2px;}
+  .promo-box{padding:.75rem .7rem;}
 }
 
 .nav{
@@ -2241,7 +2255,6 @@ document.getElementById('checkoutForm').addEventListener('submit', async e => {
 
   const orderId = generateOrderId();
 
-  /* ★ Order payload — no Sale field, promoCode stored as canonical name */
   const order = {
     orderId,
     date: new Date().toISOString(),
@@ -2265,7 +2278,6 @@ document.getElementById('checkoutForm').addEventListener('submit', async e => {
       screenshotBase64: paymentMethod === 'advance' ? screenshotDataUrl : '',
       screenshotName: screenshot.files[0]?.name || ''
     },
-    /* ★ Promo — canonical name: "Blessed" / "rahimi55" / "" */
     promoCode: promoApplied ? promoCode : '',
     promoApplied: promoApplied,
     promoDiscount: discount,
